@@ -30,19 +30,19 @@ function findSong(titleBase, artistBase) {
 }
 
 subscribeIcy(url, ({ artist, title }) => {
-  console.log({ artist, title })
-  if (!artist || !title) {
-    return saveMusic({ artist: artist + title, title: artist + title })
-  }
-  const song = findSong(title, artist)
-  if (!song) {
-    return saveMusic({ artist, title })
-  }
-  getImage(song.animeTitle)
+  const song =
+    artist && title
+      ? findSong(title, artist) || { artist, title }
+      : { artist: artist + title, title: artist + title }
+
+  const imageSearchWord = song.animeTitle ? song.animeTitle : artist + title
+  console.log(song)
+
+  getImage(imageSearchWord)
     .then((res) => {
       const imageLinks = res.data.items.map((item) => item.link)
       console.log(imageLinks)
-      saveMusic({ song, imageLinks })
+      saveMusic({ ...song, imageLinks })
     })
     .catch((e) => {
       console.error(e)
