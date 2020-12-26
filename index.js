@@ -24,4 +24,5 @@ icy.get(url, (res) => {
     // console.log(encoding.detect(parsed.StreamTitle))
     console.log(parsed.StreamTitle)
   })
+  res.resume()
 })
