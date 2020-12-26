@@ -1,9 +1,7 @@
 const fs = require('fs')
 const parse = require('csv-parse/lib/sync')
-const songs = {}
 
 const filenames = [
-  './data/test.csv',
   './data/anison.csv',
   './data/game.csv',
   './data/program.csv',
@@ -14,6 +12,7 @@ const filenames = [
 //   if (cell[0] !== '"') return cell
 //   return cell.substr(1, cell.length - 2)
 // }
+let songs = {}
 filenames.forEach((filename) => {
   const headerAlias = 'bId,media,animeTitle,opOrEd,spNum,id,title,artist'
   const lines = fs.readFileSync(filename, 'utf-8').split('\n')
@@ -27,10 +26,21 @@ filenames.forEach((filename) => {
   })
   // console.log(rows)
 
-  rows.forEach(([, , title, opOrEd, spInfo, songId, songTitle, artist]) => {
-    if (!songs[title]) songs[title] = {}
-    songs[title][artist] = { title, opOrEd, spInfo, songId, songTitle, artist }
-  })
+  rows.forEach(
+    ([, , animeTitle, opOrEd, spInfo, songId, titleBase, artistBase]) => {
+      const title = titleBase.toLowerCase()
+      const artist = artistBase.toLowerCase()
+      if (!songs[title]) songs[title] = {}
+      songs[title][artist] = {
+        animeTitle,
+        opOrEd,
+        spInfo,
+        songId,
+        title,
+        artist,
+      }
+    }
+  )
 })
 
 exports.default = songs
