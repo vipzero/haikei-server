@@ -4,7 +4,7 @@
 cp .envrc.sample .envrc
 ```
 
-data/ に アニソンメタデータ設置
+data に アニソンメタデータ設置
 
 http://anison.info/data/download.html
 
