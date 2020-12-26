@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "detect-character-encoding": "^0.8.0",
+    "encoding-japanese": "^1.0.30",
+    "eslint": "^7.16.0",
+    "iconv-lite": "^0.6.2",
+    "icy": "^2.1.0",
+    "node-lame": "^1.2.2"
+  }
+}
