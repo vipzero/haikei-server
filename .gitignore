@@ -63,3 +63,5 @@ typings/
 .next
 
 .envrc
+data/*
+!data/.gitkeep
