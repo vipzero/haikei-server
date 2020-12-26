@@ -28,14 +28,14 @@ filenames.forEach((filename) => {
 
   rows.forEach(
     ([, , animeTitle, opOrEd, spInfo, songId, titleBase, artistBase]) => {
-      const title = titleBase.toLowerCase()
-      const artist = artistBase.toLowerCase()
+      const title = (titleBase || '').toLowerCase()
+      const artist = (artistBase || '').toLowerCase()
       if (!songs[title]) songs[title] = {}
       songs[title][artist] = {
-        animeTitle,
-        opOrEd,
-        spInfo,
-        songId,
+        animeTitle: animeTitle || '',
+        opOrEd: opOrEd || '',
+        spInfo: spInfo || '',
+        songId: songId || '',
         title,
         artist,
       }

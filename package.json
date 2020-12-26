@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "axios": "^0.21.1",
     "csv": "^5.3.2",
     "csv-parse": "^4.14.2",
     "detect-character-encoding": "^0.8.0",
