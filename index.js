@@ -10,29 +10,35 @@ const trimTail = (s) => s.substring(0, s.length - 1)
 
 function findSong(titleBase, artistBase) {
   let title = titleBase.toLowerCase()
-  let artist = artistBase.toLowerCase()
+  let artists = artistBase.toLowerCase().split(' ')
   let songsByArtist = songs[title]
 
-  while (!songsByArtist && title.length > 8) {
+  while (!songsByArtist && title.length >= 4) {
     title = trimTail(title)
     songsByArtist = songs[title]
   }
+
   if (!songsByArtist) return false
 
-  let song = songsByArtist[artist]
-
-  while (!songsByArtist && artist.length > 8) {
-    artist = trimTail(artist)
+  let song = undefined
+  for (let i = 0; i < artists.length && !song; i++) {
+    let artist = artists[i]
     song = songsByArtist[artist]
+
+    while (!song && artist.length >= 4) {
+      artist = trimTail(artist)
+      song = songsByArtist[artist]
+    }
   }
 
   return song
 }
 
 subscribeIcy(url, ({ artist, title }) => {
+  console.log({ artist, title })
   const song =
     artist && title
-      ? findSong(title, artist) || { artist, title }
+      ? findSong(title, artist) || findSong(artist, title) || { artist, title }
       : { artist: artist + title, title: artist + title }
 
   const imageSearchWord = song.animeTitle ? song.animeTitle : artist + title
@@ -41,7 +47,7 @@ subscribeIcy(url, ({ artist, title }) => {
   getImage(imageSearchWord)
     .then((res) => {
       const imageLinks = res.data.items.map((item) => item.link)
-      console.log(imageLinks)
+      // console.log(imageLinks)
       saveMusic({ ...song, imageLinks })
     })
     .catch((e) => {
