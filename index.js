@@ -2,6 +2,7 @@
 
 const subscribeIcy = require('./icy').default
 const songs = require('./loadDb').default
+const { saveMusic } = require('./firebase')
 
 const url = process.env.URL
 const trimTail = (s) => s.substring(0, s.length - 1)
@@ -15,7 +16,6 @@ function findSong(titleBase, artistBase) {
     title = trimTail(title)
     songsByArtist = songs[title]
   }
-  console.log(songsByArtist)
   if (!songsByArtist) return false
 
   let song = songsByArtist[artist]
@@ -30,6 +30,6 @@ function findSong(titleBase, artistBase) {
 
 subscribeIcy(url, ({ artist, title }) => {
   console.log({ artist, title })
-  const song = findSong(title, artist)
-  console.log(song)
+  const song = findSong(title, artist) || { artist, title }
+  saveMusic(song)
 })

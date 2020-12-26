@@ -65,3 +65,4 @@ typings/
 .envrc
 data/*
 !data/.gitkeep
+service_account
