@@ -1,1 +1,13 @@
 export URL="http://autols1.ggtea.net:8196/autoxmas"
+
+export FIREBASE_API_KEY=""
+export FIREBASE_AUTH_DOMAIN=""
+export FIREBASE_PROJECT_ID=""
+export FIREBASE_STORAGE_BUCKET=""
+export FIREBASE_MESSAGING_SENDER_ID=""
+export FIREBASE_APP_ID=""
+
+export GCP_CUSTOM_SEARCH_API_KEY=""
+export GCP_CUSTOM_SEARCH_ENGINE_ID=""
+
+export SERVICE_ACCOUNT_FILE_PATH=""
