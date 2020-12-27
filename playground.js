@@ -1,11 +1,5 @@
-'use strict'
-
-const subscribeIcy = require('./icy').default
 const songs = require('./loadDb').default
-const { saveMusic } = require('./firebase')
-const { getImage } = require('./customImageSearch')
 
-const url = process.env.URL
 const trimTail = (s) => s.substring(0, s.length - 1)
 
 function findSong(icy) {
@@ -39,37 +33,11 @@ function findSong(icy) {
 
   return { ...findSong[1], icy }
 }
-const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec))
 
-function main() {
-  subscribeIcy(
-    url,
-    async (icy) => {
-      const song = findSong(icy)
+// Eve - 蒼のワルツ
 
-      const imageSearchWord = song.animeTitle ? song.animeTitle : icy
+// const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
+const icy =
+  'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
 
-      console.log(icy)
-      console.log(song)
-
-      const res = await getImage(imageSearchWord).catch((e) => {
-        console.error(e)
-        saveMusic(song)
-        return false
-      })
-      if (!res) return
-
-      const imageLinks = res.data.items.map((item) => item.link)
-      // console.log(imageLinks)
-      saveMusic({ ...song, imageLinks })
-    },
-    async () => {
-      // change stream retry
-      console.log('finish')
-      await sleep(10 * 1000)
-      main()
-    }
-  )
-}
-
-main()
+console.log(findSong(icy))
