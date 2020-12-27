@@ -20,8 +20,7 @@ function subscribeIcy(url, callback) {
 
       const parsed = icy.parse(iconv.decode(metadata, encodingFrom))
 
-      const [artist, title] = parsed.StreamTitle.split(' - ')
-      callback({ artist, title })
+      callback(parsed.StreamTitle)
     })
     res.resume()
   })
