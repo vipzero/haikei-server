@@ -8,34 +8,31 @@ const { getImage } = require('./customImageSearch')
 const url = process.env.URL
 const trimTail = (s) => s.substring(0, s.length - 1)
 
-function findSong(titleBase, artistBase) {
+function findSong(titleBase, artist) {
   let title = titleBase.toLowerCase()
-  let artists = artistBase.toLowerCase().split(' ')
   let songsByArtist = songs[title]
+  // 曲名: 後ろからHitしない場合削る
 
+  // console.log(songsByArtist)
   while (!songsByArtist && title.length >= 4) {
     title = trimTail(title)
     songsByArtist = songs[title]
   }
 
   if (!songsByArtist) return false
+  // console.log(songsByArtist)
 
-  let song = undefined
-  for (let i = 0; i < artists.length && !song; i++) {
-    let artist = artists[i]
-    song = songsByArtist[artist]
+  // Hit したアーティスト名を含むものを一つ選ぶ
+  const findSong = Object.entries(songsByArtist).find(([k]) => {
+    return artist.indexOf(k) !== -1 || artist.indexOf(k.replace(' ', ''))
+  })
+  if (!findSong) return false
+  // console.log({ song })
 
-    while (!song && artist.length >= 4) {
-      artist = trimTail(artist)
-      song = songsByArtist[artist]
-    }
-  }
-
-  return song
+  return findSong[1]
 }
 
 subscribeIcy(url, ({ artist, title }) => {
-  console.log({ artist, title })
   const song =
     artist && title
       ? findSong(title, artist) || findSong(artist, title) || { artist, title }
