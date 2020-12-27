@@ -60,10 +60,10 @@ function main() {
       // console.log(imageLinks)
       saveMusic({ ...song, imageLinks })
     },
-    () => {
+    async () => {
       // change stream retry
       console.log('finish')
-      sleep(10)
+      await sleep(10)
       main()
     }
   )
