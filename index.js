@@ -28,9 +28,9 @@ function findSong(icy) {
   // console.log(songsByArtist)
 
   // Hit したアーティスト名を含むものを一つ選ぶ
-  const findSong = Object.entries(songsByArtist).find(([k]) => {
-    return artist.indexOf(k) !== -1 || artist.indexOf(k.replace(' ', ''))
-  })
+  const trimSpace = (s) => s.replace(' ', '')
+  const isHit = (long, short) => trimSpace(long).indexOf(trimSpace(short)) >= 0
+  const findSong = Object.entries(songsByArtist).find(([k]) => isHit(artist, k))
   if (!findSong) return songBase
   // console.log({ song })
 
