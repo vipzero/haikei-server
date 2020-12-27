@@ -8,7 +8,7 @@ const url = process.env.URL
 // URL to a known ICY stream
 console.log(url)
 
-function subscribeIcy(url, callback) {
+function subscribeIcy(url, callback, onEnd) {
   // connect to the remote stream
   icy.get(url, (res) => {
     // log the HTTP response headers
@@ -21,6 +21,9 @@ function subscribeIcy(url, callback) {
       const parsed = icy.parse(iconv.decode(metadata, encodingFrom))
 
       callback(parsed.StreamTitle)
+    })
+    res.on('end', () => {
+      onEnd()
     })
     res.resume()
   })

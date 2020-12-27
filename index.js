@@ -36,23 +36,37 @@ function findSong(icy) {
 
   return { ...findSong[1], icy }
 }
+const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec))
 
-subscribeIcy(url, async (icy) => {
-  const song = findSong(icy)
+function main() {
+  subscribeIcy(
+    url,
+    async (icy) => {
+      const song = findSong(icy)
 
-  const imageSearchWord = song.animeTitle ? song.animeTitle : icy
+      const imageSearchWord = song.animeTitle ? song.animeTitle : icy
 
-  console.log(icy)
-  console.log(song)
+      console.log(icy)
+      console.log(song)
 
-  const res = await getImage(imageSearchWord).catch((e) => {
-    console.error(e)
-    saveMusic(song)
-    return false
-  })
-  if (!res) return
+      const res = await getImage(imageSearchWord).catch((e) => {
+        console.error(e)
+        saveMusic(song)
+        return false
+      })
+      if (!res) return
 
-  const imageLinks = res.data.items.map((item) => item.link)
-  // console.log(imageLinks)
-  saveMusic({ ...song, imageLinks })
-})
+      const imageLinks = res.data.items.map((item) => item.link)
+      // console.log(imageLinks)
+      saveMusic({ ...song, imageLinks })
+    },
+    () => {
+      // change stream retry
+      console.log('finish')
+      sleep(10)
+      main()
+    }
+  )
+}
+
+main()
