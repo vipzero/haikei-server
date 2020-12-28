@@ -1,5 +1,5 @@
 const { findSong } = require('./lib/findSong')
-const { spotifySearchSongInfo } = require('./lib/spotify')
+// const { spotifySearchSongInfo } = require('./lib/spotify')
 
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -19,7 +19,7 @@ console.log(findSong(icy))
 
 // spotifySearchSongInfo('PEARLY×PARTY', 'パーリィ☆フェアリィ').then(console.log)
 // spotifySearchSongInfo('I swear ', 'sweet arms').then(console.log)
-spotifySearchSongInfo('マッチョアネーム?', '街雄鳴造(CV:石川界人)').then(
-  console.log
-)
+// spotifySearchSongInfo('マッチョアネーム?', '街雄鳴造(CV:石川界人)').then(
+//   console.log
+// )
 // spotifySearchSongInfo('タチアガレ！', 'Wake Up, Girls!').then(console.log)
