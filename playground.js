@@ -17,5 +17,9 @@ console.log(findSong(icy))
 // console.log(songs['花咲く☆最強レジェンドdays'])
 // console.log(obj['花咲く☆最強レジェンドDays'])
 
-spotifySearchSongInfo('PEARLY×PARTY', 'パーリィ☆フェアリィ').then(console.log)
-spotifySearchSongInfo('I swear', 'sweet arms').then(console.log)
+// spotifySearchSongInfo('PEARLY×PARTY', 'パーリィ☆フェアリィ').then(console.log)
+// spotifySearchSongInfo('I swear ', 'sweet arms').then(console.log)
+spotifySearchSongInfo('マッチョアネーム?', '街雄鳴造(CV:石川界人)').then(
+  console.log
+)
+// spotifySearchSongInfo('タチアガレ！', 'Wake Up, Girls!').then(console.log)
