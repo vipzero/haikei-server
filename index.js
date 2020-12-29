@@ -5,6 +5,7 @@ const { saveMusic, addHistoryNow } = require('./lib/firebase')
 const { getImage } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
 const { sleep } = require('./lib/utils')
+const { getAlbum } = require('./lib/itunes')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 
 const url = process.env.URL
@@ -18,9 +19,6 @@ function main() {
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
 
-      console.log(icy)
-      console.log(song)
-
       const res = await getImage(imageSearchWord).catch((e) => {
         console.error(e)
         return false
@@ -28,6 +26,12 @@ function main() {
 
       // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
       // if (spoinfo) song.artwork = spoinfo.artwork
+
+      // NOTE: 破壊的で微妙
+      Object.assign(song, await getAlbum(icy))
+
+      console.log(icy)
+      console.log(song)
 
       const imageLinks = res ? res.data.items.map((item) => item.link) : []
       // console.log(imageLinks)

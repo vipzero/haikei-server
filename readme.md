@@ -32,6 +32,12 @@ node script/importHistory.js
 yarn get_history
 ```
 
+### アルバム情報の取得
+
+iTunes API (認証なし)
+
+小さいアートワーク・アルバム名・copyright
+
 ## 使おうとして使ってない module
 
 - spotify: アートワーク・アルバム名・(邦楽・アニソンあまり取れないため)

@@ -1,6 +1,8 @@
 // const { findSong } = require('./lib/findSong')
-const { spotifySearchSongInfo } = require('./lib/spotify')
+// const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch } = require('./lib/musixmatch')
+
+const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -28,3 +30,5 @@ spotifySearchSongInfo('空蝉', '志方あきこ').then(console.log)
 // spotifySearchSongInfo('タチアガレ！', 'Wake Up, Girls!').then(console.log)
 
 // getMusixMatch('dots and lines', '一青窈').then(console.log)
+
+getAlbum('コスモルミナ - 芹澤優').then(console.log)
