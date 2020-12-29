@@ -23,19 +23,19 @@ function main() {
         console.error(e)
         return false
       })
+      const imageLinks = res ? res.data.items.map((item) => item.link) : []
 
       // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
       // if (spoinfo) song.artwork = spoinfo.artwork
 
       // NOTE: 破壊的で微妙
-      Object.assign(song, await getAlbum(icy))
+      const albumInfos = await getAlbum(icy)
 
       console.log(icy)
       console.log(song)
 
-      const imageLinks = res ? res.data.items.map((item) => item.link) : []
       // console.log(imageLinks)
-      saveMusic({ ...song, imageLinks })
+      saveMusic({ ...song, imageLinks, ...albumInfos })
     },
     async () => {
       // change stream retry

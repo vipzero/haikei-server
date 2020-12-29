@@ -22,7 +22,7 @@ const { getAlbum } = require('./lib/itunes')
 
 // spotifySearchSongInfo('ココロオドル', 'nobodyknows+').then(console.log)
 
-spotifySearchSongInfo('空蝉', '志方あきこ').then(console.log)
+// spotifySearchSongInfo('空蝉', '志方あきこ').then(console.log)
 // spotifySearchSongInfo('I swear ', 'sweet arms').then(console.log)
 // spotifySearchSongInfo('マッチョアネーム?', '街雄鳴造(CV:石川界人)').then(
 //   console.log
