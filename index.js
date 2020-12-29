@@ -1,18 +1,19 @@
 'use strict'
 
 const subscribeIcy = require('./lib/icy').default
-const { saveMusic } = require('./lib/firebase')
+const { saveMusic, addHistoryNow } = require('./lib/firebase')
 const { getImage } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
+const { sleep } = require('./lib/utils')
+// const { spotifySearchSongInfo } = require('./lib/spotify')
 
 const url = process.env.URL
-
-const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec))
 
 function main() {
   subscribeIcy(
     url,
     async (icy) => {
+      addHistoryNow(icy)
       const song = findSong(icy)
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
@@ -22,12 +23,13 @@ function main() {
 
       const res = await getImage(imageSearchWord).catch((e) => {
         console.error(e)
-        saveMusic(song)
         return false
       })
-      if (!res) return
 
-      const imageLinks = res.data.items.map((item) => item.link)
+      // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
+      // if (spoinfo) song.artwork = spoinfo.artwork
+
+      const imageLinks = res ? res.data.items.map((item) => item.link) : []
       // console.log(imageLinks)
       saveMusic({ ...song, imageLinks })
     },
