@@ -3,6 +3,7 @@
     "axios": "^0.21.1",
     "csv": "^5.3.2",
     "csv-parse": "^4.14.2",
+    "date-fns": "^2.16.1",
     "detect-character-encoding": "^0.8.0",
     "encoding-japanese": "^1.0.30",
     "eslint": "^7.16.0",
@@ -10,6 +11,9 @@
     "icy": "^2.1.0",
     "node-lame": "^1.2.2",
     "node-spotify-api": "^1.1.1"
+  },
+  "scripts": {
+    "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt"
   },
   "devDependencies": {
     "firebase-admin": "^9.4.2"

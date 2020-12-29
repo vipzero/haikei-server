@@ -1,6 +1,6 @@
 // const { findSong } = require('./lib/findSong')
-// const { spotifySearchSongInfo } = require('./lib/spotify')
-const { getMusixMatch } = require('./lib/musixmatch')
+const { spotifySearchSongInfo } = require('./lib/spotify')
+// const { getMusixMatch } = require('./lib/musixmatch')
 
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -18,11 +18,13 @@ const { getMusixMatch } = require('./lib/musixmatch')
 // console.log(songs['花咲く☆最強レジェンドdays'])
 // console.log(obj['花咲く☆最強レジェンドDays'])
 
-// spotifySearchSongInfo('PEARLY×PARTY', 'パーリィ☆フェアリィ').then(console.log)
+// spotifySearchSongInfo('ココロオドル', 'nobodyknows+').then(console.log)
+
+spotifySearchSongInfo('空蝉', '志方あきこ').then(console.log)
 // spotifySearchSongInfo('I swear ', 'sweet arms').then(console.log)
 // spotifySearchSongInfo('マッチョアネーム?', '街雄鳴造(CV:石川界人)').then(
 //   console.log
 // )
 // spotifySearchSongInfo('タチアガレ！', 'Wake Up, Girls!').then(console.log)
 
-getMusixMatch('dots and lines', '一青窈').then(console.log)
+// getMusixMatch('dots and lines', '一青窈').then(console.log)
