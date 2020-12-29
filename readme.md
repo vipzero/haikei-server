@@ -25,6 +25,13 @@ data
 
 参考記事: https://blog.wackwack.net/entry/2017/12/26/211044
 
+### ここまでの全体履歴の保存
+
+```
+node script/importHistory.js
+yarn get_history
+```
+
 ## 使おうとして使ってない module
 
 - spotify: アートワーク・アルバム名・(邦楽・アニソンあまり取れないため)
