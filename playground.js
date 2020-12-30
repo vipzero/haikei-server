@@ -1,9 +1,9 @@
 // const { findSong } = require('./lib/findSong')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
-const { getLyrics } = require('./lib/jlyricnet')
+// const { getLyrics } = require('./lib/jlyricnet')
 
-// const { getAlbum } = require('./lib/itunes')
+const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -31,6 +31,6 @@ const { getLyrics } = require('./lib/jlyricnet')
 // spotifySearchSongInfo('タチアガレ！', 'Wake Up, Girls!').then(console.log)
 
 // getMusixLyrics('snowdrop', '春奈るな,河野マリナ').then(console.log)
-getLyrics('snowdrop', '春奈るな,河野マリナ').then(console.log)
+// getLyrics('snowdrop', '春奈るな,河野マリナ').then(console.log)
 
-// getAlbum('コスモルミナ - 芹澤優').then(console.log)
+getAlbum('コスモルミナ - 芹澤優').then(console.log)
