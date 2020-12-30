@@ -2,7 +2,7 @@
 
 const subscribeIcy = require('./lib/icy').default
 const { saveMusic, addHistoryNow, getCurrentPlay } = require('./lib/firebase')
-const { getImage } = require('./lib/customImageSearch')
+const { getImage, getImageLinks } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
 const { sleep } = require('./lib/utils')
 const { getAlbum } = require('./lib/itunes')
@@ -28,11 +28,7 @@ async function main() {
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
 
-      const res = await getImage(imageSearchWord).catch((e) => {
-        console.error(e)
-        return false
-      })
-      const imageLinks = res ? res.data.items.map((item) => item.link) : []
+      const imageLinks = await getImageLinks(imageSearchWord)
 
       // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
       // if (spoinfo) song.artwork = spoinfo.artwork

@@ -3,6 +3,7 @@
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 
+const { getImageLinks } = require('./lib/customImageSearch')
 const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
@@ -33,4 +34,6 @@ const { getAlbum } = require('./lib/itunes')
 // getMusixLyrics('snowdrop', '春奈るな,河野マリナ').then(console.log)
 // getLyrics('snowdrop', '春奈るな,河野マリナ').then(console.log)
 
-getAlbum('コスモルミナ - 芹澤優').then(console.log)
+// getAlbum('コスモルミナ - 芹澤優').then(console.log)
+
+getImageLinks('SSSS.GRIDMAN').then(console.log)
