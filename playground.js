@@ -2,9 +2,11 @@
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
+const { getAllIcy } = require('./lib/firebase')
+// const { parseWords } = require('./lib/utils')
 
-const { getImageLinks } = require('./lib/customImageSearch')
-const { getAlbum } = require('./lib/itunes')
+// const { getImageLinks } = require('./lib/customImageSearch')
+// const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -36,4 +38,13 @@ const { getAlbum } = require('./lib/itunes')
 
 // getAlbum('コスモルミナ - 芹澤優').then(console.log)
 
-getImageLinks('SSSS.GRIDMAN').then(console.log)
+// getImageLinks('SSSS.GRIDMAN').then(console.log)
+
+// console.log(parseWords('key plus words - 平田志穂子 feat. 川村ゆみ'))
+// console.log(
+//   parseWords(
+//     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
+//   )
+// )
+
+getAllIcy().then(console.log)

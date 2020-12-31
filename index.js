@@ -1,11 +1,17 @@
 'use strict'
 
 const subscribeIcy = require('./lib/icy').default
-const { saveMusic, addHistoryNow, getCurrentPlay } = require('./lib/firebase')
-const { getImage, getImageLinks } = require('./lib/customImageSearch')
+const {
+  saveMusic,
+  addHistoryNow,
+  getCurrentPlay,
+  getAllIcy,
+} = require('./lib/firebase')
+const { getImageLinks } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
-const { sleep } = require('./lib/utils')
+const { sleep, parseCountWords } = require('./lib/utils')
 const { getAlbum } = require('./lib/itunes')
+const { saveCounts } = require('./lib/wordCounts')
 const { getLyrics } = require('./lib/jlyricnet')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 
@@ -13,6 +19,7 @@ const url = process.env.URL
 
 async function main() {
   const res = await getCurrentPlay()
+  let counts = getAllIcy()
   let startPlay = res && res.icy
 
   subscribeIcy(
@@ -25,9 +32,12 @@ async function main() {
       }
       addHistoryNow(icy)
       const song = findSong(icy)
+      const [countsNew, entries] = parseCountWords(icy, counts)
+
+      counts = countsNew
+      saveCounts(counts)
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
-
       const imageLinks = await getImageLinks(imageSearchWord)
 
       // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
@@ -42,8 +52,17 @@ async function main() {
       console.log(icy)
       console.log(song)
 
+      const wordCounts = {}
+      entries.forEach((ent) => {
+        wordCounts[ent] = counts[ent]
+      })
+      console.log({ wordCounts })
+
       // console.log(imageLinks)
-      saveMusic({ ...song, imageLinks, ...albumInfos, ...creators }, lyric)
+      saveMusic(
+        { ...song, imageLinks, ...albumInfos, ...creators, wordCounts },
+        lyric
+      )
     },
     async () => {
       // change stream retry
