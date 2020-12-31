@@ -2,8 +2,8 @@
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
-const { getAllIcy } = require('./lib/firebase')
-// const { parseWords } = require('./lib/utils')
+// const { getAllIcy } = require('./lib/firebase')
+const { parseWords } = require('./lib/utils')
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
@@ -46,5 +46,10 @@ const { getAllIcy } = require('./lib/firebase')
 //     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
 //   )
 // )
+console.log(
+  parseWords(
+    'Team AA〈間宮あかり（佐倉綾音）×神崎・Ｈ・アリア（釘宮理恵）〉 - パルス '
+  )
+)
 
-getAllIcy().then(console.log)
+// getAllIcy().then(console.log)
