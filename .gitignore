@@ -66,3 +66,4 @@ typings/
 data/*
 !data/.gitkeep
 service_account
+counts.json
