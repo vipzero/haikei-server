@@ -11,7 +11,7 @@ const { getImageLinks } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
 const { sleep, parseCountWords } = require('./lib/utils')
 const { getAlbum } = require('./lib/itunes')
-const { saveCounts } = require('./lib/wordCounts')
+const { saveCounts, getCounts } = require('./lib/wordCounts')
 const { getLyrics } = require('./lib/jlyricnet')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 
@@ -19,7 +19,7 @@ const url = process.env.URL
 
 async function main() {
   const res = await getCurrentPlay()
-  let counts = getAllIcy()
+  getAllIcy()
   let startPlay = res && res.icy
 
   subscribeIcy(
@@ -32,9 +32,8 @@ async function main() {
       }
       addHistoryNow(icy)
       const song = findSong(icy)
-      const [countsNew, entries] = parseCountWords(icy, counts)
-
-      counts = countsNew
+      const { counts: countsOld } = getCounts()
+      const [counts, entries] = parseCountWords(icy, countsOld)
       saveCounts(counts)
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
@@ -56,7 +55,6 @@ async function main() {
       entries.forEach((ent) => {
         wordCounts[ent] = counts[ent]
       })
-      console.log({ wordCounts })
 
       // console.log(imageLinks)
       saveMusic(
