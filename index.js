@@ -28,9 +28,10 @@ async function main() {
       if (startPlay && startPlay === icy) {
         // 起動時の重複登録を防ぐ
         startPlay = false
-        return
+        // return
+      } else {
+        addHistoryNow(icy)
       }
-      addHistoryNow(icy)
       const song = findSong(icy)
       const { counts: countsOld } = getCounts()
       const [counts, entries] = parseCountWords(icy, countsOld)
