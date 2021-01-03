@@ -3,9 +3,9 @@
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { getAllIcy } = require('./lib/firebase')
-const { parseWords } = require('./lib/utils')
+// const { parseWords } = require('./lib/utils')
 
-// const { getImageLinks } = require('./lib/customImageSearch')
+const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
@@ -38,7 +38,9 @@ const { parseWords } = require('./lib/utils')
 
 // getAlbum('コスモルミナ - 芹澤優').then(console.log)
 
-// getImageLinks('SSSS.GRIDMAN').then(console.log)
+const q = 'OxT - 君じゃなきゃダメみたい -OxT ver.- - 月刊少女野崎くん'
+console.log(q.replace(/-/g, ' '))
+getImageLinks(q).then(console.log)
 
 // console.log(parseWords('key plus words - 平田志穂子 feat. 川村ゆみ'))
 // console.log(
@@ -46,10 +48,6 @@ const { parseWords } = require('./lib/utils')
 //     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
 //   )
 // )
-console.log(
-  parseWords(
-    'Team AA〈間宮あかり（佐倉綾音）×神崎・Ｈ・アリア（釘宮理恵）〉 - パルス '
-  )
-)
+// console.log(parseWords('Lia - コネクト'))
 
 // getAllIcy().then(console.log)

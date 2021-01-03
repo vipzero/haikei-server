@@ -9,9 +9,9 @@ const {
 } = require('./lib/firebase')
 const { getImageLinks } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
-const { sleep, parseCountWords } = require('./lib/utils')
+const { sleep } = require('./lib/utils')
 const { getAlbum } = require('./lib/itunes')
-const { saveCounts, getCounts } = require('./lib/wordCounts')
+const { anaCounts } = require('./lib/wordCounts')
 const { getLyrics } = require('./lib/jlyricnet')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 
@@ -33,9 +33,8 @@ async function main() {
         addHistoryNow(icy)
       }
       const song = findSong(icy)
-      const { counts: countsOld } = getCounts()
-      const [counts, entries] = parseCountWords(icy, countsOld)
-      saveCounts(counts)
+      const additionals = song.animeTitle ? [song.animeTitle] : []
+      const { wordCounts } = anaCounts(icy, additionals)
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
       const imageLinks = await getImageLinks(imageSearchWord)
@@ -51,11 +50,6 @@ async function main() {
 
       console.log(icy)
       console.log(song)
-
-      const wordCounts = {}
-      entries.forEach((ent) => {
-        wordCounts[ent] = counts[ent]
-      })
 
       // console.log(imageLinks)
       saveMusic(
