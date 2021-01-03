@@ -3,7 +3,7 @@
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { getAllIcy } = require('./lib/firebase')
-const { parseWords } = require('./lib/utils')
+const { parseWords, uniqo } = require('./lib/utils')
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
@@ -52,5 +52,6 @@ const q =
 //   )
 // )
 console.log(parseWords(q))
+console.log(uniqo(['a', 'b', 'c', 'A', 'B']))
 
 // getAllIcy().then(console.log)
