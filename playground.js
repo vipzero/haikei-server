@@ -3,9 +3,9 @@
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { getAllIcy } = require('./lib/firebase')
-// const { parseWords } = require('./lib/utils')
+const { parseWords } = require('./lib/utils')
 
-const { getImageLinks } = require('./lib/customImageSearch')
+// const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
 
 // うまく取得できなかった icy のテスト
@@ -38,9 +38,11 @@ const { getImageLinks } = require('./lib/customImageSearch')
 
 // getAlbum('コスモルミナ - 芹澤優').then(console.log)
 
-const q = 'OxT - 君じゃなきゃダメみたい -OxT ver.- - 月刊少女野崎くん'
-console.log(q.replace(/-/g, ' '))
-getImageLinks(q).then(console.log)
+// const q = 'OxT - 君じゃなきゃダメみたい -OxT ver.- - 月刊少女野崎くん'
+const q =
+  'ショコラ (CV:八木侑紀)、バニラ (CV:佐伯伊織)、アズキ (CV:井澤詩織)、メイプル (CV:伊藤美来)、シナモン (CV:のぐちゆり)、ココナツ (CV:水谷麻鈴) - Shiny Happy Days'
+
+// getImageLinks(q).then(console.log)
 
 // console.log(parseWords('key plus words - 平田志穂子 feat. 川村ゆみ'))
 // console.log(
@@ -48,6 +50,6 @@ getImageLinks(q).then(console.log)
 //     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
 //   )
 // )
-// console.log(parseWords('Lia - コネクト'))
+console.log(parseWords(q))
 
 // getAllIcy().then(console.log)

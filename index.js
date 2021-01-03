@@ -28,12 +28,13 @@ async function main() {
       if (startPlay && startPlay === icy) {
         // 起動時の重複登録を防ぐ
         startPlay = false
-        // return
+        return
       } else {
         addHistoryNow(icy)
       }
       const song = findSong(icy)
-      const additionals = song.animeTitle ? [song.animeTitle] : []
+      const additionals = [song.title]
+      if (song.animeTitle) additionals.push(song.animeTitle)
       const { wordCounts } = anaCounts(icy, additionals)
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
