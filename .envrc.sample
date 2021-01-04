@@ -16,3 +16,4 @@ export SERVICE_ACCOUNT_FILE_PATH=""
 # export SPOTIFY_CLIENT_SECRET=""
 
 export MUSIXMATCH_API_KEY=""
+export EVENT_ID="2020nematu"
