@@ -1,3 +1,10 @@
+
+
+- [フロントエンド vipzero/rekka-haikei](https://github.com/vipzero/rekka-haikei)
+- [運用コストメモ](https://github.com/vipzero/haikei-server/wiki/運用メモ)
+
+
+
 ## setup
 
 ```
