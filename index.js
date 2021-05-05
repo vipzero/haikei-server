@@ -19,7 +19,7 @@ const url = process.env.URL
 
 async function main() {
   const res = await getCurrentPlay()
-  getAllIcy()
+  await getAllIcy()
   let startPlay = res && res.icy
 
   subscribeIcy(
