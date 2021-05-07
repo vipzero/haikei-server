@@ -12,7 +12,7 @@ function wordCounting(icys) {
     const additionals = [song.title]
 
     if (song.animeTitle) additionals.push(song.animeTitle)
-    const { wordCounts } = anaCounts(icy, additionals)
+    const { wordCounts } = anaCounts(icy, res, additionals)
 
     Object.entries(wordCounts).forEach(([k, v]) => {
       res[k] = (res[k] || 0) + v

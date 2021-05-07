@@ -19,7 +19,7 @@ const url = process.env.URL
 
 async function main() {
   const res = await getCurrentPlay()
-  await getAllIcy()
+  let { counts } = await getAllIcy()
   let startPlay = res && res.icy
 
   subscribeIcy(
@@ -35,7 +35,12 @@ async function main() {
       const song = findSong(icy)
       const additionals = [song.title]
       if (song.animeTitle) additionals.push(song.animeTitle)
-      const { wordCounts } = anaCounts(icy, additionals)
+      const { wordCounts, counts: countsNew } = anaCounts(
+        icy,
+        counts,
+        additionals
+      )
+      counts = countsNew
 
       const imageSearchWord = song.animeTitle ? song.animeTitle : icy
       const imageLinks = await getImageLinks(imageSearchWord)
