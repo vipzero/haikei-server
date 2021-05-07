@@ -14,10 +14,13 @@
     "node-spotify-api": "^1.1.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "babel-node index.js",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.14.1",
     "firebase-admin": "^9.4.2"
   }
 }

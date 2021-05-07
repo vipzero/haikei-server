@@ -1,30 +1,26 @@
 'use strict'
 
 const { findSong } = require('../lib/findSong')
-const { anaCounts } = require('../lib/wordCounts')
-const { loadAllIcy, setupCount } = require('../lib/firebase')
 
-function wordCounting(icys) {
-  const res = {}
+const { textNormalize, parseCountWords } = require('../lib/utils')
+
+const { loadAllIcy, setupCount } = require('../lib/firebase')
+async function main() {
+  const counts = {}
+  const icys = await loadAllIcy()
 
   icys.forEach((icy) => {
     const song = findSong(icy)
-    const additionals = [song.title]
+    const additional = [song.title]
+    if (song.animeTitle) additional.push(song.animeTitle)
 
-    if (song.animeTitle) additionals.push(song.animeTitle)
-    const { wordCounts } = anaCounts(icy, res, additionals)
-
-    Object.entries(wordCounts).forEach(([k, v]) => {
-      res[k] = (res[k] || 0) + v
+    const words = parseCountWords(icy, additional)
+    words.map(textNormalize).forEach((v) => {
+      counts[v] = (counts[v] || 0) + 1
     })
   })
-  console.log(res)
-}
 
-async function main() {
-  const icys = await loadAllIcy()
-  const counts = wordCounting(icys)
-  await setupCount(counts)
+  setupCount(counts, +new Date())
 }
 
 main()

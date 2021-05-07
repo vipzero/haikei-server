@@ -5,7 +5,7 @@ const {
   saveMusic,
   addHistoryNow,
   getCurrentPlay,
-  getAllIcy,
+  init,
 } = require('./lib/firebase')
 const { getImageLinks } = require('./lib/customImageSearch')
 const { findSong } = require('./lib/findSong')
@@ -19,7 +19,7 @@ const url = process.env.URL
 
 async function main() {
   const res = await getCurrentPlay()
-  let { counts } = await getAllIcy()
+  let { counts } = await init()
   let startPlay = res && res.icy
 
   subscribeIcy(
