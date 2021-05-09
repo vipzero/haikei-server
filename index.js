@@ -20,6 +20,7 @@ async function main() {
   subscribeIcy(
     url,
     async (icy) => {
+      console.log(icy)
       if (startPlay && startPlay === icy) {
         // 起動時の重複登録を防ぐ
         startPlay = false
