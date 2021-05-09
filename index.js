@@ -1,19 +1,14 @@
 'use strict'
 
-const subscribeIcy = require('./lib/icy').default
-const {
-  saveMusic,
-  addHistoryNow,
-  getCurrentPlay,
-  init,
-} = require('./lib/firebase')
-const { getImageLinks } = require('./lib/customImageSearch')
-const { findSong } = require('./lib/findSong')
-const { sleep } = require('./lib/utils')
-const { getAlbum } = require('./lib/itunes')
-const { anaCounts } = require('./lib/wordCounts')
-const { getLyrics } = require('./lib/jlyricnet')
-// const { spotifySearchSongInfo } = require('./lib/spotify')
+import subscribeIcy from './lib/icy'
+import { saveMusic, addHistoryNow, getCurrentPlay, init } from './lib/firebase'
+import { getImageLinks } from './lib/customImageSearch'
+import { findSong } from './lib/findSong'
+import { sleep } from './lib/utils'
+import { getAlbum } from './lib/itunes'
+import { anaCounts } from './lib/wordCounts'
+import { getLyrics } from './lib/jlyricnet'
+// import { spotifySearchSongInfo } from './lib/spotify'
 
 const url = process.env.URL
 

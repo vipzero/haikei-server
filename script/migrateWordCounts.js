@@ -1,10 +1,9 @@
 'use strict'
 
-const { findSong } = require('../lib/findSong')
+import { findSong } from '../lib/findSong'
+import { textNormalize, parseCountWords } from '../lib/utils'
+import { loadAllIcy, setupCount } from '../lib/firebase'
 
-const { textNormalize, parseCountWords } = require('../lib/utils')
-
-const { loadAllIcy, setupCount } = require('../lib/firebase')
 async function main() {
   const counts = {}
   const icys = await loadAllIcy()

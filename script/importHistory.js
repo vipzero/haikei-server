@@ -1,9 +1,9 @@
 'use strict'
 
-const { addHistory } = require('../lib/firebase')
-const { sjisToUtf8, sleep } = require('../lib/utils')
-const { readFileSync } = require('fs')
-const { parse } = require('date-fns')
+import { addHistory } from '../lib/firebase'
+import { sjisToUtf8, sleep } from '../lib/utils'
+import { readFileSync } from 'fs'
+import { parse } from 'date-fns'
 
 const parseLine = (text) => {
   // text.split('|').pop() NOTE:  曲名に | が入る場合にエスケープされている瓦家内
