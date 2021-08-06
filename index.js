@@ -38,7 +38,8 @@ async function receiveIcy(icy) {
   const albumInfos = await getAlbum(icy)
   const lyrics = await getLyrics(song.title, song.artist)
   const creators = lyrics ? lyrics.creators : {}
-  const lyric = lyrics ? lyrics.lyric : null
+  const lyric = null
+  // const lyric = lyrics ? lyrics.lyric : null
 
   console.log(icy)
   console.log(song)
