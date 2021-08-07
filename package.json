@@ -7,6 +7,7 @@
     "csv-parse": "^4.14.2",
     "date-fns": "^2.16.1",
     "detect-character-encoding": "^0.8.0",
+    "effector": "^21.8.12",
     "encoding-japanese": "^1.0.30",
     "eslint": "^7.16.0",
     "iconv-lite": "^0.6.2",

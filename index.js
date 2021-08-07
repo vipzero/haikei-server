@@ -1,18 +1,31 @@
 'use strict'
 
 import subscribeIcy from './lib/icy'
-import { saveMusic, addHistoryNow, getCurrentPlay, init } from './lib/firebase'
+import {
+  saveMusic,
+  addHistoryNow,
+  getCurrentPlay,
+  init,
+  uploadByUrlAll,
+  deleteFile,
+} from './lib/firebase'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
-import { sleep } from './lib/utils'
+import { sample, sleep } from './lib/utils'
 import { getAlbum } from './lib/itunes'
 import { anaCounts } from './lib/wordCounts'
 import { getLyrics } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
+import { pathQueue, push as pushQueue } from './lib/state/pathQueue'
 
 const url = process.env.URL
 let counts = {},
   startPlay
+
+pathQueue.watch((s) => {
+  const last = s[s.length - 1]
+  if (last) last.map(deleteFile)
+})
 
 async function receiveIcy(icy) {
   console.log(icy)
@@ -34,7 +47,11 @@ async function receiveIcy(icy) {
   counts = countsNew
 
   const imageSearchWord = song.animeTitle ? song.animeTitle : icy
-  const imageLinks = await getImageLinks(imageSearchWord)
+  const googleImageLinks = await getImageLinks(imageSearchWord)
+
+  const randLinks = sample(googleImageLinks, 3)
+  const [imageLinks, paths] = await uploadByUrlAll(randLinks)
+  pushQueue(paths)
 
   // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
   // if (spoinfo) song.artwork = spoinfo.artwork
@@ -49,7 +66,6 @@ async function receiveIcy(icy) {
   console.log(icy)
   console.log(song)
 
-  // console.log(imageLinks)
   saveMusic(
     { ...song, imageLinks, ...albumInfos, ...creators, wordCounts },
     lyric
