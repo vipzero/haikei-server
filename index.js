@@ -11,7 +11,8 @@ import { getLyrics } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
 
 const url = process.env.URL
-let counts, startPlay
+let counts = {},
+  startPlay
 
 async function receiveIcy(icy) {
   console.log(icy)
@@ -25,7 +26,11 @@ async function receiveIcy(icy) {
   const song = findSong(icy)
   const additionals = [song.title]
   if (song.animeTitle) additionals.push(song.animeTitle)
-  const { wordCounts, counts: countsNew } = anaCounts(icy, counts, additionals)
+  const { wordCounts, counts: countsNew } = anaCounts(
+    icy,
+    counts || {},
+    additionals
+  )
   counts = countsNew
 
   const imageSearchWord = song.animeTitle ? song.animeTitle : icy
