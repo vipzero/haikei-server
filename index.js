@@ -17,10 +17,10 @@ import { anaCounts } from './lib/wordCounts'
 import { getLyrics } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
 import { pathQueue, push as pushQueue } from './lib/state/pathQueue'
+import { $meetSong, setMeetSong } from './lib/state/runningMeetSong'
 
 const url = process.env.URL
-let counts = {},
-  startPlay
+let counts = {}
 
 pathQueue.watch((s) => {
   const last = s[s.length - 1]
@@ -28,10 +28,11 @@ pathQueue.watch((s) => {
 })
 
 async function receiveIcy(icy) {
-  console.log(icy)
-  if (startPlay && startPlay === icy) {
+  console.log(`icy: ${icy}`)
+  if ($meetSong.map((v) => v === icy)) {
     // 起動時の重複登録を防ぐ
-    startPlay = false
+    setMeetSong(false)
+    console.log('skip')
     return
   } else {
     addHistoryNow(icy)
@@ -74,8 +75,8 @@ async function receiveIcy(icy) {
 
 async function main() {
   const res = await getCurrentPlay()
-  counts = await init().counts
-  startPlay = res && res.icy
+  counts = (await init()).counts
+  setMeetSong(res && res.icy)
 
   subscribeIcy(url, receiveIcy, async () => {
     // change stream retry
