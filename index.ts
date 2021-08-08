@@ -1,4 +1,4 @@
-'use strict'
+import { Counts, Song } from './lib/types/index'
 
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
@@ -12,22 +12,29 @@ import {
 } from './lib/firebase'
 import subscribeIcy from './lib/icy'
 import { getAlbum } from './lib/itunes'
-import { getLyrics } from './lib/jlyricnet'
+import { getLyrics, getLyricsSafe } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
 import { pathQueue, push as pushQueue } from './lib/state/pathQueue'
 import { sample, sleep } from './lib/utils'
 import { anaCounts } from './lib/wordCounts'
 
 const url = process.env.URL
-let counts = {},
-  startPlay
+let counts: Counts = {},
+  startPlay: false | string
 
 pathQueue.watch((s) => {
   const last = s[s.length - 1]
   if (last) last.map(deleteFile)
 })
 
-async function receiveIcy(icy) {
+async function prepareImages(q: string) {
+  const googleImageLinks = await getImageLinks(q)
+  const [imageLinks, paths] = await uploadByUrlAll(googleImageLinks)
+  pushQueue(paths)
+  return imageLinks
+}
+
+async function receiveIcy(icy: string) {
   console.log(icy)
   if (startPlay === icy) {
     // 起動時の重複登録を防ぐ
@@ -37,8 +44,9 @@ async function receiveIcy(icy) {
     addHistoryNow(icy)
   }
   const song = findSong(icy)
-  const additionals = [song.title]
-  if (song.animeTitle) additionals.push(song.animeTitle)
+  const additionals: string[] = [song.animeTitle, song.title].filter(
+    Boolean
+  ) as string[]
   const { wordCounts, counts: countsNew } = anaCounts(
     icy,
     counts || {},
@@ -47,35 +55,40 @@ async function receiveIcy(icy) {
   counts = countsNew
 
   const imageSearchWord = song.animeTitle ? song.animeTitle : icy
-  const googleImageLinks = await getImageLinks(imageSearchWord)
-
-  const randLinks = sample(googleImageLinks, 5)
-  const [imageLinks, paths] = await uploadByUrlAll(randLinks)
-  pushQueue(paths)
+  const imageLinksSync = prepareImages(imageSearchWord)
 
   // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
   // if (spoinfo) song.artwork = spoinfo.artwork
 
   // NOTE: 破壊的で微妙
   const albumInfos = await getAlbum(icy)
-  const lyrics = await getLyrics(song.title, song.artist)
-  const creators = lyrics ? lyrics.creators : {}
-  const lyric = null
+  const { creators } = await getLyricsSafe(song.title, song.artist)
   // const lyric = lyrics ? lyrics.lyric : null
 
   console.log(icy)
   console.log(song)
 
-  saveMusic(
-    { ...song, imageLinks, ...albumInfos, ...creators, wordCounts },
-    lyric
-  )
+  const [imageLinks] = await Promise.all([imageLinksSync])
+  const compSong: Song = {
+    ...song,
+    imageLinks,
+    ...albumInfos,
+    ...creators,
+    wordCounts,
+    time: 0,
+  }
+
+  saveMusic(compSong)
 }
 
 async function main() {
   const res = await getCurrentPlay()
   counts = (await init()).counts
   startPlay = res && res.icy
+  if (!url) {
+    console.error('empty URL')
+    process.exit(1)
+  }
 
   subscribeIcy(url, receiveIcy, async () => {
     // change stream retry

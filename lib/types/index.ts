@@ -7,7 +7,6 @@ export type ProgramRecord = {
 }
 
 export type SongRecord = ProgramRecord & {
-  // animeTitle: animeTitle || '',
   opOrEd: string
   spInfo: string
   songId: string
@@ -15,9 +14,18 @@ export type SongRecord = ProgramRecord & {
   artist: string
 }
 
-export type SongBroken = { icy: string }
-export type SongSeedNor = { artist: string; title: string } & SongBroken
-export type SongSeedFull = SongSeedNor & SongRecord
+export type SongBroken = Partial<SongSeedFull> & { icy: string }
+export type SongSeedNor = Partial<SongSeedFull> & {
+  icy: string
+  artist: string
+  title: string
+}
+
+export type SongSeedFull = {
+  artist: string
+  title: string
+  icy: string
+} & SongRecord
 export type SongSeed = SongBroken | SongSeedNor | SongSeedFull
 
 export type SongMiss = {
@@ -33,7 +41,7 @@ export type SongMiss = {
   composer?: string
   writer?: string
   wordCounts: Counts
-  wordCountsAna: { name: string; label: string; count: number }[]
+  // wordCountsAna: { name: string; label: string; count: number }[]
 }
 
 export type SongFull = SongMiss & {

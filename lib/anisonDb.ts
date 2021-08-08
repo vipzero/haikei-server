@@ -36,7 +36,6 @@ filenames.forEach((filename) => {
       const artist = (artistBase || '').toLowerCase()
       if (!songs[title]) songs[title] = {}
       songs[title][artist] = {
-        // animeTitle: animeTitle || '',
         opOrEd: opOrEd || '',
         spInfo: spInfo || '',
         songId: songId || '',

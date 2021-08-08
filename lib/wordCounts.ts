@@ -15,7 +15,11 @@ export function saveCountsFile(counts: Counts, time = Date.now()) {
   writeFileSync('counts.json', JSON.stringify({ counts, time }))
 }
 
-export function anaCounts(icy: string, countsOld: Counts, additionals = []) {
+export function anaCounts(
+  icy: string,
+  countsOld: Counts,
+  additionals: string[] = []
+) {
   const entries = parseCountWords(icy, additionals)
   const counts = { ...countsOld }
   const entriesNoms = entries.map(textNormalize)

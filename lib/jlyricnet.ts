@@ -35,7 +35,7 @@ function scrapeLyrics(html: string) {
   $('.lbdy').find('br').replaceWith('\n')
 
   const lyric = $('#Lyric').text()
-  const creators: Record<string, string> = {}
+  const creators: { singer?: string; composer?: string; writer?: string } = {}
   $('.lbdy p').each((i, $p) => {
     const text = $($p).text()
 
@@ -53,8 +53,13 @@ function scrapeLyrics(html: string) {
   return { lyric, creators }
 }
 
-export async function getLyrics(title: string, artist: string) {
-  if (!artist) return false
+export async function getLyricsSafe(title?: string, artist?: string) {
+  const res = await getLyrics(title, artist)
+  if (!res) return { creators: {}, lyrics: null }
+  return res
+}
+export async function getLyrics(title?: string, artist?: string) {
+  if (!title || !artist) return false
 
   const res = await searchJlyrics(title, artist.split(',')[0])
   let articleLink = scrapeFirstResult(res.data)

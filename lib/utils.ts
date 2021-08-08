@@ -64,7 +64,7 @@ export const uniqo = (arr: string[]) => {
   return Object.values(obj)
 }
 
-export const parseCountWords = (icy: string, additional = []) => {
+export const parseCountWords = (icy: string, additional: string[] = []) => {
   const words = parseWords(icy)
   const entries = uniqo([...additional, ...words])
 
