@@ -20,7 +20,5 @@ export const downloadOptimize = async (url: string) => {
 
   const ft = await fileTypePromise
 
-  console.log(ft)
-
-  return { filePath, mine: '' }
+  return { filePath, fileType: ft || { ext: '.png', mime: 'image/png' } }
 }

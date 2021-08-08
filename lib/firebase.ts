@@ -174,9 +174,11 @@ export const countupWords = async (words: string[]) => {
 
 export const deleteFile = (path: string) => bucket.file(path).delete()
 export const uploadByUrl = async (url: string, name: string) => {
-  const { filePath, mine } = await downloadOptimize(url)
-  const path = `img/${EVENT_ID}/${name}`
+  const { filePath, fileType } = await downloadOptimize(url)
+
+  const path = `img/${EVENT_ID}/${name}.${fileType.ext}`
   await bucket.upload(filePath, {
+    contentType: fileType.mime,
     destination: path,
     predefinedAcl: 'publicRead',
   })
