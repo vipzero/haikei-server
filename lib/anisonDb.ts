@@ -7,6 +7,7 @@ const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
 
 let programs: Record<string, ProgramRecord> = {}
 let songs: { [title: string]: { [song: string]: SongRecord } } = {}
+let songsSa: { [song: string]: { [title: string]: SongRecord } } = {}
 
 const data = fs.readFileSync(programFilename, 'utf-8')
 const csvOptions = { trim: true, header: false, skipLinesWithError: true }
@@ -33,9 +34,10 @@ filenames.forEach((filename) => {
   rows.forEach(
     ([programId, , , opOrEd, spInfo, songId, titleBase, artistBase]) => {
       const title = (titleBase || '').toLowerCase()
-      const artist = (artistBase || '').toLowerCase()
+      const artist = (artistBase || '').toLowerCase().split(/[（(]/)[0]
       if (!songs[title]) songs[title] = {}
-      songs[title][artist] = {
+      // if (!songs[artist]) songs[artist] = {}
+      const song = {
         opOrEd: opOrEd || '',
         spInfo: spInfo || '',
         songId: songId || '',
@@ -43,8 +45,11 @@ filenames.forEach((filename) => {
         artist: artistBase,
         ...programs[programId],
       }
+      songs[title][artist] = song
+      // songs[artist][title] = song
     }
   )
 })
 
+export { songsSa }
 export default songs

@@ -10,8 +10,11 @@
 
 import { findSong } from '../lib/findSong'
 
-console.log(findSong('Get Over - 佐咲紗花'))
-console.log(findSong('佐咲紗花 - Get Over'))
+console.log(
+  findSong(
+    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
+  )
+)
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
 // const icy = 'Eve - 蒼のワルツ'
