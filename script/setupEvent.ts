@@ -1,5 +1,3 @@
-'use strict'
-
 import { fdb } from '../lib/firebase'
 const eventId = process.env.EVENT_ID
 

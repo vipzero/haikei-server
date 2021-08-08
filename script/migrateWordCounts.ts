@@ -1,16 +1,16 @@
-'use strict'
+import { Counts } from './../lib/types/index'
 
 import { findSong } from '../lib/findSong'
 import { textNormalize, parseCountWords } from '../lib/utils'
 import { loadAllIcy, setupCount } from '../lib/firebase'
 
 async function main() {
-  const counts = {}
+  const counts: Counts = {}
   const icys = await loadAllIcy()
 
   icys.forEach((icy) => {
     const song = findSong(icy)
-    const additional = [song.title]
+    const additional: string[] = song.title ? [song.title] : []
     if (song.animeTitle) additional.push(song.animeTitle)
 
     const words = parseCountWords(icy, additional)

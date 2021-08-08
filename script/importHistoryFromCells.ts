@@ -1,12 +1,10 @@
-'use strict'
-
 import { parse } from 'date-fns'
 import { readFileSync } from 'fs'
 import { addHistory } from '../lib/firebase'
 import { sleep } from '../lib/utils'
 import { anaCounts } from '../lib/wordCounts'
 
-const parseLine = (text) => {
+const parseLine = (text: string) => {
   const [timeRaw, title] = text.split('\t')
 
   const time = +parse(timeRaw, 'yyyy/MM/dd HH:mm:ss', new Date())
