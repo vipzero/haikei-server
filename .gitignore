@@ -69,3 +69,5 @@ service_account
 counts.json
 
 backup
+
+/tmp

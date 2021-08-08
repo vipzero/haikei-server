@@ -1,5 +1,6 @@
 {
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
@@ -10,6 +11,8 @@
     "effector": "^21.8.12",
     "encoding-japanese": "^1.0.30",
     "eslint": "^7.16.0",
+    "file-type": "^16.5.3",
+    "got": "^11.8.2",
     "iconv-lite": "^0.6.2",
     "icy": "^2.1.0",
     "node-lame": "^1.2.2",
@@ -32,5 +35,9 @@
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.2",
     "imagemin-svgo": "^9.0.0"
+  },
+  "exports": {
+    "import": "./es6entry.mjs",
+    "require": "./es5entry.cjs"
   }
 }

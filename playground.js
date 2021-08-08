@@ -1,10 +1,13 @@
-import { uploadByUrlAll } from './lib/firebase'
+import { imageMin } from './lib/imagemin'
+// import { uploadByUrlAll } from './lib/firebase'
 // import { pathQueue, push } from './lib/state/pathQueue'
 // const { findSong } = require('./lib/findSong')
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { parseWords, uniqo } = require('./lib/utils')
+// import { downloadOptimize } from './lib/download'
+// import songs from './lib/anisonDb'
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
@@ -57,9 +60,9 @@ import { uploadByUrlAll } from './lib/firebase'
 
 // getAllIcy().then(console.log)
 
-const url =
-  'https://img.cdn.nimg.jp/s/nicovideo/thumbnails/12741863/12741863.original/r1280x720l?key=79b8d896df2b5eb36b3a45f1201632df9f69fb98b51c7699e993fc5c776f94c9'
-uploadByUrlAll([url]).then(console.log)
+// const url =
+//   'https://img.cdn.nimg.jp/s/nicovideo/thumbnails/12741863/12741863.original/r1280x720l?key=79b8d896df2b5eb36b3a45f1201632df9f69fb98b51c7699e993fc5c776f94c9'
+// uploadByUrlAll([url]).then(console.log)
 
 // pathQueue.watch(console.log)
 
@@ -71,3 +74,11 @@ uploadByUrlAll([url]).then(console.log)
 // push(3)
 // console.log(4)
 // push(4)
+// console.log(songs)
+// console.log(findSong('Get Over - 佐咲紗花'))
+
+// const url =
+//   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
+// downloadOptimize(url).then(console.log)
+
+imageMin('tmp/tmp').then(console.log)

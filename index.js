@@ -1,26 +1,26 @@
 'use strict'
 
-import subscribeIcy from './lib/icy'
-import {
-  saveMusic,
-  addHistoryNow,
-  getCurrentPlay,
-  init,
-  uploadByUrlAll,
-  deleteFile,
-} from './lib/firebase'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
-import { sample, sleep } from './lib/utils'
+import {
+  addHistoryNow,
+  deleteFile,
+  getCurrentPlay,
+  init,
+  saveMusic,
+  uploadByUrlAll,
+} from './lib/firebase'
+import subscribeIcy from './lib/icy'
 import { getAlbum } from './lib/itunes'
-import { anaCounts } from './lib/wordCounts'
 import { getLyrics } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
 import { pathQueue, push as pushQueue } from './lib/state/pathQueue'
-import { $meetSong, setMeetSong } from './lib/state/runningMeetSong'
+import { sample, sleep } from './lib/utils'
+import { anaCounts } from './lib/wordCounts'
 
 const url = process.env.URL
-let counts = {}
+let counts = {},
+  startPlay
 
 pathQueue.watch((s) => {
   const last = s[s.length - 1]
@@ -28,11 +28,10 @@ pathQueue.watch((s) => {
 })
 
 async function receiveIcy(icy) {
-  console.log(`icy: ${icy}`)
-  if ($meetSong.map((v) => v === icy)) {
+  console.log(icy)
+  if (startPlay === icy) {
     // 起動時の重複登録を防ぐ
-    setMeetSong(false)
-    console.log('skip')
+    startPlay = false
     return
   } else {
     addHistoryNow(icy)
@@ -50,7 +49,7 @@ async function receiveIcy(icy) {
   const imageSearchWord = song.animeTitle ? song.animeTitle : icy
   const googleImageLinks = await getImageLinks(imageSearchWord)
 
-  const randLinks = sample(googleImageLinks, 3)
+  const randLinks = sample(googleImageLinks, 5)
   const [imageLinks, paths] = await uploadByUrlAll(randLinks)
   pushQueue(paths)
 
@@ -76,7 +75,7 @@ async function receiveIcy(icy) {
 async function main() {
   const res = await getCurrentPlay()
   counts = (await init()).counts
-  setMeetSong(res && res.icy)
+  startPlay = res && res.icy
 
   subscribeIcy(url, receiveIcy, async () => {
     // change stream retry
