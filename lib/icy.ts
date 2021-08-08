@@ -1,14 +1,25 @@
 import icy from 'icy'
 import { sjisToUtf8 } from './utils'
 
-const url = process.env.URL
+type IcyRes = {
+  on: <
+    T extends 'metadata' | 'end',
+    Callback = T extends 'metadata' ? (metadata: Buffer) => void : () => void
+  >(
+    event: T,
+    callback: Callback
+  ) => void
+  headers: any
+  resume: () => void
+}
 
-// URL to a known ICY stream
-console.log(url)
-
-function subscribeIcy(url, callback, onEnd) {
+function subscribeIcy(
+  url: string,
+  callback: (icy: string) => void,
+  onEnd: () => void
+) {
   // connect to the remote stream
-  icy.get(url, (res) => {
+  icy.get(url, (res: IcyRes) => {
     // log the HTTP response headers
     console.log(res.headers)
 
@@ -20,9 +31,7 @@ function subscribeIcy(url, callback, onEnd) {
 
       callback(parsed.StreamTitle)
     })
-    res.on('end', () => {
-      onEnd()
-    })
+    res.on('end', () => onEnd())
     res.resume()
   })
 }

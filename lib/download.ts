@@ -9,7 +9,7 @@ const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
 
-export const downloadOptimize = async (url) => {
+export const downloadOptimize = async (url: string) => {
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
   const stream = got.stream(url)

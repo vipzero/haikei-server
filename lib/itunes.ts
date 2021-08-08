@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const iTunesSearchSong = (term) =>
+const iTunesSearchSong = (term: string) =>
   axios.request({
     method: 'GET',
     url: 'https://itunes.apple.com/search',
@@ -13,10 +13,10 @@ const iTunesSearchSong = (term) =>
     },
   })
 
-export async function getAlbum(term) {
+export async function getAlbum(term: string) {
   const res = await iTunesSearchSong(term).catch((e) => {
     console.error(e)
-    return false
+    return false as const
   })
   if (!res || res.data.resultCount === 0) return {}
   const {

@@ -1,12 +1,14 @@
+import { SongRecord, Song, SongSeed } from './types/index'
 import songs from './anisonDb'
 import { isHit } from './utils'
 
-const trimTail = (s) => s.substring(0, s.length - 1)
+const trimTail = (s: string) => s.substring(0, s.length - 1)
 
-export function findSong(icy) {
-  const [artist, titleBase] = icy.split(' - ')
-
-  if (!artist || !titleBase) return { icy }
+export function findSongBase(
+  artist: string,
+  titleBase: string,
+  icy: string
+): [SongSeed, number] {
   const songBase = { artist, title: titleBase, icy }
 
   let title = titleBase.toLowerCase()
@@ -19,7 +21,7 @@ export function findSong(icy) {
     songsByArtist = songs[title]
   }
 
-  if (!songsByArtist) return songBase
+  if (!songsByArtist) return [songBase, 0]
   // console.log(songsByArtist)
 
   // Hit したアーティスト名を含むものを一つ選ぶ
@@ -27,8 +29,17 @@ export function findSong(icy) {
   const findSong = Object.entries(songsByArtist).find(([k]) =>
     k.split(',').some((part) => isHit(artist, part))
   )
-  if (!findSong) return songBase
+
+  if (!findSong) return [songBase, 1]
   // console.log({ song })
 
-  return { ...findSong[1], icy }
+  return [{ ...findSong[1], icy }, 2]
+}
+
+export function findSong(icy: string): SongSeed {
+  const [artist, titleBase] = icy.split(' - ')
+  if (!artist || !titleBase) return { icy }
+  const [song1, p1] = findSongBase(artist, titleBase, icy)
+  const [song2, p2] = findSongBase(titleBase, artist, icy)
+  return p1 >= p2 ? song1 : song2
 }

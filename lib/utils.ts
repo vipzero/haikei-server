@@ -1,17 +1,16 @@
 import iconv from 'iconv-lite'
 
-const searchFormat = (s) => s.replace(' ', '').toLowerCase()
-export const isHit = (long, short) =>
+const searchFormat = (s: string) => s.replace(' ', '').toLowerCase()
+export const isHit = (long: string, short: string) =>
   searchFormat(long).indexOf(searchFormat(short)) >= 0
 
 const encodingFrom = 'SJIS'
-export const sjisToUtf8 = (str) => iconv.decode(str, encodingFrom)
+export const sjisToUtf8 = (str: Buffer) => iconv.decode(str, encodingFrom)
 
-export const sleep = (msec) =>
-  new Promise((resolve) => setTimeout(resolve, msec))
+export const sleep = (msec: number) => new Promise((rs) => setTimeout(rs, msec))
 
 // frontend と同じ必要あり
-export function textNormalize(s) {
+export function textNormalize(s: string) {
   return s
     .trim()
     .toLowerCase()
@@ -21,7 +20,7 @@ export function textNormalize(s) {
     .replace('！', '!')
     .replace('？', '?')
 }
-const parseWords = (s) =>
+const parseWords = (s: string) =>
   s
     .replace(
       /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi,
@@ -37,7 +36,7 @@ const parseWords = (s) =>
 
     .filter((v) => !!v && v !== '-')
 
-export const shuffle = (arr) => {
+export const shuffle = <T>(arr: T[]): T[] => {
   const a = [...arr]
   for (var i = a.length - 1; i > 0; i--) {
     var r = Math.floor(Math.random() * (i + 1))
@@ -48,11 +47,11 @@ export const shuffle = (arr) => {
   return a
 }
 
-export const sample = (arr, n) => shuffle(arr).slice(0, n)
+export const sample = <T>(arr: T[], n: number) => shuffle(arr).slice(0, n)
 
-export const uniq = (arr) => Array.from(new Set(arr))
-export const uniqo = (arr) => {
-  const obj = {}
+export const uniq = <T>(arr: T[]) => Array.from(new Set(arr))
+export const uniqo = (arr: string[]) => {
+  const obj: Record<string, string> = {}
   arr.filter(Boolean).forEach((v) => {
     const nv = textNormalize(v)
     if (!obj[nv]) {
@@ -65,15 +64,15 @@ export const uniqo = (arr) => {
   return Object.values(obj)
 }
 
-export const parseCountWords = (icy, additional = []) => {
+export const parseCountWords = (icy: string, additional = []) => {
   const words = parseWords(icy)
   const entries = uniqo([...additional, ...words])
 
   return entries
 }
 
-export const chunk = (array, size) =>
-  array.reduce(
+export const chunk = <T>(array: T[], size: number) =>
+  array.reduce<T[][]>(
     (newarr, _, i) =>
       i % size ? newarr : [...newarr, array.slice(i, i + size)],
     []

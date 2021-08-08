@@ -1,3 +1,4 @@
+import { Counts } from './types/index'
 import { countupWords } from './firebase'
 import { readFileSync, existsSync, writeFileSync } from 'fs'
 import { parseCountWords, textNormalize } from './utils'
@@ -10,11 +11,11 @@ export function getCounts() {
   return res
 }
 
-export function saveCountsFile(counts, time = Date.now()) {
+export function saveCountsFile(counts: Counts, time = Date.now()) {
   writeFileSync('counts.json', JSON.stringify({ counts, time }))
 }
 
-export function anaCounts(icy, countsOld, additionals = []) {
+export function anaCounts(icy: string, countsOld: Counts, additionals = []) {
   const entries = parseCountWords(icy, additionals)
   const counts = { ...countsOld }
   const entriesNoms = entries.map(textNormalize)
@@ -24,7 +25,7 @@ export function anaCounts(icy, countsOld, additionals = []) {
     counts[v] = (countsOld[v] || 0) + 1
   })
 
-  const wordCounts = {}
+  const wordCounts: Counts = {}
   // 参照は normalize 保存は元の文字
   entries.forEach((ent) => (wordCounts[ent] = counts[textNormalize(ent)]))
   return { wordCounts, counts }

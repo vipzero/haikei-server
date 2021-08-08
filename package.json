@@ -20,24 +20,26 @@
     "rimraf": "^3.0.2"
   },
   "scripts": {
-    "start": "babel-node index.js",
+    "start": "ts-node index.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
-    "setup": "babel-node script/setupEvent.js",
-    "import2": "babel-node script/importHistoryFromCells.js"
+    "setup": "ts-node script/setupEvent.ts",
+    "import2": "ts-node script/importHistoryFromCells.ts"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/node": "^7.13.13",
-    "@babel/preset-env": "^7.14.1",
+    "@types/csv-parse": "^1.2.2",
+    "@types/imagemin": "^7.0.1",
+    "@types/imagemin-gifsicle": "^7.0.1",
+    "@types/imagemin-mozjpeg": "^8.0.1",
+    "@types/node": "^16.4.13",
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
     "firebase-admin": "^9.4.2",
     "imagemin": "^8.0.0",
     "imagemin-gifsicle": "^7.0.0",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.2",
-    "imagemin-svgo": "^9.0.0"
-  },
-  "exports": {
-    "import": "./es6entry.mjs",
-    "require": "./es5entry.cjs"
+    "imagemin-svgo": "^9.0.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   }
 }

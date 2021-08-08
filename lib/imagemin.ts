@@ -1,15 +1,15 @@
-import imagemin from 'imagemin'
+import imagemin = require('imagemin')
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'
 import imageminGifsicle from 'imagemin-gifsicle'
 
 // const imageminSvgo = require('imagemin-svgo');
 
-export function imageMin(path) {
+export function imageMin(path: string) {
   return imagemin([path], {
     plugins: [
       imageminMozjpeg({ quality: 80 }),
-      imageminPngquant({ quality: '65-80' }),
+      imageminPngquant({ quality: [65, 80] }),
       imageminGifsicle(),
       // imageminSvgo(),
     ],

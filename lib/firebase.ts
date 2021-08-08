@@ -1,3 +1,4 @@
+import { Song, HistoryRaw, HistTop, Counts, Count } from './types/index'
 import admin from 'firebase-admin'
 import { chunk } from './utils'
 import { downloadOptimize } from './download'
@@ -5,6 +6,10 @@ import { downloadOptimize } from './download'
 export { admin }
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
+if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
+  console.error('empty SERVICE_ACCOUNT_FILE_PATH or EVENT_ID')
+  process.exit(1)
+}
 
 const serviceAccount = require(SERVICE_ACCOUNT_FILE_PATH)
 
@@ -14,8 +19,9 @@ admin.initializeApp({ credential })
 export const fdb = admin.firestore()
 export const bucket = admin.storage().bucket('rekka-haikei.appspot.com')
 
-const removeUndefined = (obj) => {
-  const newObj = {}
+type Obj = { [key: string]: any }
+const removeUndefined = (obj: Obj) => {
+  const newObj: Obj = {}
   Object.keys(obj).forEach((key) => {
     if (obj[key] !== undefined) newObj[key] = obj[key]
   })
@@ -33,7 +39,7 @@ export const getCurrentPlay = async () => {
   return res.data()
 }
 
-const saveSong = (song) => {
+const saveSong = (song: Song) => {
   fdb
     .collection('song')
     .doc(EVENT_ID)
@@ -46,7 +52,7 @@ const saveSong = (song) => {
 //   // console.log(lyric)
 //   fdb.collection('song').doc('lyric').set({ text })
 // }
-export const saveMusic = (song) => {
+export const saveMusic = (song: Song) => {
   saveSong(song)
   // if (lyric) {
   //   saveLyric(lyric)
@@ -55,7 +61,7 @@ export const saveMusic = (song) => {
   // }
 }
 
-export const addHistory = (title, time) => {
+export const addHistory = (title: string, time: number) => {
   return fdb
     .collection('hist')
     .doc(EVENT_ID)
@@ -83,15 +89,15 @@ export const loadWordCounts = async () => {
     .collection('counts')
     .get()
   const hist = await fdb.collection('hist').doc(EVENT_ID).get()
-  const lasttime = (hist.exists && hist.data().lasttime) || 0
+  const lasttime = (hist.exists && (hist.data() as HistTop).lasttime) || 0
 
-  const counts = {}
+  const counts: Counts = {}
   snap.docs.forEach((v) => (counts[v.data().word] = v.data().count))
 
   return { counts, lasttime }
 }
 
-export const setupCount = async (counts, lasttime) => {
+export const setupCount = async (counts: Counts, lasttime: number) => {
   const blocks = chunk(Object.entries(counts), 490)
 
   for (const ents of blocks) {
@@ -112,9 +118,9 @@ export const setupCount = async (counts, lasttime) => {
   fdb.collection('hist').doc(EVENT_ID).set({ lasttime }, { merge: true })
 }
 
-export const countupWords = async (words) => {
+export const countupWords = async (words: string[]) => {
   const batch = fdb.batch()
-  const check = {}
+  const check: Record<string, true> = {}
   for (const ws of chunk(words, 10)) {
     const docs = await fdb
       .collection('hist')
@@ -123,7 +129,7 @@ export const countupWords = async (words) => {
       .where('word', 'in', ws)
       .get()
     docs.forEach((doc) => {
-      check[doc.data().word] = true
+      check[(doc.data() as Count).word] = true
       batch.update(doc.ref, { count: admin.firestore.FieldValue.increment(1) })
     })
   }
@@ -166,11 +172,11 @@ export const countupWords = async (words) => {
 //   await batch.commit()
 // }
 
-export const deleteFile = (path) => bucket.file(path).delete()
-export const uploadByUrl = async (url, name) => {
-  const { filepath, mine } = await downloadOptimize(url)
+export const deleteFile = (path: string) => bucket.file(path).delete()
+export const uploadByUrl = async (url: string, name: string) => {
+  const { filePath, mine } = await downloadOptimize(url)
   const path = `img/${EVENT_ID}/${name}`
-  await bucket.upload(filepath, {
+  await bucket.upload(filePath, {
     destination: path,
     predefinedAcl: 'publicRead',
   })
@@ -179,7 +185,7 @@ export const uploadByUrl = async (url, name) => {
   return { downloadUrl, path }
 }
 
-export const uploadByUrlAll = async (urls) => {
+export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
   const downloadUrls = []
   const paths = []
@@ -188,7 +194,7 @@ export const uploadByUrlAll = async (urls) => {
     console.log(url)
     const res = await uploadByUrl(url, `${timeId}_${i}.png`).catch((e) => {
       console.warn(e)
-      return false
+      return false as const
     })
     console.log(res)
 
@@ -202,4 +208,4 @@ export const uploadByUrlAll = async (urls) => {
   return [downloadUrls, paths]
 }
 
-export const addHistoryNow = (title) => addHistory(title, +new Date())
+export const addHistoryNow = (title: string) => addHistory(title, +new Date())

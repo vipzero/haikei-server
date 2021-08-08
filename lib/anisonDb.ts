@@ -1,17 +1,18 @@
+import { ProgramRecord, SongRecord } from './types/index'
 import fs from 'fs'
 import parse from 'csv-parse/lib/sync'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
 
-let programs = {}
-let songs = {}
+let programs: Record<string, ProgramRecord> = {}
+let songs: { [title: string]: { [song: string]: SongRecord } } = {}
 
 const data = fs.readFileSync(programFilename, 'utf-8')
 const csvOptions = { trim: true, header: false, skipLinesWithError: true }
-// console.log(rows)
 
-parse(data, csvOptions).forEach(
+const parsedLines = parse(data, csvOptions) as string[][]
+parsedLines.forEach(
   ([programId, category, gameType, animeTitle, , , , chapNum, , date]) => {
     programs[programId] = { category, gameType, animeTitle, chapNum, date }
   }
@@ -23,12 +24,11 @@ filenames.forEach((filename) => {
   lines[0] = headerAlias
   const data = lines.join('\n')
 
-  const rows = parse(data, {
+  const rows: string[][] = parse(data, {
     trim: true,
-    header: false,
+    // header: false, // NOTE: type に含まれてなかったから消しちゃうけどどうにでもなれー！
     skipLinesWithError: true,
   })
-  // console.log(rows)
 
   rows.forEach(
     ([programId, , , opOrEd, spInfo, songId, titleBase, artistBase]) => {

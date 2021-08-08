@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apikey = process.env.MUSIXMATCH_API_KEY
 
-function searchTrack(title, artist) {
+function searchTrack(title: string, artist: string) {
   const options = {
     method: 'GET',
     url: 'http://api.musixmatch.com/ws/1.1/track.search',
@@ -13,25 +13,25 @@ function searchTrack(title, artist) {
       f_has_lyrics: true,
       f_lyrics_language: 'ja',
     },
-  }
+  } as const
 
   return axios.request(options)
 }
 
-function getLyrics(id) {
+function getLyrics(id: string) {
   const options = {
     method: 'GET',
     url: 'http://api.musixmatch.com/ws/1.1/track.lyrics.get',
     params: { apikey, track_id: id },
-  }
+  } as const
 
   return axios.request(options)
 }
 
-export async function getMusixMatch(title, artist) {
+export async function getMusixMatch(title: string, artist: string) {
   const res = await searchTrack(title, artist).catch((e) => {
     console.error(e)
-    return false
+    return false as const
   })
   if (!res || !res.data.message.body.track_list[0]) return false
   const { track } = res.data.message.body.track_list[0]
@@ -47,10 +47,10 @@ export async function getMusixMatch(title, artist) {
   }
 }
 
-export async function getMusixLyrics(title, artist) {
+export async function getMusixLyrics(title: string, artist: string) {
   const res = await searchTrack(title, artist).catch((e) => {
     console.error(e)
-    return false
+    return false as const
   })
   if (!res) return false
   const track = res.data.message.body.track_list[0].track
