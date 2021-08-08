@@ -193,12 +193,12 @@ export const uploadByUrlAll = async (urls: string[]) => {
   const paths = []
 
   for (const [i, url] of urls.entries()) {
-    console.log(url)
+    // console.log(url)
     const res = await uploadByUrl(url, `${timeId}_${i}.png`).catch((e) => {
       console.warn(e)
       return false as const
     })
-    console.log(res)
+    // console.log(res)
 
     if (!res) continue
     const { downloadUrl, path } = res

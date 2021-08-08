@@ -1,5 +1,3 @@
-import { Counts, Song } from './lib/types/index'
-
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
 import {
@@ -12,10 +10,11 @@ import {
 } from './lib/firebase'
 import subscribeIcy from './lib/icy'
 import { getAlbum } from './lib/itunes'
-import { getLyrics, getLyricsSafe } from './lib/jlyricnet'
+import { getLyricsSafe } from './lib/jlyricnet'
 // import { spotifySearchSongInfo } from './lib/spotify'
 import { pathQueue, push as pushQueue } from './lib/state/pathQueue'
-import { sample, sleep } from './lib/utils'
+import { Counts, Song } from './lib/types/index'
+import { sleep } from './lib/utils'
 import { anaCounts } from './lib/wordCounts'
 
 const url = process.env.URL

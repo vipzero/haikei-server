@@ -1,4 +1,4 @@
-import imagemin = require('imagemin')
+import imagemin from 'imagemin'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'
 import imageminGifsicle from 'imagemin-gifsicle'

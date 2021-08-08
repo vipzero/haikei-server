@@ -30,7 +30,11 @@ export function findSongBase(
     k.split(',').some((part) => isHit(artist, part))
   )
 
-  if (!findSong) return [songBase, 1]
+  if (!findSong) {
+    // 仮 song
+    const findSongAlt = Object.entries(songsByArtist)[0][1]
+    return [{ ...findSongAlt, icy }, 1]
+  }
   // console.log({ song })
 
   return [{ ...findSong[1], icy }, 2]

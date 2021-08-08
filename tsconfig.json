@@ -6,7 +6,8 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./lib/@types"]
   },
   "include": ["lib/**/*.ts", "index.ts", "script/**/*.ts"]
 }

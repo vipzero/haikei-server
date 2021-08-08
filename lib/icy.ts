@@ -1,5 +1,5 @@
-import icy from 'icy'
 import { sjisToUtf8 } from './utils'
+const icy = require('icy')
 
 type IcyRes = {
   on: <
