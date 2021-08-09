@@ -33,8 +33,8 @@ filenames.forEach((filename) => {
 
   rows.forEach(
     ([programId, , , opOrEd, spInfo, songId, titleBase, artistBase]) => {
-      const title = (titleBase || '').toLowerCase()
-      const artist = (artistBase || '').toLowerCase().split(/[（(]/)[0]
+      const title = keyNormalize(titleBase || '')
+      const artist = keyNormalize(artistBase || '')
       if (!songs[title]) songs[title] = {}
       // if (!songs[artist]) songs[artist] = {}
       const song = {
@@ -50,6 +50,15 @@ filenames.forEach((filename) => {
     }
   )
 })
+
+export function keyNormalize(str: string) {
+  const res = str
+    .split(/[（([]/)[0]
+    .replace(/ /g, '')
+    .toLowerCase()
+  if (res.length <= 3) return str.replace(/ /g, '')
+  return res
+}
 
 export { songsSa }
 export default songs

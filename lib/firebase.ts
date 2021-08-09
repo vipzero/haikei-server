@@ -1,7 +1,7 @@
-import { Song, HistoryRaw, HistTop, Counts, Count } from './types/index'
 import admin from 'firebase-admin'
-import { chunk } from './utils'
 import { downloadOptimize } from './download'
+import { Count, Counts, HistTop, Song } from './types/index'
+import { chunk } from './utils'
 
 export { admin }
 
@@ -180,7 +180,9 @@ export const deleteFile = (path: string) =>
       console.warn(e)
     })
 export const uploadByUrl = async (url: string, name: string) => {
-  const { filePath, fileType } = await downloadOptimize(url)
+  const res = await downloadOptimize(url)
+  if (!res) return false
+  const { filePath, fileType } = res
 
   const path = `img/${EVENT_ID}/${name}.${fileType.ext}`
   await bucket.upload(filePath, {

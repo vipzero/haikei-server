@@ -1,4 +1,5 @@
-import Spotify from 'node-spotify-api'
+import { keyNormalize } from './anisonDb'
+const Spotify = require('node-spotify-api')
 import { isHit } from './utils'
 
 const spotify = new Spotify({
@@ -6,17 +7,29 @@ const spotify = new Spotify({
   secret: process.env.SPOTIFY_CLIENT_SECRET,
 })
 
-export const spotifySearchAlbam = (query) =>
+export const spotifySearchAlbam = (query: string) =>
   spotify.search({ type: 'album', query, market: 'ja' })
-export const spotifySearchSongInfo = async (query, artistName) => {
-  const res = await spotifySearchAlbam(query + ' ' + artistName)
+export const spotifySearchSongInfo = async (
+  query: string,
+  artistName: string
+) => {
+  const res: Res = await spotifySearchAlbam(query + ' ' + artistName)
   // console.log(JSON.stringify(res))
+  type Res = {
+    albums: {
+      items: {
+        name: string
+        images: string[]
+        artists: {
+          name: string
+        }[]
+      }[]
+    }
+  }
   const song =
     res.albums.items.find((item) => {
       return item.artists.some((itemArtist) => {
-        console.log(artistName, itemArtist.name)
-        // console.log(itemArtist)
-        return isHit(artistName, itemArtist.name)
+        return isHit(keyNormalize(artistName), keyNormalize(itemArtist.name))
       })
     }) || res.albums.items[0]
   if (!song) return false

@@ -4,23 +4,29 @@
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { parseWords, uniqo } = require('./lib/utils')
 // import songs from './lib/anisonDb'
+const p = console.log
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
 
-// import { findSong } from '../lib/findSong'
-// const icy = 'Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'
-// const icy = '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
+import { findSong } from '../lib/findSong'
 
-// console.log(findSong(icy))
+p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
+p(
+  findSong(
+    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
+  )
+)
+
 // うまく取得できなかった icy のテスト
-// const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
-// const icy = 'Eve - 蒼のワルツ'
-// const icy =
-//   'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
-// const icy = 'テリブルルッキング - 花咲く☆最強レジェンドDays (男祭りver.)'
-
-// console.log(findSong(icy))
+p(findSong('UNISON SQUARE GARDEN - Catch up, latency'))
+p(findSong('Eve - 蒼のワルツ'))
+p(
+  findSong(
+    'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
+  )
+)
+p(findSong('テリブルルッキング - 花咲く☆最強レジェンドDays (男祭りver.)'))
 
 // const obj = {
 //   '花咲く☆最強レジェンドDays': 'find',
@@ -77,10 +83,14 @@
 // push(4)
 // console.log(songs)
 
-// import { downloadOptimize } from './lib/download'
+// import { downloadOptimize } from '../lib/download'
 // const url =
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-import { imageMin } from '../lib/imagemin'
-imageMin('tmp/tmp').then(console.log)
+// import { keyNormalize } from '../lib/anisonDb'
+
+// console.log(keyNormalize('ボルサリーノ [黄猿](石塚運昇)'))
+
+// import { imageMin } from '../lib/imagemin'
+// imageMin('tmp/tmp').then(console.log)

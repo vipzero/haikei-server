@@ -1,8 +1,6 @@
 import iconv from 'iconv-lite'
 
-const searchFormat = (s: string) => s.replace(' ', '').toLowerCase()
-export const isHit = (long: string, short: string) =>
-  searchFormat(long).indexOf(searchFormat(short)) >= 0
+export const isHit = (long: string, short: string) => long.indexOf(short) >= 0
 
 const encodingFrom = 'SJIS'
 export const sjisToUtf8 = (str: Buffer) => iconv.decode(str, encodingFrom)
