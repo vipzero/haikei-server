@@ -3,6 +3,7 @@
   "type": "commonjs",
   "dependencies": {
     "axios": "^0.21.1",
+    "chch": "^2.5.0",
     "cheerio": "^1.0.0-rc.5",
     "csv": "^5.3.2",
     "csv-parse": "^4.14.2",
@@ -22,8 +23,9 @@
   "scripts": {
     "start": "ts-node index.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
-    "setup": "ts-node script/setupEvent.ts",
-    "import2": "ts-node script/importHistoryFromCells.ts"
+    "setup": "ts-node scripts/setupEvent.ts",
+    "import2": "ts-node scripts/batch/importHistoryFromCells.ts",
+    "watch": "ts-node scripts/threadWatch.ts"
   },
   "devDependencies": {
     "@types/csv-parse": "^1.2.2",
