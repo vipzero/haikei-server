@@ -9,5 +9,7 @@ module.exports = {
     ecmaVersion: 2019,
     sourceType: 'module',
   },
-  rules: {},
+  rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+  },
 }

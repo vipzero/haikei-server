@@ -11,6 +11,7 @@ if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
   process.exit(1)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const serviceAccount = require(SERVICE_ACCOUNT_FILE_PATH)
 
 const credential = admin.credential.cert(serviceAccount)
@@ -29,7 +30,7 @@ const removeUndefined = (obj: Obj) => {
 }
 
 export const init = async () => {
-  let { counts, lasttime } = await loadWordCounts()
+  const { counts, lasttime } = await loadWordCounts()
 
   return { lasttime, counts }
 }
@@ -52,6 +53,7 @@ const saveSong = (song: Song) => {
 //   // console.log(lyric)
 //   fdb.collection('song').doc('lyric').set({ text })
 // }
+
 export const saveMusic = (song: Song) => {
   saveSong(song)
   // if (lyric) {
@@ -61,16 +63,20 @@ export const saveMusic = (song: Song) => {
   // }
 }
 
+export const histSongsRef = () =>
+  fdb.collection('hist').doc(EVENT_ID).collection('songs')
+
+export const loadHistoryTimes = async () => {
+  const histSnaps = await histSongsRef()
+    .where('n', '==', null)
+    .orderBy('time', 'asc')
+    .get()
+  const times = histSnaps.docs.map((docSnap) => docSnap.id)
+  return times
+}
+
 export const addHistory = (title: string, time: number) => {
-  return fdb
-    .collection('hist')
-    .doc(EVENT_ID)
-    .collection('songs')
-    .doc(String(time))
-    .set({
-      title,
-      time,
-    })
+  return histSongsRef().doc(String(time)).set({ title, time, n: null })
 }
 
 export const loadAllIcy = async () => {
@@ -116,6 +122,29 @@ export const setupCount = async (counts: Counts, lasttime: number) => {
     await batch.commit()
   }
   fdb.collection('hist').doc(EVENT_ID).set({ lasttime }, { merge: true })
+}
+
+export const setupHistN500 = async (ns: Record<string, number>) => {
+  const batch = fdb.batch()
+  for (const [id, n] of Object.entries(ns)) {
+    batch.update(
+      fdb.collection('hist').doc(EVENT_ID).collection('song').doc(id),
+      { n }
+    )
+  }
+  await batch.commit()
+}
+
+export const setupHistN = async (ns: Record<string, number>) => {
+  const blocks = chunk(Object.entries(ns), 490)
+
+  for (const block of blocks) {
+    const batch = fdb.batch()
+    for (const [id, n] of block) {
+      batch.update(histSongsRef().doc(id), { n })
+    }
+    await batch.commit()
+  }
 }
 
 export const countupWords = async (words: string[]) => {
