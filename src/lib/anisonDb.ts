@@ -1,9 +1,11 @@
-import { ProgramRecord, SongRecord } from './types/index'
-import fs from 'fs'
 import parse from 'csv-parse/lib/sync'
+import fs from 'fs'
+import { ProgramRecord, SongRecord } from './types/index'
+import { strLen } from './utils'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
+// 'anime,title,artist,writer,composer,arranger'
 
 let programs: Record<string, ProgramRecord> = {}
 let songs: { [title: string]: { [song: string]: SongRecord } } = {}
@@ -56,7 +58,7 @@ export function keyNormalize(str: string) {
     .split(/[（([]/)[0]
     .replace(/ /g, '')
     .toLowerCase()
-  if (res.length <= 3) return str.replace(/ /g, '')
+  if (strLen(res) <= 3) return str.replace(/ /g, '')
   return res
 }
 

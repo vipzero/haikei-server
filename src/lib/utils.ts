@@ -75,3 +75,5 @@ export const chunk = <T>(array: T[], size: number) =>
       i % size ? newarr : [...newarr, array.slice(i, i + size)],
     []
   )
+
+export const strLen = (s: string) => [...s].length

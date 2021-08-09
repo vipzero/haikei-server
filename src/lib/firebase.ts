@@ -177,6 +177,9 @@ export const deleteFile = (path: string) =>
     .file(path)
     .delete()
     .catch((e) => {
+      console.log(`DeleteFileError`)
+      console.log(e.errors.reason)
+      if (e.errors.reason === 'notFound') return
       console.warn(e)
     })
 export const uploadByUrl = async (url: string, name: string) => {

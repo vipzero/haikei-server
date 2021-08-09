@@ -1,6 +1,6 @@
 import songs, { keyNormalize } from './anisonDb'
 import { SongSeed } from './types/index'
-import { isHit } from './utils'
+import { isHit, strLen } from './utils'
 
 const trimTail = (s: string) => s.substring(0, s.length - 1)
 
@@ -14,9 +14,11 @@ export function findSongBase(
   let title = keyNormalize(titleBase)
   let songsByArtist = songs[title]
 
+  const halfLen = strLen(title) / 2
+
   // 曲名検索Hitしない場合後ろの文字から削る
-  // console.log(songsByArtist)
-  while (!songsByArtist && title.length >= 4) {
+  console.log(songsByArtist)
+  while (!songsByArtist && title.length >= halfLen) {
     title = trimTail(title)
     songsByArtist = songs[title]
   }
@@ -34,11 +36,11 @@ export function findSongBase(
   if (!findSong) {
     // 仮 song
     const findSongAlt = Object.entries(songsByArtist)[0][1]
-    return [{ ...findSongAlt, icy }, [...title].length]
+    return [{ ...findSongAlt, icy }, 1]
   }
   // console.log({ song })
 
-  return [{ ...findSong[1], icy }, [...title].length * 10]
+  return [{ ...findSong[1], icy }, 2]
 }
 
 export function findSong(icy: string): SongSeed {

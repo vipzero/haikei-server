@@ -1,4 +1,4 @@
-import { fdb } from '../lib/firebase'
+import { fdb } from '../../src/lib/firebase'
 const from = 'current'
 const to = '2021gw'
 

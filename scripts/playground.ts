@@ -1,32 +1,35 @@
+const p = console.log
+
 // import { pathQueue, push } from './lib/state/pathQueue'
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
 // const { parseWords, uniqo } = require('./lib/utils')
 // import songs from './lib/anisonDb'
-const p = console.log
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
+import { readFileSync } from 'fs'
+readFileSync('./scripts/read.ts', 'utf8')
 
-import { findSong } from '../lib/findSong'
+// import { findSong } from '../src/lib/findSong'
 
-p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
-p(
-  findSong(
-    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
-  )
-)
+// p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
+// p(
+//   findSong(
+//     '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
+//   )
+// )
 
 // うまく取得できなかった icy のテスト
-p(findSong('UNISON SQUARE GARDEN - Catch up, latency'))
-p(findSong('Eve - 蒼のワルツ'))
-p(
-  findSong(
-    'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
-  )
-)
-p(findSong('テリブルルッキング - 花咲く☆最強レジェンドDays (男祭りver.)'))
+// p(findSong('UNISON SQUARE GARDEN - Catch up, latency'))
+// p(findSong('Eve - 蒼のワルツ'))
+// p(
+//   findSong(
+//     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
+//   )
+// )
+// p(findSong('テリブルルッキング - 花咲く☆最強レジェンドDays (男祭りver.)'))
 
 // const obj = {
 //   '花咲く☆最強レジェンドDays': 'find',

@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "sourceMap": true,
+    "skipLibCheck": true,
     "outDir": "./dist",
-    "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./lib/@types"]
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["lib/**/*.ts", "index.ts", "script/**/*.ts"]
+  "include": ["src/**/*.ts", "script/**/*.ts"]
 }

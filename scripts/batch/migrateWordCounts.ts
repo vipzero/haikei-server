@@ -1,8 +1,8 @@
-import { Counts } from './../lib/types/index'
+import { Counts } from '../../src/lib/types/index'
 
-import { findSong } from '../lib/findSong'
-import { textNormalize, parseCountWords } from '../lib/utils'
-import { loadAllIcy, setupCount } from '../lib/firebase'
+import { findSong } from '../../src/lib/findSong'
+import { textNormalize, parseCountWords } from '../../src/lib/utils'
+import { loadAllIcy, setupCount } from '../../src/lib/firebase'
 
 async function main() {
   const counts: Counts = {}

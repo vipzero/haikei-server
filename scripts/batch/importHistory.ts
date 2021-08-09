@@ -1,7 +1,7 @@
 'use strict'
 
-import { addHistory } from '../lib/firebase'
-import { sjisToUtf8, sleep } from '../lib/utils'
+import { addHistory } from '../../src/lib/firebase'
+import { sjisToUtf8, sleep } from '../../src/lib/utils'
 import { readFileSync } from 'fs'
 import { parse } from 'date-fns'
 
