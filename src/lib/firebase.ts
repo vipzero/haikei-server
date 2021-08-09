@@ -75,7 +75,7 @@ export const loadHistoryTimes = async () => {
   return times
 }
 
-export const addHistory = (title: string, time: number) => {
+export const addHistory = (title: string, time: number | null) => {
   return histSongsRef().doc(String(time)).set({ title, time, n: null })
 }
 
@@ -135,7 +135,7 @@ export const setupHistN500 = async (ns: Record<string, number>) => {
   await batch.commit()
 }
 
-export const setupHistN = async (ns: Record<string, number>) => {
+export const setupHistN = async (ns: Record<string, number | null>) => {
   const blocks = chunk(Object.entries(ns), 490)
 
   for (const block of blocks) {

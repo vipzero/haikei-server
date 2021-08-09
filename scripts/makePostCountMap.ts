@@ -3,23 +3,25 @@ import { loadData } from './postTimeUtil'
 
 const flatten = <T>(arr: T[][]) => arr.reduce<T[]>((a, b) => a.concat(b), [])
 
-function mergeCount(
-  delimiters: number[],
-  times: number[]
-): { [key: number]: number } {
-  const res: { [id: number]: number } = {}
+type Counts = { [id: number]: number | null }
+function mergeCount(delimiters: number[], times: number[]): Counts {
+  const res: Counts = {}
   let j = 0
 
   while (times[j] <= delimiters[0]) j += 1
 
   delimiters.forEach((d, i) => {
-    const next = delimiters[i]
+    const next = delimiters[i + 1]
     // console.log({ d, next })
     if (!next) return
+    if (!times[j]) {
+      res[d] = null
+      return
+    }
     res[d] = 0
     while (times[j] < next) {
       // console.log(times[j])
-      res[d] += 1
+      res[d] = (res[d] || 0) + 1
       j += 1
       if (!times[j]) {
         delete res[d]
