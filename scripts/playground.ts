@@ -9,10 +9,12 @@ const p = console.log
 
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
-import { readFileSync } from 'fs'
-readFileSync('./scripts/read.ts', 'utf8')
+// import { readFileSync } from 'fs'
+// readFileSync('./scripts/read.ts', 'utf8')
 
-// import { findSong } from '../src/lib/findSong'
+import { findSong } from '../src/lib/findSong'
+
+p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
 
 // p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
 // p(

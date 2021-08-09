@@ -36,9 +36,9 @@ const parseWords = (s: string) =>
 
 export const shuffle = <T>(arr: T[]): T[] => {
   const a = [...arr]
-  for (var i = a.length - 1; i > 0; i--) {
-    var r = Math.floor(Math.random() * (i + 1))
-    var tmp = a[i]
+  for (let i = a.length - 1; i > 0; i--) {
+    const r = Math.floor(Math.random() * (i + 1))
+    const tmp = a[i]
     a[i] = a[r]
     a[r] = tmp
   }

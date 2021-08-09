@@ -1,23 +1,39 @@
 import parse from 'csv-parse/lib/sync'
 import fs from 'fs'
-import { ProgramRecord, SongRecord } from './types/index'
-import { strLen } from './utils'
+import { ProgramRecord, SongRecord, SongSupportAttr } from './types/index'
+import { textNormalize } from './utils'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
-// 'anime,title,artist,writer,composer,arranger'
+const anisonFilename = './data/animesong.csv'
 
-let programs: Record<string, ProgramRecord> = {}
-let songs: { [title: string]: { [song: string]: SongRecord } } = {}
-let songsSa: { [song: string]: { [title: string]: SongRecord } } = {}
+const programs: Record<string, ProgramRecord> = {}
+const songs: { [title: string]: { [song: string]: SongRecord } } = {}
+const animes: { [title: string]: { [song: string]: SongSupportAttr } } = {}
+const songsSa: { [song: string]: { [title: string]: SongRecord } } = {}
 
 const data = fs.readFileSync(programFilename, 'utf-8')
+const anisonData = fs.readFileSync(anisonFilename, 'utf-8')
 const csvOptions = { trim: true, header: false, skipLinesWithError: true }
 
 const parsedLines = parse(data, csvOptions) as string[][]
 parsedLines.forEach(
   ([programId, category, gameType, animeTitle, , , , chapNum, , date]) => {
     programs[programId] = { category, gameType, animeTitle, chapNum, date }
+  }
+)
+const anisonLines = parse(anisonData, csvOptions) as string[][]
+
+anisonLines.forEach(
+  ([animeTitle, title, artist, writer, composer, arranger]) => {
+    if (!animes[keyNormalize(artist)]) animes[keyNormalize(artist)] = {}
+    animes[keyNormalize(artist)][keyNormalize(title)] = {
+      animeTitle,
+      artist,
+      writer,
+      composer,
+      arranger,
+    }
   }
 )
 
@@ -54,13 +70,11 @@ filenames.forEach((filename) => {
 })
 
 export function keyNormalize(str: string) {
-  const res = str
-    .split(/[（([]/)[0]
+  return textNormalize(str)
+    .replace(/\(.*?\)/g, '')
     .replace(/ /g, '')
     .toLowerCase()
-  if (strLen(res) <= 3) return str.replace(/ /g, '')
-  return res
 }
 
-export { songsSa }
+export { songsSa, animes }
 export default songs

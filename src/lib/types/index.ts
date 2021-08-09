@@ -28,6 +28,14 @@ export type SongSeedFull = {
 } & SongRecord
 export type SongSeed = SongBroken | SongSeedNor | SongSeedFull
 
+export type SongSupportAttr = {
+  animeTitle: string
+  artist: string
+  writer: string
+  composer: string
+  arranger: string
+}
+
 export type SongMiss = {
   icy: string
   time: number
