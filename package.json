@@ -25,7 +25,9 @@
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
     "setup": "ts-node scripts/setupEvent.ts",
     "import2": "ts-node scripts/batch/importHistoryFromCells.ts",
-    "load-thread": "ts-node scripts/loadThreads.ts"
+    "map": "yarn map-load-thread && yarn map-save",
+    "map-load-thread": "ts-node scripts/loadThreads.ts",
+    "map-save": "ts-node scripts/makePostCountMap.ts"
   },
   "devDependencies": {
     "@types/csv-parse": "^1.2.2",
