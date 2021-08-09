@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "type": "modules",
+  "type": "module",
   "dependencies": {
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
@@ -23,7 +23,8 @@
     "start": "ts-node index.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
     "setup": "ts-node script/setupEvent.ts",
-    "import2": "ts-node script/importHistoryFromCells.ts"
+    "import2": "ts-node script/importHistoryFromCells.ts",
+    "postinstall": "tsc -d -p .",
   },
   "devDependencies": {
     "@types/csv-parse": "^1.2.2",

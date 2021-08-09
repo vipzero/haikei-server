@@ -172,7 +172,13 @@ export const countupWords = async (words: string[]) => {
 //   await batch.commit()
 // }
 
-export const deleteFile = (path: string) => bucket.file(path).delete()
+export const deleteFile = (path: string) =>
+  bucket
+    .file(path)
+    .delete()
+    .catch((e) => {
+      console.warn(e)
+    })
 export const uploadByUrl = async (url: string, name: string) => {
   const { filePath, fileType } = await downloadOptimize(url)
 

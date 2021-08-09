@@ -8,13 +8,11 @@
 // const { getImageLinks } = require('./lib/customImageSearch')
 // const { getAlbum } = require('./lib/itunes')
 
-import { findSong } from '../lib/findSong'
+// import { findSong } from '../lib/findSong'
+// const icy = 'Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'
+// const icy = '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
 
-console.log(
-  findSong(
-    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
-  )
-)
+// console.log(findSong(icy))
 // うまく取得できなかった icy のテスト
 // const icy = 'UNISON SQUARE GARDEN - Catch up, latency'
 // const icy = 'Eve - 蒼のワルツ'
@@ -84,5 +82,5 @@ console.log(
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-// import { imageMin } from '../lib/imagemin'
-// imageMin('tmp/tmp').then(console.log)
+import { imageMin } from '../lib/imagemin'
+imageMin('tmp/tmp').then(console.log)

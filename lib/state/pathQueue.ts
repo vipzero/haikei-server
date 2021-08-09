@@ -1,6 +1,6 @@
 import { createEvent, createStore } from 'effector'
 
-const LENGTH = 3
+const LENGTH = 4
 export const push = createEvent<string[]>()
 
 // state: [...queue, expectDeleted]

@@ -22,6 +22,7 @@ let counts: Counts = {},
   startPlay: false | string
 
 pathQueue.watch((s) => {
+  if (s.length < 3) return
   const last = s[s.length - 1]
   if (last) last.map(deleteFile)
 })
@@ -60,14 +61,18 @@ async function receiveIcy(icy: string) {
   // if (spoinfo) song.artwork = spoinfo.artwork
 
   // NOTE: 破壊的で微妙
-  const albumInfos = await getAlbum(icy)
-  const { creators } = await getLyricsSafe(song.title, song.artist)
+  const albumInfosSync = getAlbum(icy)
+  const lyricsSync = getLyricsSafe(song.title, song.artist)
   // const lyric = lyrics ? lyrics.lyric : null
 
   console.log(icy)
   console.log(song)
 
-  const [imageLinks] = await Promise.all([imageLinksSync])
+  const [imageLinks, albumInfos, { creators }] = await Promise.all([
+    imageLinksSync,
+    albumInfosSync,
+    lyricsSync,
+  ])
   const compSong: Song = {
     ...song,
     imageLinks,
