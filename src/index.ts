@@ -54,7 +54,9 @@ async function receiveIcy(icy: string) {
   )
   counts = countsNew
 
-  const imageSearchWord = song.animeTitle ? song.animeTitle : icy
+  const imageSearchWord = song.animeTitle
+    ? song.animeTitle + ' ダイジェスト'
+    : icy.split(' - ')[0]
   const imageLinksSync = prepareImages(imageSearchWord)
 
   // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
