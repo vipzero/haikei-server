@@ -11,6 +11,7 @@ export const getImage = (q: string) => {
       searchType: 'image',
       key: GCP_CUSTOM_SEARCH_API_KEY || '',
       cx: GCP_CUSTOM_SEARCH_ENGINE_ID || '',
+      lr: 'lang_ja',
     },
   })
 }
