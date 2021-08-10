@@ -45,7 +45,7 @@ export const shuffle = <T>(arr: T[]): T[] => {
   return a
 }
 
-export const sample = <T>(arr: T[], n: number) => shuffle(arr).slice(0, n)
+export const sample = <T>(arr: T[], n = 1) => shuffle(arr).slice(0, n)
 
 export const uniq = <T>(arr: T[]) => Array.from(new Set(arr))
 export const uniqo = (arr: string[]) => {

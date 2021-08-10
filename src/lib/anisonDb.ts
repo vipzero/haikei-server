@@ -53,8 +53,8 @@ filenames.forEach((filename) => {
     ([programId, , , opOrEd, spInfo, songId, titleBase, artistBase]) => {
       const title = keyNormalize(titleBase || '')
       const artist = keyNormalize(artistBase || '')
-      if (!songs[title]) songs[title] = {}
-      // if (!songs[artist]) songs[artist] = {}
+      // if (!songs[title]) songs[title] = {}
+      if (!songs[artist]) songs[artist] = {}
       const song = {
         opOrEd: opOrEd || '',
         spInfo: spInfo || '',
@@ -63,8 +63,7 @@ filenames.forEach((filename) => {
         artist: artistBase,
         ...programs[programId],
       }
-      songs[title][artist] = song
-      // songs[artist][title] = song
+      songs[artist][title] = song
     }
   )
 })

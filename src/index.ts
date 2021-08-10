@@ -1,3 +1,4 @@
+import { makeSearchQuery } from './lib/makeSearchWord'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
 import {
@@ -54,9 +55,7 @@ async function receiveIcy(icy: string) {
   )
   counts = countsNew
 
-  const imageSearchWord = song.animeTitle
-    ? song.animeTitle + ' ダイジェスト'
-    : icy.split(' - ')[0]
+  const imageSearchWord = makeSearchQuery(song)
   const imageLinksSync = prepareImages(imageSearchWord)
 
   // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
