@@ -2,12 +2,12 @@ import { makeSearchQuery } from '../lib/makeSearchWord'
 
 test('makeSearchQuery', () => {
   expect(
-    makeSearchQuery({
-      artist: '蒼井翔太',
-      title: 'give me ? me',
-      icy: '蒼井翔太 - give me ? me',
-    })
-  ).toMatchInlineSnapshot(`"give me ? me"`)
+makeSearchQuery({
+  artist: '蒼井翔太',
+  title: 'give me ? me',
+  icy: '蒼井翔太 - give me ? me' })).
+
+toMatchInlineSnapshot(`"蒼井翔太 give me ? me (アニメ OR キャラ)"`)
 
   expect(
     makeSearchQuery({
