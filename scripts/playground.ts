@@ -83,12 +83,3 @@
 //   s.incN()
 //   p(s.n)
 // }, 1000)
-
-// import { makeSearchQuery } from '../src/lib/makeSearchWord'
-// p(
-//   makeSearchQuery({
-//     artist: '蒼井翔太',
-//     title: 'give me ? me',
-//     icy: '蒼井翔太 - give me ? me',
-//   })
-// )
