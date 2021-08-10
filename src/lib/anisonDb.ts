@@ -52,21 +52,25 @@ filenames.forEach((filename) => {
     skipLinesWithError: true,
   })
 
-  rows.forEach(([programId, , , opOrEd, spInfo, songId, title, artist]) => {
-    const titleKey = keyNormalize(title || '')
-    const artistKey = keyNormalize(artist || '')
-    if (!songs[titleKey]) songs[titleKey] = {}
-    // if (!songs[artist]) songs[artist] = {}
-    const song = {
-      opOrEd: opOrEd || '',
-      spInfo: spInfo || '',
-      songId: songId || '',
-      title,
-      artist,
-      ...programs[programId],
+  rows.forEach(
+    ([programId, , animeTitleI, opOrEd, spInfo, songId, title, artist]) => {
+      const titleKey = keyNormalize(title || '')
+      const artistKey = keyNormalize(artist || '')
+      if (!songs[titleKey]) songs[titleKey] = {}
+      // if (!songs[artist]) songs[artist] = {}
+      const { animeTitle, ...programAttrs } = programs[programId] || {}
+      const song = {
+        opOrEd: opOrEd || '',
+        spInfo: spInfo || '',
+        songId: songId || '',
+        title,
+        artist,
+        animeTitle: animeTitleI || animeTitle,
+        ...programAttrs,
+      }
+      songs[titleKey][artistKey] = song
     }
-    songs[titleKey][artistKey] = song
-  })
+  )
 })
 
 export function keyNormalize(str: string) {

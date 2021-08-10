@@ -129,4 +129,16 @@ Object {
   "title": "蒼のワルツ",
 }
 `)
+  icy = 'Cry Baby - Official髭男dism'
+  expect(findSong(icy)).toMatchInlineSnapshot(`
+Object {
+  "animeTitle": "東京卍リベンジャーズ",
+  "artist": "Official髭男dism",
+  "icy": "Cry Baby - Official髭男dism",
+  "opOrEd": "ED",
+  "songId": "130767",
+  "spInfo": "第1話のみ放映",
+  "title": "Cry Baby",
+}
+`)
 })
