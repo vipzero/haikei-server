@@ -1,5 +1,3 @@
-const p = console.log
-
 // import { pathQueue, push } from './lib/state/pathQueue'
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
@@ -11,31 +9,6 @@ const p = console.log
 // const { getAlbum } = require('./lib/itunes')
 // import { readFileSync } from 'fs'
 // readFileSync('./scripts/read.ts', 'utf8')
-
-// import { findSong } from '../src/lib/findSong'
-
-// p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
-// p(findSong('六花 - 二者穿一'))
-// p(findSong('飯島真理 - 愛・おぼえていますか'))
-// p( findSong( 'アップルティーの味 - ユリエ＝シグトゥーナ(CV：山本希望)×リーリス＝ブリストル(CV：山崎はるか)') )
-// p(findSong('ワクワクシークヮーサー - 大城あかり(CV:木村千咲)'))
-
-// p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
-// p(
-//   findSong(
-//     '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
-//   )
-// )
-
-// うまく取得できなかった icy のテスト
-// p(findSong('UNISON SQUARE GARDEN - Catch up, latency'))
-// p(findSong('Eve - 蒼のワルツ'))
-// p(
-//   findSong(
-//     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
-//   )
-// )
-// p(findSong('テリブルルッキング - 花咲く☆最強レジェンドDays (男祭りver.)'))
 
 // const obj = {
 //   '花咲く☆最強レジェンドDays': 'find',
@@ -110,3 +83,12 @@ const p = console.log
 //   s.incN()
 //   p(s.n)
 // }, 1000)
+
+// import { makeSearchQuery } from '../src/lib/makeSearchWord'
+// p(
+//   makeSearchQuery({
+//     artist: '蒼井翔太',
+//     title: 'give me ? me',
+//     icy: '蒼井翔太 - give me ? me',
+//   })
+// )
