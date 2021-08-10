@@ -16,7 +16,7 @@ import { findSong } from '../src/lib/findSong'
 
 // p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
 // p(findSong('六花 - 二者穿一'))
-p(findSong('大滝詠一 - 君は天然色'))
+p(findSong('飯島真理 - 愛・おぼえていますか'))
 
 // p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
 // p(

@@ -38,12 +38,14 @@ export function findSong(icy: string): SongSeed {
 
   const [song1, p1] = findSongBase(artist, titleBase, icy)
   const [song2, p2] = findSongBase(titleBase, artist, icy)
+  console.log({ song1, p1, song2, p2 })
 
   const akey = keyNormalize(artist)
   const bkey = keyNormalize(titleBase)
 
   // アニメ検索
   const attr = animes[akey]?.[bkey] || animes[bkey]?.[akey] || {}
+  console.log(attr)
 
   const songBase = p1 >= p2 ? song1 : song2
   return { ...songBase, ...attr }
