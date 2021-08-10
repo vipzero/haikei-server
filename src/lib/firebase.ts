@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
 import { downloadOptimize } from './download'
-import { Count, Counts, HistTop, Song } from './types/index'
+import { Count, Counts, HistTop, Song, UploadFile } from './types/index'
 import { chunk } from './utils'
 
 export { admin }
@@ -36,7 +36,7 @@ export const init = async () => {
 
 export const getCurrentPlay = async () => {
   const res = await fdb.collection('song').doc(EVENT_ID).get()
-  return res.data()
+  return res.data() || { icy: '' }
 }
 
 const saveSong = (song: Song) => {
@@ -216,26 +216,29 @@ export const deleteFile = (path: string) => {
       console.warn({ e })
     })
 }
-export const uploadByUrl = async (url: string, name: string) => {
+
+export const uploadByUrl = async (
+  url: string,
+  name: string
+): Promise<UploadFile | false> => {
   const res = await downloadOptimize(url)
   if (!res) return false
-  const { filePath, fileType } = res
+  const { filePath: tmpFilePath, fileType } = res
 
   const path = `img/${EVENT_ID}/${name}.${fileType.ext}`
-  await bucket.upload(filePath, {
+  await bucket.upload(tmpFilePath, {
     contentType: fileType.mime,
     destination: path,
     predefinedAcl: 'publicRead',
   })
 
   const downloadUrl = `${process.env.STRAGE_URL}${path}`
-  return { downloadUrl, path }
+  return { downloadUrl, path, tmpFilePath }
 }
 
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
-  const downloadUrls = []
-  const paths = []
+  const uploads: UploadFile[] = []
 
   for (const [i, url] of urls.entries()) {
     // console.log(url)
@@ -246,13 +249,11 @@ export const uploadByUrlAll = async (urls: string[]) => {
     // console.log(res)
 
     if (!res) continue
-    const { downloadUrl, path } = res
 
-    downloadUrls.push(downloadUrl)
-    paths.push(path)
-    if (paths.length >= 3) break
+    uploads.push(res)
+    if (uploads.length >= 3) break
   }
-  return [downloadUrls, paths]
+  return uploads
 }
 
 export const addHistoryNow = (title: string) => addHistory(title, +new Date())

@@ -74,6 +74,11 @@ export type HistoryRaw = {
 export type HistTop = {
   lasttime: number
 }
+export type UploadFile = {
+  path: string
+  downloadUrl: string
+  tmpFilePath: string
+}
 export type Counts = Record<string, number>
 export type Count = {
   word: string

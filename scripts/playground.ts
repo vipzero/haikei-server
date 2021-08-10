@@ -12,17 +12,13 @@ const p = console.log
 // import { readFileSync } from 'fs'
 // readFileSync('./scripts/read.ts', 'utf8')
 
-import { findSong } from '../src/lib/findSong'
+// import { findSong } from '../src/lib/findSong'
 
 // p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
 // p(findSong('六花 - 二者穿一'))
 // p(findSong('飯島真理 - 愛・おぼえていますか'))
-p(
-  findSong(
-    'アップルティーの味 - ユリエ＝シグトゥーナ(CV：山本希望)×リーリス＝ブリストル(CV：山崎はるか)'
-  )
-)
-p(findSong('ワクワクシークヮーサー - 大城あかり(CV:木村千咲)'))
+// p( findSong( 'アップルティーの味 - ユリエ＝シグトゥーナ(CV：山本希望)×リーリス＝ブリストル(CV：山崎はるか)') )
+// p(findSong('ワクワクシークヮーサー - 大城あかり(CV:木村千咲)'))
 
 // p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
 // p(
@@ -108,4 +104,9 @@ p(findSong('ワクワクシークヮーサー - 大城あかり(CV:木村千咲)
 // import { imageMin } from '../lib/imagemin'
 // imageMin('tmp/tmp').then(console.log)
 
-// setTimeout()
+// import { state } from './../src/lib/state/state'
+// const s = state
+// setInterval(() => {
+//   s.incN()
+//   p(s.n)
+// }, 1000)
