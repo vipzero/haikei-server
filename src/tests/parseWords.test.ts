@@ -81,10 +81,10 @@ Array [
 
 test('uniqo', () => {
   expect(uniqo(['a', 'b', 'c', 'A', 'B'])).toMatchInlineSnapshot(`
-	Array [
-		"A",
-		"B",
-		"c",
-	]
-	`)
+Array [
+  "A",
+  "B",
+  "c",
+]
+`)
 })
