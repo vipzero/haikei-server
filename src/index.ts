@@ -61,7 +61,6 @@ async function receiveIcy(icy: string) {
   // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
   // if (spoinfo) song.artwork = spoinfo.artwork
 
-  // NOTE: 破壊的で微妙
   const albumInfosSync = getAlbum(icy)
   const lyricsSync = getLyricsSafe(song.title, song.artist)
   // const lyric = lyrics ? lyrics.lyric : null

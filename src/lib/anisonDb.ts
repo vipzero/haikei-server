@@ -26,8 +26,11 @@ const anisonLines = parse(anisonData, csvOptions) as string[][]
 
 anisonLines.forEach(
   ([animeTitle, title, artist, writer, composer, arranger]) => {
-    if (!animes[keyNormalize(artist)]) animes[keyNormalize(artist)] = {}
-    animes[keyNormalize(artist)][keyNormalize(title)] = {
+    const ak = keyNormalize(artist)
+    const tk = keyNormalize(title)
+    if (!animes[tk]) animes[tk] = {}
+
+    animes[tk][ak] = {
       animeTitle,
       artist,
       writer,
