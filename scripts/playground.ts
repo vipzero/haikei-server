@@ -2,7 +2,6 @@
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
 // const { getLyrics } = require('./lib/jlyricnet')
-// const { parseWords, uniqo } = require('./lib/utils')
 // import songs from './lib/anisonDb'
 
 // const { getImageLinks } = require('./lib/customImageSearch')
@@ -32,20 +31,8 @@
 // getAlbum('コスモルミナ - 芹澤優').then(console.log)
 
 // const q = 'OxT - 君じゃなきゃダメみたい -OxT ver.- - 月刊少女野崎くん'
-// const q =
-//   'ショコラ (CV:八木侑紀)、バニラ (CV:佐伯伊織)、アズキ (CV:井澤詩織)、メイプル (CV:伊藤美来)、シナモン (CV:のぐちゆり)、ココナツ (CV:水谷麻鈴) - Shiny Happy Days'
-// '「ストライクウィッチーズ2」エンディング・メドレー - 宮藤芳佳(福圓美里)＆坂本美緒(世戸さおり)＆ミーナ・ディートリンデ・ヴィルケ(田中理恵)＆ペリーヌ・クロステルマン(沢城みゆき)＆リネット・ビショップ(名塚佳織)＆エーリカ・ハルトマン(野川さくら)＆ゲルトルート・バルクホルン(園崎未恵)＆フランチェスカ・ルッキーニ(斎藤千和)＆シャーロット・E・イェーガー(小清水亜美)＆サーニャ・V・リトヴャク(門脇舞以)＆エイラ・イルマタル・ユーティライネン(大橋歩夕)'
 
 // getImageLinks(q).then(console.log)
-
-// console.log(parseWords('key plus words - 平田志穂子 feat. 川村ゆみ'))
-// console.log(
-//   parseWords(
-//     'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
-//   )
-// )
-// console.log(parseWords(q))
-// console.log(uniqo(['a', 'b', 'c', 'A', 'B']))
 
 // getAllIcy().then(console.log)
 
