@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { error, log } from './logger'
+import { error, log, info } from './logger'
 import { shuffle } from './utils'
 const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {
+  info(`search q: ${q}`)
   return axios.request<{ items: { link: string }[] }>({
     method: 'GET',
     url: 'https://www.googleapis.com/customsearch/v1',

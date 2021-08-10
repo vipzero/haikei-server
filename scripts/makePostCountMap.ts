@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
+import { flatten } from '../src/lib/utils'
 import { loadHistoryTimes, setupHistN } from './../src/lib/firebase'
 import { loadData } from './postTimeUtil'
-
-const flatten = <T>(arr: T[][]) => arr.reduce<T[]>((a, b) => a.concat(b), [])
 
 type Counts = { [id: number]: number | null }
 function mergeCount(delimiters: number[], times: number[]): Counts {

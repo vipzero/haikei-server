@@ -77,3 +77,13 @@ export const chunk = <T>(array: T[], size: number) =>
   )
 
 export const strLen = (s: string) => [...s].length
+
+export const pickCharaIcy = (s: string) =>
+  flatten(s.split(' - ').map(pickChara))
+
+export const pickChara = (s: string): string[] => {
+  return [...s.matchAll(/([^()（）]+)[(（]/g)].map((v) => v[1])
+}
+
+export const flatten = <T>(arr: T[][]) =>
+  arr.reduce<T[]>((a, b) => a.concat(b), [])

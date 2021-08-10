@@ -1,7 +1,7 @@
-import { uniqo } from './../lib/utils'
+import { uniqo, pickCharaIcy } from './../lib/utils'
 import { parseCountWords } from '../lib/utils'
 
-let q
+let q: string
 test('parseWords', () => {
   q = 'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
@@ -85,6 +85,15 @@ Array [
   "A",
   "B",
   "c",
+]
+`)
+})
+
+test('pickCharactor', () => {
+  q = 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)'
+  expect(pickCharaIcy(q)).toMatchInlineSnapshot(`
+Array [
+  "本城香澄",
 ]
 `)
 })
