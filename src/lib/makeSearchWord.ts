@@ -10,8 +10,10 @@ export function makeSearchQuery(song: SongSeed): string {
 
   if (song.category.includes('アニメ')) {
     // 実験
-    // const ext = ['アニメ', 'ダイジェスト', '1話', 'meme', 'ネタ'].join(' OR ')
-    return `${animeTitle} AND (アニメ OR 1話 OR meme OR ネタ OR 作画 OR 2ch OR カット)`
+    const ext = ['アニメ', 'meme', 'ネタ', 'カット', 'キャラ', 'かわいい'].join(
+      ' OR '
+    )
+    return `${animeTitle} AND (${ext})`
   }
   if (song.category.includes('ゲーム')) {
     const ext = ['ゲーム'].join(' OR ') // 実験

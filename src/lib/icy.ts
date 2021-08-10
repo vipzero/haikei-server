@@ -9,7 +9,7 @@ type IcyRes = {
     event: T,
     callback: Callback
   ) => void
-  headers: any
+  headers: Record<string, string>
   resume: () => void
 }
 

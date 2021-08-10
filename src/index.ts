@@ -66,9 +66,6 @@ async function receiveIcy(icy: string) {
   const lyricsSync = getLyricsSafe(song.title, song.artist)
   // const lyric = lyrics ? lyrics.lyric : null
 
-  console.log(icy)
-  console.log(song)
-
   const [imageLinks, albumInfos, { creators }] = await Promise.all([
     imageLinksSync,
     albumInfosSync,
@@ -83,6 +80,7 @@ async function receiveIcy(icy: string) {
     time: 0,
   }
 
+  console.log(compSong)
   saveMusic(compSong)
 }
 

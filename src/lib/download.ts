@@ -1,9 +1,8 @@
+import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
-import { promisify } from 'util'
 import stream from 'stream'
-
-import { fromStream } from 'file-type'
+import { promisify } from 'util'
 
 const uuidv4 = require('uuid/v4')
 
@@ -14,22 +13,30 @@ export const downloadOptimize = async (url: string) => {
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
   const stream = got.stream(url)
-  const fileTypePromise = fromStream(stream)
+  const fileTypePromise = fromStream(stream).catch((e) => {
+    console.log(typeof e)
+
+    console.log(e.message)
+    if (e.message.includes('End-Of-Stream')) {
+      console.error(`FileTypeError: ${url} ${filePath}`)
+    }
+    console.error(`FileTypeError: ${url} ${filePath}`)
+    console.log(JSON.stringify(e))
+
+    return fileTypeDefault
+  })
 
   const res = await pipeline(stream, fs.createWriteStream(filePath)).catch(
-    (err) => {
-      console.error('Save Error')
-      console.error({ url, filePath })
+    (e) => {
+      console.log(typeof e)
+      console.log({ e })
+      console.error(`DownloadSaaveError: ${url} ${filePath}`)
       return 'SaveError' as const
     }
   )
   if (res === 'SaveError') return false as const
 
-  const ft = await fileTypePromise.catch((e) => {
-    console.error({ url, filePath })
-
-    return fileTypeDefault
-  })
+  const ft = await fileTypePromise
 
   return { filePath, fileType: ft || fileTypeDefault }
 }

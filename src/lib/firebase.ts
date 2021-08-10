@@ -11,7 +11,6 @@ if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
   process.exit(1)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const serviceAccount = require(SERVICE_ACCOUNT_FILE_PATH)
 
 const credential = admin.credential.cert(serviceAccount)
@@ -20,7 +19,7 @@ admin.initializeApp({ credential })
 export const fdb = admin.firestore()
 export const bucket = admin.storage().bucket('rekka-haikei.appspot.com')
 
-type Obj = { [key: string]: any }
+type Obj = { [key: string]: number | string | object }
 const removeUndefined = (obj: Obj) => {
   const newObj: Obj = {}
   Object.keys(obj).forEach((key) => {
@@ -202,19 +201,21 @@ export const countupWords = async (words: string[]) => {
 //   await batch.commit()
 // }
 
-export const deleteFile = (path: string) =>
-  bucket
+export const deleteFile = (path: string) => {
+  console.log(`delete op: ${path}`)
+
+  return bucket
     .file(path)
     .delete()
     .catch((e) => {
-      console.warn(e.code)
       if (e.code === 404) {
-        console.warn('WARN: no delete target')
+        console.warn(`NoDeleteTargetWarn: no delete target ${path}`)
         return
       }
-      console.log(`DeleteFileError`)
-      console.warn(e)
+      console.log(`DeleteFileError: ${path}`)
+      console.warn({ e })
     })
+}
 export const uploadByUrl = async (url: string, name: string) => {
   const res = await downloadOptimize(url)
   if (!res) return false
