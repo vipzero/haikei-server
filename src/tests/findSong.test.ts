@@ -141,4 +141,12 @@ Object {
   "title": "Cry Baby",
 }
 `)
+  icy = 'ZERO!! - Minami'
+  expect(findSong(icy)).toMatchInlineSnapshot(`
+Object {
+  "artist": "ZERO!!",
+  "icy": "ZERO!! - Minami",
+  "title": "Minami",
+}
+`)
 })
