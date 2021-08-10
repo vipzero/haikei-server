@@ -2,12 +2,18 @@ import { makeSearchQuery } from '../lib/makeSearchWord'
 
 test('makeSearchQuery', () => {
   expect(
-makeSearchQuery({
-  artist: '蒼井翔太',
-  title: 'give me ? me',
-  icy: '蒼井翔太 - give me ? me' })).
+    makeSearchQuery({
+      artist: '蒼井翔太',
+      title: 'give me ? me',
+      icy: '蒼井翔太 - give me ? me',
+    })
+  ).toMatchInlineSnapshot(`"蒼井翔太 give me ? me (アニメ OR キャラ)"`)
 
-toMatchInlineSnapshot(`"蒼井翔太 give me ? me (アニメ OR キャラ)"`)
+  expect(
+makeSearchQuery({
+  icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)' })).
+
+toMatchInlineSnapshot('本城香澄', `"本城香澄"`)
 
   expect(
     makeSearchQuery({
@@ -18,14 +24,16 @@ toMatchInlineSnapshot(`"蒼井翔太 give me ? me (アニメ OR キャラ)"`)
     })
   ).toMatchInlineSnapshot(`"アニメタイトルあり"`)
   expect(
-makeSearchQuery({
-  artist: 'artist',
-  title: 'title',
-  animeTitle: 'アニメタイトルあり',
-  category: 'ほにゃららアニメ',
-  icy: 'artist - title' })).
-
-toMatchInlineSnapshot(`"アニメタイトルあり AND (アニメ OR meme OR ネタ OR カット OR キャラ OR かわいい)"`)
+    makeSearchQuery({
+      artist: 'artist',
+      title: 'title',
+      animeTitle: 'アニメタイトルあり',
+      category: 'ほにゃららアニメ',
+      icy: 'artist - title',
+    })
+  ).toMatchInlineSnapshot(
+    `"アニメタイトルあり AND (アニメ OR meme OR ネタ OR カット OR キャラ OR かわいい)"`
+  )
   expect(
     makeSearchQuery({
       opOrEd: 'OP',

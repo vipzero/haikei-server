@@ -1,22 +1,31 @@
 import { SongSeed } from './types/index'
+import { pickCharaIcy } from './utils'
+
+const animeExt = [
+  'アニメ',
+  'meme',
+  'ネタ',
+  'カット',
+  'キャラ',
+  'かわいい',
+].join(' OR ')
+const gameExt = ['ゲーム'].join(' OR ') // 実験
 
 export function makeSearchQuery(song: SongSeed): string {
-  if (!song.animeTitle) {
-    return song.icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
-  }
-  const { animeTitle } = song
-  if (!song.category) return animeTitle
+  const { icy, category, animeTitle } = song
+  if (!animeTitle) {
+    const charaName = pickCharaIcy(icy)[0]
 
-  if (song.category.includes('アニメ')) {
-    // 実験
-    const ext = ['アニメ', 'meme', 'ネタ', 'カット', 'キャラ', 'かわいい'].join(
-      ' OR '
-    )
-    return `${animeTitle} AND (${ext})`
+    return charaName || icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
   }
-  if (song.category.includes('ゲーム')) {
-    const ext = ['ゲーム'].join(' OR ') // 実験
-    return `${animeTitle} AND (${ext})`
+
+  if (!category) return animeTitle
+  if (category.includes('アニメ')) {
+    // 実験
+    return `${animeTitle} AND (${animeExt})`
+  }
+  if (category.includes('ゲーム')) {
+    return `${animeTitle} AND (${gameExt})`
   }
   return animeTitle
 }
