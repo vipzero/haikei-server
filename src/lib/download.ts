@@ -1,3 +1,4 @@
+import { error, warn, log } from './logger'
 import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
@@ -14,23 +15,22 @@ export const downloadOptimize = async (url: string) => {
   const filePath = `tmp/${uuid}`
   const stream = got.stream(url)
   const fileTypePromise = fromStream(stream).catch((e) => {
-    console.log(typeof e)
-
-    console.log(e.message)
     if (e.message.includes('End-Of-Stream')) {
-      console.error(`FileTypeError: ${url} ${filePath}`)
+      warn(`EndOfStreamError`, `${url} ${filePath}`)
+      return
+    } else {
+      error(`FileTypeError`, `${url} ${filePath}`)
+      log(JSON.stringify(e))
     }
-    console.error(`FileTypeError: ${url} ${filePath}`)
-    console.log(JSON.stringify(e))
 
     return fileTypeDefault
   })
 
   const res = await pipeline(stream, fs.createWriteStream(filePath)).catch(
     (e) => {
-      console.log(typeof e)
-      console.log({ e })
-      console.error(`DownloadSaaveError: ${url} ${filePath}`)
+      error(`DownloadSaveError`, `${url} ${filePath}`)
+      log(typeof e)
+      log(JSON.stringify(e))
       return 'SaveError' as const
     }
   )

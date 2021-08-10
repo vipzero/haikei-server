@@ -37,7 +37,6 @@ const findSongLib = <E>(
   }
 
   if (!songsByArtist) return null
-  console.log(Object.entries(songsByArtist).map(([k]) => parseCountWords(k)))
 
   // Hit したアーティスト名を含むものを一つ選ぶ
   const res = Object.entries(songsByArtist).find(([k]) => artistHit(bkey, k))

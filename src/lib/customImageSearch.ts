@@ -1,6 +1,7 @@
-const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 import axios from 'axios'
+import { error, log } from './logger'
 import { shuffle } from './utils'
+const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {
   return axios.request<{ items: { link: string }[] }>({
@@ -23,7 +24,8 @@ export const getImageLinks = async (q: string) => {
   // マイナス検索を省く
 
   const res = await getImage(q.replace(/-/g, ' ')).catch((e) => {
-    console.error(e)
+    error('GetImageError', q)
+    log(e)
     return false as const
   })
   const imageLinks = res ? (res.data.items || []).map((item) => item.link) : []

@@ -1,3 +1,4 @@
+import { info, log, error } from './lib/logger'
 import { unlinkSync } from 'fs'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
@@ -36,7 +37,7 @@ async function prepareImages(q: string) {
 }
 
 async function receiveIcy(icy: string) {
-  console.log(icy)
+  info(icy)
 
   if (store.isDuplicate(icy)) return // 起動時の重複登録を防ぐ
 
@@ -73,7 +74,7 @@ async function receiveIcy(icy: string) {
     time: 0,
   }
 
-  console.log(compSong)
+  log(song)
   saveMusic(compSong)
 }
 
@@ -82,13 +83,13 @@ async function main() {
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)
   if (!url) {
-    console.error('empty URL')
+    error('SetupErorr', 'empty envvar URL')
     process.exit(1)
   }
 
   subscribeIcy(url, receiveIcy, async () => {
     // change stream retry
-    console.log('finish')
+    log('finish')
     await sleep(10 * 1000)
     main()
   })

@@ -1,3 +1,4 @@
+import { info, warn, log, error } from './logger'
 import admin from 'firebase-admin'
 import { downloadOptimize } from './download'
 import { Count, Counts, HistTop, Song, UploadFile } from './types/index'
@@ -7,7 +8,7 @@ export { admin }
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
-  console.error('empty SERVICE_ACCOUNT_FILE_PATH or EVENT_ID')
+  error('SetupErorr', 'empty envvar SERVICE_ACCOUNT_FILE_PATH or EVENT_ID')
   process.exit(1)
 }
 
@@ -202,18 +203,18 @@ export const countupWords = async (words: string[]) => {
 // }
 
 export const deleteFile = (path: string) => {
-  console.log(`delete op: ${path}`)
+  info(`delete op: ${path}`)
 
   return bucket
     .file(path)
     .delete()
     .catch((e) => {
       if (e.code === 404) {
-        console.warn(`NoDeleteTargetWarn: no delete target ${path}`)
+        warn(`NoDeleteTargetWarn`, `no delete target ${path}`)
         return
       }
-      console.log(`DeleteFileError: ${path}`)
-      console.warn({ e })
+      error(`DeleteFileError`, path)
+      log({ e })
     })
 }
 
@@ -243,7 +244,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
   for (const [i, url] of urls.entries()) {
     // console.log(url)
     const res = await uploadByUrl(url, `${timeId}_${i}.png`).catch((e) => {
-      console.warn(e)
+      error('UploadError', e)
       return false as const
     })
     // console.log(res)

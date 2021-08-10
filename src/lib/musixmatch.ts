@@ -1,3 +1,4 @@
+import { error, log } from './logger'
 import axios from 'axios'
 
 const apikey = process.env.MUSIXMATCH_API_KEY
@@ -30,7 +31,7 @@ function getLyrics(id: string) {
 
 export async function getMusixMatch(title: string, artist: string) {
   const res = await searchTrack(title, artist).catch((e) => {
-    console.error(e)
+    error('GetMusixMutchError', e)
     return false as const
   })
   if (!res || !res.data.message.body.track_list[0]) return false
@@ -49,7 +50,7 @@ export async function getMusixMatch(title: string, artist: string) {
 
 export async function getMusixLyrics(title: string, artist: string) {
   const res = await searchTrack(title, artist).catch((e) => {
-    console.error(e)
+    error('GetMusixError', e)
     return false as const
   })
   if (!res) return false
@@ -58,8 +59,7 @@ export async function getMusixLyrics(title: string, artist: string) {
 
   const lyricRes = await getLyrics(track.track_id)
   if (!lyricRes) return false
-  console.log(lyricRes.data.message.body)
+  log(lyricRes.data.message.body)
   if (!track) return false
-  console.log()
   // return res.data.message.body.lyrics.lyrics_body
 }
