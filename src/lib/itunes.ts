@@ -29,8 +29,9 @@ export async function getAlbum(term: string) {
   return {
     albumName: collectionName,
     copyright,
-    artworkUrl100,
+    artworkUrl100: artworkUrlScale(artworkUrl100),
     trackTimeMillis,
     itunesUrl: collectionViewUrl,
   }
 }
+const artworkUrlScale = (url: string) => url.replace(/100x100bb/, '500x500bb') // チートなのでいつまで使えるかわからない
