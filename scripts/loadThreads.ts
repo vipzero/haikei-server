@@ -3,7 +3,7 @@ import { sleep } from '../src/lib/utils'
 import { loadData, saveData } from './postTimeUtil'
 
 const loadingUrls = `
-https://hebi.5ch.net/test/read.cgi/news4vip/1628491197
+https://hebi.5ch.net/test/read.cgi/news4vip/1628509701
 `
   .trim()
   .split('\n')
@@ -16,6 +16,7 @@ https://hebi.5ch.net/test/read.cgi/news4vip/1628491197
 // https://hebi.5ch.net/test/read.cgi/news4vip/1628250138
 // https://hebi.5ch.net/test/read.cgi/news4vip/1628287442
 // https://hebi.5ch.net/test/read.cgi/news4vip/1628440944
+// https://hebi.5ch.net/test/read.cgi/news4vip/1628519885
 
 async function main() {
   const data = loadData()

@@ -69,6 +69,7 @@ export const histSongsRef = () =>
 export const loadHistoryTimes = async () => {
   const histSnaps = await histSongsRef()
     .where('n', '==', null)
+    // .where('time', '>=', 1628503713643)
     .orderBy('time', 'asc')
     .get()
   const times = histSnaps.docs.map((docSnap) => docSnap.id)

@@ -14,7 +14,8 @@ const p = console.log
 
 import { findSong } from '../src/lib/findSong'
 
-p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
+// p(findSong('YES?NO?ココロ - 園田優(CV.井口裕香)'))
+p(findSong('六花 - 二者穿一'))
 
 // p(findSong('Stellamaris (高橋未奈美, 諏訪彩花, 田中あいみ) - 恋はフュージョン'))
 // p(

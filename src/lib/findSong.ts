@@ -29,7 +29,7 @@ export function findSongBase(
   )
 
   if (!findSong) return [songBase, 0]
-  return [{ ...findSong[1], icy }, 2]
+  return [{ ...findSong[1], ...songBase }, 2]
 }
 
 export function findSong(icy: string): SongSeed {
