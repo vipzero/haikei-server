@@ -3,7 +3,7 @@ import { SongSeed } from './types/index'
 export function makeSearchQuery(song: SongSeed): string {
   if (!song.animeTitle) {
     if (song.title) return song.title
-    return song.icy.replace(' - ', ' ')
+    return song.icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
   }
   const { animeTitle } = song
   if (!song.category) return animeTitle
