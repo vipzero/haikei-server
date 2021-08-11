@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { loadingUrls } from './threadUrls'
 import chch from 'chch'
 import { sleep } from '../src/lib/utils'

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# 1 hour
-SLEEP_SEC=3600
+# 5min
+SLEEP_SEC=300
 LOOP_MAX=10000
 
 COUNT=0
