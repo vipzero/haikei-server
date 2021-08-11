@@ -76,8 +76,26 @@ Array [
   "ユーティライネン",
   "大橋歩夕",
 ]
+`) // (^-^)b
+
+  expect(parseCountWords('井口裕香,阿澄佳奈')).toMatchInlineSnapshot(`
+Array [
+  "井口裕香",
+  "阿澄佳奈",
+]
 `)
-}) // (^-^)b
+
+  expect(
+parseCountWords('あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)')).
+toMatchInlineSnapshot(`
+Array [
+  "あおい",
+  "井口裕香",
+  "ひなた",
+  "阿澄佳奈",
+]
+`)
+})
 
 test('uniqo', () => {
   expect(uniqo(['a', 'b', 'c', 'A', 'B'])).toMatchInlineSnapshot(`

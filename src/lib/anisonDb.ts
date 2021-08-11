@@ -1,7 +1,7 @@
 import parse from 'csv-parse/lib/sync'
 import fs from 'fs'
 import { ProgramRecord, SongRecord, SongSupportAttr } from './types/index'
-import { textNormalize } from './utils'
+import { parseCountWords } from './utils'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
@@ -74,10 +74,7 @@ filenames.forEach((filename) => {
 })
 
 export function keyNormalize(str: string) {
-  return textNormalize(str)
-    .replace(/\(.*?\)/g, '')
-    .replace(/ /g, '')
-    .toLowerCase()
+  return parseCountWords(str).join('_').toLowerCase()
 }
 
 export { songsSa, animes }

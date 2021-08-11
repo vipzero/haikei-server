@@ -1,3 +1,4 @@
+import { log } from './logger'
 import songs, { animes, keyNormalize } from './anisonDb'
 import { SongSeed } from './types/index'
 import { parseCountWords, strLen } from './utils'
@@ -37,6 +38,7 @@ const findSongLib = <E>(
   }
 
   if (!songsByArtist) return null
+  log(songsByArtist)
 
   // Hit したアーティスト名を含むものを一つ選ぶ
   const res = Object.entries(songsByArtist).find(([k]) => artistHit(bkey, k))
@@ -44,8 +46,9 @@ const findSongLib = <E>(
   return res[1]
 }
 
-const artistHit = (icyArtist: string, libArtist: string) =>
-  parseCountWords(libArtist).some((part) => icyArtist.indexOf(part) >= 0)
+const artistHit = (icyArtist: string, libArtist: string) => {
+  return libArtist.split('_').some((part) => icyArtist.indexOf(part) >= 0)
+}
 
 export function findSong(icy: string): SongSeed {
   const [artist, titleBase] = icy.split(' - ')
@@ -55,6 +58,7 @@ export function findSong(icy: string): SongSeed {
 
   const [song1, p1] = findSongBase(artist, titleBase, akey, bkey, icy)
   const [song2, p2] = findSongBase(titleBase, artist, bkey, akey, icy)
+  // log({ song1, song2, p1, p2 })
 
   return p1 >= p2 ? song1 : song2
 }

@@ -41,8 +41,15 @@ Object {
   "animeTitle": "アブソリュート・デュオ",
   "arranger": "楊慶豪",
   "artist": "ユリエ＝シグトゥーナ(CV：山本希望)×リーリス＝ブリストル(CV：山崎はるか)",
+  "category": "テレビアニメーション",
+  "chapNum": "12",
   "composer": "楊慶豪",
+  "date": "2015-01-04",
+  "gameType": "",
   "icy": "アップルティーの味 - ユリエ＝シグトゥーナ(CV：山本希望)×リーリス＝ブリストル(CV：山崎はるか)",
+  "opOrEd": "ED",
+  "songId": "91081",
+  "spInfo": "2",
   "title": "アップルティーの味",
   "writer": "永塚健登",
 }
@@ -59,13 +66,9 @@ Object {
     '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
   expect(findSong(icy)).toMatchInlineSnapshot(`
 Object {
-  "animeTitle": "けいおん！",
-  "arranger": "前澤寛之",
   "artist": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈)",
-  "composer": "前澤寛之",
   "icy": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)",
   "title": "カレーのちライス (映画「けいおん!」Mix)",
-  "writer": "稲葉エミ",
 }
 `)
   icy = 'UNISON SQUARE GARDEN - Catch up, latency'
@@ -90,8 +93,15 @@ Object {
   "animeTitle": "銃皇無尽のファフニール",
   "arranger": "園田智也",
   "artist": "イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美)",
+  "category": "テレビアニメーション",
+  "chapNum": "12",
   "composer": "園田智也",
+  "date": "2015-01-09",
+  "gameType": "",
   "icy": "イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet",
+  "opOrEd": "ED",
+  "songId": "91288",
+  "spInfo": "1",
   "title": "Ray of bullet",
   "writer": "園田智也",
 }
@@ -147,6 +157,22 @@ Object {
   "artist": "ZERO!!",
   "icy": "ZERO!! - Minami",
   "title": "Minami",
+}
+`)
+  icy = '色違いの翼 - あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)'
+  expect(findSong(icy)).toMatchInlineSnapshot(`
+Object {
+  "animeTitle": "ヤマノススメ",
+  "artist": "あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)",
+  "category": "テレビアニメーション",
+  "chapNum": "49",
+  "date": "2013-01-03",
+  "gameType": "",
+  "icy": "色違いの翼 - あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)",
+  "opOrEd": "ED",
+  "songId": "113597",
+  "spInfo": "5",
+  "title": "色違いの翼",
 }
 `)
 })
