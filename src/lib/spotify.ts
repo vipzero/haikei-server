@@ -1,4 +1,4 @@
-import { keyNormalize } from './anisonDb'
+import { artistKeyNormalize } from './anisonDb'
 const Spotify = require('node-spotify-api')
 import { isHit } from './utils'
 
@@ -29,7 +29,10 @@ export const spotifySearchSongInfo = async (
   const song =
     res.albums.items.find((item) => {
       return item.artists.some((itemArtist) => {
-        return isHit(keyNormalize(artistName), keyNormalize(itemArtist.name))
+        return isHit(
+          artistKeyNormalize(artistName),
+          artistKeyNormalize(itemArtist.name)
+        )
       })
     }) || res.albums.items[0]
   if (!song) return false

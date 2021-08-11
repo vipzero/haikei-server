@@ -1,7 +1,11 @@
+import songs, {
+  animes,
+  artistKeyNormalize,
+  titleKeyNormalize,
+} from './anisonDb'
 import { log } from './logger'
-import songs, { animes, keyNormalize } from './anisonDb'
 import { SongSeed } from './types/index'
-import { parseCountWords, strLen } from './utils'
+import { strLen } from './utils'
 
 const trimTail = (s: string) => s.substring(0, s.length - 1)
 
@@ -51,13 +55,23 @@ const artistHit = (icyArtist: string, libArtist: string) => {
 }
 
 export function findSong(icy: string): SongSeed {
-  const [artist, titleBase] = icy.split(' - ')
-  if (!artist || !titleBase) return { icy }
-  const akey = keyNormalize(artist)
-  const bkey = keyNormalize(titleBase)
+  const [part1, part2] = icy.split(' - ')
+  if (!part1 || !part2) return { icy }
 
-  const [song1, p1] = findSongBase(artist, titleBase, akey, bkey, icy)
-  const [song2, p2] = findSongBase(titleBase, artist, bkey, akey, icy)
+  const [song1, p1] = findSongBase(
+    part1,
+    part2,
+    artistKeyNormalize(part1),
+    titleKeyNormalize(part2),
+    icy
+  )
+  const [song2, p2] = findSongBase(
+    part2,
+    part1,
+    artistKeyNormalize(part2),
+    titleKeyNormalize(part1),
+    icy
+  )
   // log({ song1, song2, p1, p2 })
 
   return p1 >= p2 ? song1 : song2

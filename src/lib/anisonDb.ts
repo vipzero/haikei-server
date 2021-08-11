@@ -1,7 +1,7 @@
 import parse from 'csv-parse/lib/sync'
 import fs from 'fs'
 import { ProgramRecord, SongRecord, SongSupportAttr } from './types/index'
-import { parseCountWords } from './utils'
+import { parseCountWords, textNormalize } from './utils'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
@@ -26,8 +26,8 @@ const anisonLines = parse(anisonData, csvOptions) as string[][]
 
 anisonLines.forEach(
   ([animeTitle, title, artist, writer, composer, arranger]) => {
-    const ak = keyNormalize(artist)
-    const tk = keyNormalize(title)
+    const tk = titleKeyNormalize(title)
+    const ak = artistKeyNormalize(artist)
     if (!animes[tk]) animes[tk] = {}
 
     animes[tk][ak] = {
@@ -54,9 +54,9 @@ filenames.forEach((filename) => {
 
   rows.forEach(
     ([programId, , animeTitleI, opOrEd, spInfo, songId, title, artist]) => {
-      const titleKey = keyNormalize(title || '')
-      const artistKey = keyNormalize(artist || '')
-      if (!songs[titleKey]) songs[titleKey] = {}
+      const tk = titleKeyNormalize(title || '')
+      const ak = artistKeyNormalize(artist || '')
+      if (!songs[tk]) songs[tk] = {}
       // if (!songs[artist]) songs[artist] = {}
       const { animeTitle, ...programAttrs } = programs[programId] || {}
       const song = {
@@ -68,13 +68,19 @@ filenames.forEach((filename) => {
         animeTitle: animeTitleI || animeTitle,
         ...programAttrs,
       }
-      songs[titleKey][artistKey] = song
+      songs[tk][ak] = song
     }
   )
 })
 
-export function keyNormalize(str: string) {
+export function artistKeyNormalize(str: string) {
   return parseCountWords(str).join('_').toLowerCase()
+}
+export function titleKeyNormalize(str: string) {
+  return textNormalize(str)
+    .replace(/\(.*?\)/g, '')
+    .replace(/ /g, '')
+    .toLowerCase()
 }
 
 export { songsSa, animes }

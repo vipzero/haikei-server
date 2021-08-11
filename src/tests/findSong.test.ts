@@ -62,15 +62,6 @@ Object {
   "title": "恋はフュージョン",
 }
 `)
-  icy =
-    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
-  expect(findSong(icy)).toMatchInlineSnapshot(`
-Object {
-  "artist": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈)",
-  "icy": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)",
-  "title": "カレーのちライス (映画「けいおん!」Mix)",
-}
-`)
   icy = 'UNISON SQUARE GARDEN - Catch up, latency'
   expect(findSong(icy)).toMatchInlineSnapshot(`
 Object {
@@ -173,6 +164,19 @@ Object {
   "songId": "113597",
   "spInfo": "5",
   "title": "色違いの翼",
+}
+`)
+  icy =
+    '放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)'
+  expect(findSong(icy)).toMatchInlineSnapshot(`
+Object {
+  "animeTitle": "けいおん！",
+  "arranger": "前澤寛之",
+  "artist": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈)",
+  "composer": "前澤寛之",
+  "icy": "放課後ティータイム (豊崎愛生, 日笠陽子, 佐藤聡美, 寿美菜子, 竹達彩奈) - カレーのちライス (映画「けいおん!」Mix)",
+  "title": "カレーのちライス (映画「けいおん!」Mix)",
+  "writer": "稲葉エミ",
 }
 `)
 })
