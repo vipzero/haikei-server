@@ -14,7 +14,7 @@ const gameExt = ['ゲーム'].join(' OR ') // 実験
 export function makeSearchQuery(song: SongSeed): string {
   const { icy, category, animeTitle } = song
   if (!animeTitle) {
-    const charaName = pickCharaIcy(icy)[0]
+    const charaName = pickCharaIcy(icy).join(' ')
 
     return charaName || icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
   }

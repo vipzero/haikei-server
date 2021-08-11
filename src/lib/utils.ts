@@ -82,7 +82,13 @@ export const pickCharaIcy = (s: string) =>
   flatten(s.split(' - ').map(pickChara))
 
 export const pickChara = (s: string): string[] => {
-  return [...s.matchAll(/([^()（）]+)[(（]/g)].map((v) => v[1])
+  return [
+    ...s
+      .trim()
+      .matchAll(
+        /[)）][,・，、]?([^（()）]+)$|^([^（()）]+)[(（]|[)）][,・，、]?([^（()）]+)[(（]/g
+      ),
+  ].map((v) => v[1] || v[2] || v[3])
 }
 
 export const flatten = <T>(arr: T[][]) =>

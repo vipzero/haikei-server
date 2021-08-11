@@ -96,4 +96,14 @@ Array [
   "本城香澄",
 ]
 `)
+
+  q =
+    'ちいさな冒険者 - アクア(CV.雨宮天)、めぐみん(CV.高橋李依)、ダクネス(CV.茅野愛衣)'
+  expect(pickCharaIcy(q)).toMatchInlineSnapshot(`
+Array [
+  "アクア",
+  "めぐみん",
+  "ダクネス",
+]
+`)
 })
