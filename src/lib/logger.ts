@@ -1,7 +1,5 @@
-import { SongFull, Song } from './types/index'
 /* eslint-disable no-console */
 import chalk from 'chalk'
-import { SongSeed } from './types/index'
 
 export const log = console.log
 export const info = (str: string | number | object) =>

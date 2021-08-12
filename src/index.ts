@@ -1,5 +1,5 @@
-import { info, log, error, songPrint } from './lib/logger'
-import { unlinkSync } from 'fs'
+import { info, log, error, songPrint, warn } from './lib/logger'
+import { unlink } from 'fs/promises'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
 import {
@@ -24,7 +24,11 @@ const url = process.env.URL
 
 store.onExpiredStorageUrl = (urls) => {
   urls.forEach(({ tmpFilePath, path }) => {
-    unlinkSync(tmpFilePath)
+    unlink(tmpFilePath).catch((e) => {
+      if (e.code === 'ENOENT') return warn('NoFile', tmpFilePath)
+
+      error('RemoveFile', e)
+    })
     deleteFile(path)
   })
 }

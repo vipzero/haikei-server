@@ -60,7 +60,7 @@
 // downloadOptimize(url).then(console.log)
 
 import { imageMin } from '../src/lib/imagemin'
-imageMin('tmp/tmp').then(console.log)
+imageMin('tmp/tmp.png').then(console.log)
 
 // import { state } from './../src/lib/state/state'
 // const s = state
