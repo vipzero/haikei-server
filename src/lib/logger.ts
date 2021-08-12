@@ -15,15 +15,19 @@ export const warn = (key: string, description: string) => {
 export const songPrint = (song: any) => {
   console.log(
     `
-{ title: '${song.title}', artist: '${song.artist}',${
+{ title: '${val(song.title)}', artist: '${val(song.artist)}',${
       song.animeTitle &&
       `
-  animeTitle: '${song.animeTitle}', category: '${song.category}',
-  opt: '${song.opOrEd}:${song.spInfo}:${song.songId}:${song.gameType}:${song.chapNum}:${song.date}',`
+  animeTitle: '${val(song.animeTitle)}', category: '${val(song.category)}',
+  opt: '${val(song.opOrEd)}:${val(song.spInfo)}:${val(song.songId)}:${val(
+        song.gameType
+      )}:${val(song.chapNum)}:${val(song.date)}',`
     }
-  writer: '${song.writer}', composer: '${song.composer}', arranger: '${
-      song.arranger
-    }', }
+  writer: '${val(song.writer)}', composer: '${val(
+      song.composer
+    )}', arranger: '${val(song.arranger)}', }
 `.trim()
   )
 }
+
+const val = (v?: string) => (v ? chalk.green(v) : chalk.gray('none'))
