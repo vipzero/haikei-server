@@ -15,10 +15,15 @@ export const warn = (key: string, description: string) => {
 export const songPrint = (song: any) => {
   console.log(
     `
-{ title: '${song.title}', artist: '${song.artist}',
+{ title: '${song.title}', artist: '${song.artist}',${
+      song.animeTitle &&
+      `
   animeTitle: '${song.animeTitle}', category: '${song.category}',
-  opt: '${song.opOrEd}:${song.spInfo}:${song.songId}:${song.gameType}:${song.chapNum}:${song.date}',
-  writer: '${song.writer}', composer: '${song.composer}', arranger: '${song.arranger}', }
+  opt: '${song.opOrEd}:${song.spInfo}:${song.songId}:${song.gameType}:${song.chapNum}:${song.date}',`
+    }
+  writer: '${song.writer}', composer: '${song.composer}', arranger: '${
+      song.arranger
+    }', }
 `.trim()
   )
 }
