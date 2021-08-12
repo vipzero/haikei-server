@@ -243,7 +243,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
 
   for (const [i, url] of urls.entries()) {
     // console.log(url)
-    const res = await uploadByUrl(url, `${timeId}_${i}.png`).catch((e) => {
+    const res = await uploadByUrl(url, `${timeId}_${i}`).catch((e) => {
       error('UploadError', e)
       return false as const
     })

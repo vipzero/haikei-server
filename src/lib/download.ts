@@ -10,7 +10,7 @@ import { sharpMin } from './sharp'
 const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
-const fileTypeDefault = { ext: '.png', mime: 'image/png' }
+const fileTypeDefault = { ext: 'png', mime: 'image/png' }
 
 export const downloadOptimize = async (url: string) => {
   const uuid = uuidv4()
