@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // import { pathQueue, push } from './lib/state/pathQueue'
 // const { spotifySearchSongInfo } = require('./lib/spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
@@ -57,8 +59,8 @@
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-// import { imageMin } from '../lib/imagemin'
-// imageMin('tmp/tmp').then(console.log)
+import { imageMin } from '../src/lib/imagemin'
+imageMin('tmp/tmp').then(console.log)
 
 // import { state } from './../src/lib/state/state'
 // const s = state

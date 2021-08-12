@@ -15,8 +15,9 @@ export function makeSearchQuery(song: SongSeed): string {
   const { icy, category, animeTitle } = song
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
+    if (charaName) return `${charaName} AND (名シーン OR キャラ)`
 
-    return charaName || icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
+    return icy.replace(' - ', ' ') + ' (アニメ OR キャラ)'
   }
 
   if (!category) return animeTitle

@@ -1,4 +1,4 @@
-import { info, log, error } from './lib/logger'
+import { info, log, error, songPrint } from './lib/logger'
 import { unlinkSync } from 'fs'
 import { getImageLinks } from './lib/customImageSearch'
 import { findSong } from './lib/findSong'
@@ -74,7 +74,7 @@ async function receiveIcy(icy: string) {
     time: 0,
   }
 
-  log(song)
+  songPrint(compSong)
   saveMusic(compSong)
 }
 

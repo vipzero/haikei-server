@@ -65,7 +65,7 @@ export type SongFull = SongMiss & {
   date: string
 }
 
-export type Song = SongFull | SongMiss
+export type Song = Partial<SongSupportAttr> & (SongFull | SongMiss)
 export type HistoryRaw = {
   title: string
   time: number

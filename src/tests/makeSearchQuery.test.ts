@@ -15,7 +15,7 @@ describe('makeSearchQuery', () => {
       makeSearchQuery({
         icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)',
       })
-    ).toMatchInlineSnapshot(`"本城香澄"`)
+    ).toMatchInlineSnapshot(`"本城香澄 AND (名シーン OR キャラ)"`)
   })
   test('has animeTitle', () => {
     expect(

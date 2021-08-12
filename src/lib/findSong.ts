@@ -3,7 +3,6 @@ import songs, {
   artistKeyNormalize,
   titleKeyNormalize,
 } from './anisonDb'
-import { log } from './logger'
 import { SongSeed } from './types/index'
 import { strLen } from './utils'
 
@@ -42,7 +41,6 @@ const findSongLib = <E>(
   }
 
   if (!songsByArtist) return null
-  log(songsByArtist)
 
   // Hit したアーティスト名を含むものを一つ選ぶ
   const res = Object.entries(songsByArtist).find(([k]) => artistHit(bkey, k))
