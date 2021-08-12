@@ -1,5 +1,6 @@
 import { uniqo, pickCharaIcy } from './../lib/utils'
 import { parseCountWords } from '../lib/utils'
+import { artistKeyNormalize, titleKeyNormalize } from '../lib/anisonDb'
 
 let q: string
 test('parseWords', () => {
@@ -85,9 +86,8 @@ Array [
 ]
 `)
 
-  expect(
-parseCountWords('あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)')).
-toMatchInlineSnapshot(`
+  expect(parseCountWords('あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)'))
+    .toMatchInlineSnapshot(`
 Array [
   "あおい",
   "井口裕香",
@@ -124,4 +124,17 @@ Array [
   "ダクネス",
 ]
 `)
+})
+
+test('titleKeyNormalize', () => {
+  q = 'SHaVaDaVa in AMAZING♪ 【トリニティセブン ED】'
+  expect(titleKeyNormalize(q)).toMatchInlineSnapshot(`"shavadavainamazing♪"`)
+  q = 'Brave Shine 【Fate/stay night Unlimited Blade Works OP】'
+  expect(titleKeyNormalize(q)).toMatchInlineSnapshot(`"braveshine"`)
+})
+test('artistKeyNormalize', () => {
+  q = 'ユイレヴィ (佐倉綾音, 村川梨衣)'
+  expect(artistKeyNormalize(q)).toMatchInlineSnapshot(
+    `"ユイレヴィ_佐倉綾音_村川梨衣"`
+  )
 })

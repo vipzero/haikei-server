@@ -13,8 +13,8 @@ export function textNormalize(s: string) {
     .trim()
     .toLowerCase()
     .replace('　', ' ')
-    .replace('（', '(')
-    .replace('）', ')')
+    .replace(/[（【「[]/, '(')
+    .replace(/[）】」\]]/, ')')
     .replace('！', '!')
     .replace('？', '?')
 }

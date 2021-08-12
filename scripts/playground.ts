@@ -57,10 +57,6 @@
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-// import { keyNormalize } from '../lib/anisonDb'
-
-// console.log(keyNormalize('ボルサリーノ [黄猿](石塚運昇)'))
-
 // import { imageMin } from '../lib/imagemin'
 // imageMin('tmp/tmp').then(console.log)
 
