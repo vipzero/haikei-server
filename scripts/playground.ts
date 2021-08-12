@@ -59,8 +59,14 @@
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-import { imageMin } from '../src/lib/imagemin'
-imageMin('tmp/tmp.png').then(console.log)
+// import { imageMin } from '../src/lib/imagemin'
+// imageMin('tmp/tmp.png').then(console.log)
+// imageMin('tmp/tmp1.png').then(console.log)
+// imageMin('tmp/tmp2.png').then(console.log)
+
+import { sharpMin } from '../src/lib/sharp'
+sharpMin('tmp/tmp1.png').then(console.log)
+// sharpMin('tmp/tmp2.png').then(console.log)
 
 // import { state } from './../src/lib/state/state'
 // const s = state

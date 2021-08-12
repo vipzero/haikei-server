@@ -10,8 +10,8 @@ export function imageMin(path: string) {
   return imagemin([path], {
     destination: 'tmp',
     plugins: [
-      imageminMozjpeg({ quality: 80 }),
-      imageminPngquant({ quality: [0.6, 0.8] }),
+      imageminMozjpeg({ quality: 50 }),
+      imageminPngquant({ quality: [0.5, 0.6] }),
       imageminGifsicle(),
       // imageminSvgo(),
     ],

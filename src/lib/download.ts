@@ -5,6 +5,7 @@ import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
 import { imageMin } from './imagemin'
+import { sharpMin } from './sharp'
 
 const uuidv4 = require('uuid/v4')
 
@@ -37,6 +38,7 @@ export const downloadOptimize = async (url: string) => {
   )
   if (res === 'SaveError') return false as const
   await imageMin(filePath)
+  await sharpMin(filePath)
 
   const ft = await fileTypePromise
 
