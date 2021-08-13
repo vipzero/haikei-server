@@ -1,5 +1,24 @@
 import { findSong } from '../lib/findSong'
 
+// jest.mock('fs', () => ({
+//   readFileSync: jest.fn((path) => {
+//     switch (path) {
+//       case './data/anison.csv':
+//         return `
+// 桜Trick,YES?NO?ココロ,園田優（井口裕香）,石井伸昂,石井伸昂,今泉洋
+// `
+//       case './data/game.csv':
+//         return ``
+//       case './data/sf.csv':
+//         return ``
+//       case './data/animesong.csv':
+//         return ``
+//       default:
+//         return ``
+//     }
+//   }),
+// }))
+
 // うまく取得できなかった icy のテスト
 let icy = ''
 test('findSong', () => {
