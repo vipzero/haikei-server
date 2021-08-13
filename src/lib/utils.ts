@@ -81,14 +81,22 @@ export const strLen = (s: string) => [...s].length
 export const pickCharaIcy = (s: string) =>
   flatten(s.split(' - ').map(pickChara))
 
+const parenL = '(（'
+const parenR = ')）'
+const parenRsp = ',・，、&＆ '
+const parenA = parenL + parenR
+const ignoreParen = `[^${parenA}]`
+
+const trimEx = (s: string) =>
+  s.replace(RegExp(`^[${parenRsp}]+|[${parenRsp}]+$`, 'g'), '')
+
+const reStr = `([${parenR}]|^)(${ignoreParen}+)([${parenL}|$])`
+const regex = new RegExp(reStr, 'g')
 export const pickChara = (s: string): string[] => {
-  return [
-    ...s
-      .trim()
-      .matchAll(
-        /[)）][,・，、]?([^（()）]+)$|^([^（()）]+)[(（]|[)）][,・，、]?([^（()）]+)[(（]/g
-      ),
-  ].map((v) => v[1] || v[2] || v[3])
+  return [...s.trim().matchAll(regex)]
+    .map((v) => v[2])
+    .filter((v) => Boolean(v) && v !== s)
+    .map(trimEx)
 }
 
 export const flatten = <T>(arr: T[][]) =>

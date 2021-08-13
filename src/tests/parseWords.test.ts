@@ -95,6 +95,20 @@ Array [
   "阿澄佳奈",
 ]
 `)
+  expect(
+parseCountWords(
+'大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾)')).
+
+toMatchInlineSnapshot(`
+Array [
+  "大槻唯",
+  "山下七海",
+  "緒方智絵里",
+  "大空直美",
+  "新田美波",
+  "洲崎 綾",
+]
+`)
 })
 
 test('uniqo', () => {

@@ -1,4 +1,5 @@
 import { makeSearchQuery } from '../lib/makeSearchWord'
+import { pickCharaIcy } from './../lib/utils'
 
 describe('makeSearchQuery', () => {
   test('lost animeTitle', () => {
@@ -54,4 +55,18 @@ describe('makeSearchQuery', () => {
       `"超時空要塞マクロス 愛・おぼえていますか AND (ゲーム)"`
     )
   })
+})
+
+test('chara pick', () => {
+  expect(
+    pickCharaIcy(
+      '大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾) - 銀のイルカと熱い風'
+    )
+  ).toMatchInlineSnapshot(`
+Array [
+  "大槻唯",
+  "緒方智絵里",
+  "新田美波",
+]
+`)
 })
