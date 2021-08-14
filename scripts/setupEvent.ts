@@ -1,4 +1,4 @@
-import { fdb } from '../src/lib/firebase'
+import { fdb } from '../src/service/firebase'
 const eventId = process.env.EVENT_ID
 
 async function main() {

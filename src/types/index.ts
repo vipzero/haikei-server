@@ -84,3 +84,11 @@ export type Count = {
   word: string
   count: number
 }
+
+export type CacheFile = {
+  filePath: string
+  fileType: {
+    ext: string
+    mime: string
+  }
+}

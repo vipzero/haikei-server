@@ -1,5 +1,5 @@
 import { Counts } from './types/index'
-import { countupWords } from './firebase'
+import { countupWords } from './service/firebase'
 import { readFileSync, existsSync, writeFileSync } from 'fs'
 import { parseCountWords, textNormalize } from './utils'
 

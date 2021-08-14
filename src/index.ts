@@ -1,24 +1,24 @@
-import { info, log, error, songPrint, warn } from './lib/logger'
 import { unlink } from 'fs/promises'
-import { getImageLinks } from './lib/customImageSearch'
-import { findSong } from './lib/findSong'
+import { findSong } from './findSong'
+import subscribeIcy from './icy'
+import { uploadByUrlAll } from './get-image/uploadManage'
+import { error, info, log, songPrint, warn } from './logger'
+import { makeSearchQuery } from './makeSearchWord'
+import { getImageLinks } from './service/customImageSearch'
 import {
   addHistoryNow,
   deleteFile,
   getCurrentPlay,
   init,
   saveMusic,
-  uploadByUrlAll,
-} from './lib/firebase'
-import subscribeIcy from './lib/icy'
-import { getAlbum } from './lib/itunes'
-import { getLyricsSafe } from './lib/jlyricnet'
-import { makeSearchQuery } from './lib/makeSearchWord'
-// import { spotifySearchSongInfo } from './lib/spotify'
-import { store } from './lib/state/store'
-import { Song } from './lib/types/index'
-import { sleep } from './lib/utils'
-import { anaCounts } from './lib/wordCounts'
+} from './service/firebase'
+import { getAlbum } from './service/itunes'
+import { getLyricsSafe } from './service/jlyricnet'
+// import { spotifySearchSongInfo } from './spotify'
+import { store } from './state/store'
+import { Song } from './types/index'
+import { sleep } from './utils'
+import { anaCounts } from './wordCounts'
 
 const url = process.env.URL
 

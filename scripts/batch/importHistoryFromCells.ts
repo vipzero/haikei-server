@@ -1,8 +1,8 @@
 import { parse } from 'date-fns'
 import { readFileSync } from 'fs'
-import { addHistory } from '../lib/firebase'
-import { sleep } from '../lib/utils'
-import { anaCounts } from '../lib/wordCounts'
+import { addHistory } from '../firebase'
+import { sleep } from '../utils'
+import { anaCounts } from '../wordCounts'
 
 const parseLine = (text: string) => {
   const [timeRaw, title] = text.split('\t')

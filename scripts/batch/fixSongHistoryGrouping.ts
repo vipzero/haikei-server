@@ -1,4 +1,4 @@
-import { fdb } from '../../src/lib/firebase'
+import { fdb } from '../../src/service/firebase'
 
 async function main() {
   const snap = await fdb

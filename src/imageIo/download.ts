@@ -6,13 +6,16 @@ import stream from 'stream'
 import { promisify } from 'util'
 import { imageMin } from './imagemin'
 import { sharpMin } from './sharp'
+import { CacheFile } from '../types'
 
 const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
 const fileTypeDefault = { ext: 'png', mime: 'image/png' }
 
-export const downloadOptimize = async (url: string) => {
+export const downloadOptimize = async (
+  url: string
+): Promise<CacheFile | false> => {
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
   const stream = got.stream(url)
@@ -36,7 +39,7 @@ export const downloadOptimize = async (url: string) => {
       return 'SaveError' as const
     }
   )
-  if (res === 'SaveError') return false as const
+  if (res === 'SaveError') return false
   await imageMin(filePath)
   await sharpMin(filePath)
 

@@ -1,8 +1,8 @@
-import { info, warn, log, error } from './logger'
 import admin from 'firebase-admin'
-import { downloadOptimize } from './get-image/download'
-import { Count, Counts, HistTop, Song, UploadFile } from './types/index'
-import { chunk } from './utils'
+import { downloadOptimize } from '../get-image/download'
+import { error, info, log, warn } from '../logger'
+import { Count, Counts, HistTop, Song, UploadFile } from '../types/index'
+import { chunk } from '../utils'
 
 export { admin }
 
@@ -235,26 +235,6 @@ export const uploadByUrl = async (
 
   const downloadUrl = `${process.env.STRAGE_URL}${path}`
   return { downloadUrl, path, tmpFilePath }
-}
-
-export const uploadByUrlAll = async (urls: string[]) => {
-  const timeId = +new Date()
-  const uploads: UploadFile[] = []
-
-  for (const [i, url] of urls.entries()) {
-    // console.log(url)
-    const res = await uploadByUrl(url, `${timeId}_${i}`).catch((e) => {
-      error('UploadError', e)
-      return false as const
-    })
-    // console.log(res)
-
-    if (!res) continue
-
-    uploads.push(res)
-    if (uploads.length >= 3) break
-  }
-  return uploads
 }
 
 export const addHistoryNow = (title: string) => addHistory(title, +new Date())

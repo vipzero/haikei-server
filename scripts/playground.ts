@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 
-// import { pathQueue, push } from './lib/state/pathQueue'
-// const { spotifySearchSongInfo } = require('./lib/spotify')
-// const { getMusixMatch, getMusixLyrics } = require('./lib/musixmatch')
-// const { getLyrics } = require('./lib/jlyricnet')
-// import songs from './lib/anisonDb'
+// import { pathQueue, push } from './state/pathQueue'
+// const { spotifySearchSongInfo } = require('./spotify')
+// const { getMusixMatch, getMusixLyrics } = require('./musixmatch')
+// const { getLyrics } = require('./jlyricnet')
+// import songs from './anisonDb'
 
-// const { getImageLinks } = require('./lib/customImageSearch')
-// const { getAlbum } = require('./lib/itunes')
+// const { getImageLinks } = require('./customImageSearch')
+// const { getAlbum } = require('./itunes')
 // import { readFileSync } from 'fs'
 // readFileSync('./scripts/read.ts', 'utf8')
 
@@ -38,7 +38,7 @@
 
 // getAllIcy().then(console.log)
 
-// import { uploadByUrlAll } from '../lib/firebase'
+// import { uploadByUrlAll } from '../firebase'
 // const url = 'http://genka-market.jp/genka-pics/10032004.jpg'
 // uploadByUrlAll([url]).then(console.log)
 
@@ -54,21 +54,21 @@
 // push(4)
 // console.log(songs)
 
-// import { downloadOptimize } from '../lib/download'
+// import { downloadOptimize } from '../download'
 // const url =
 //   'https://storage.googleapis.com/rekka-haikei.appspot.com/img/2021obon/1628425925010_2.png'
 // downloadOptimize(url).then(console.log)
 
-// import { imageMin } from '../src/lib/imagemin'
+// import { imageMin } from '../src/imagemin'
 // imageMin('tmp/tmp.png').then(console.log)
 // imageMin('tmp/tmp1.png').then(console.log)
 // imageMin('tmp/tmp2.png').then(console.log)
 
-import { sharpMin } from '../src/lib/get-image/sharp'
+import { sharpMin } from '../src/get-image/sharp'
 sharpMin('tmp/tmp1.png').then(console.log)
 // sharpMin('tmp/tmp2.png').then(console.log)
 
-// import { state } from './../src/lib/state/state'
+// import { state } from './../src/state/state'
 // const s = state
 // setInterval(() => {
 //   s.incN()

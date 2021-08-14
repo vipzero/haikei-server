@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { loadingUrls } from './threadUrls'
 import chch from 'chch'
-import { sleep } from '../src/lib/utils'
+import { sleep } from '../src/utils'
 import { loadData, saveData } from './postTimeUtil'
 
 async function main() {

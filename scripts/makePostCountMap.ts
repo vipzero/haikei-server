@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { flatten } from '../src/lib/utils'
-import { loadHistoryTimes, setupHistN } from './../src/lib/firebase'
+import { flatten } from '../src/utils'
+import { loadHistoryTimes, setupHistN } from '../src/service/firebase'
 import { loadData } from './postTimeUtil'
 
 type Counts = { [id: number]: number | null }

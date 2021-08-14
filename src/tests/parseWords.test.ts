@@ -1,6 +1,6 @@
-import { uniqo, pickCharaIcy } from './../lib/utils'
-import { parseCountWords } from '../lib/utils'
-import { artistKeyNormalize, titleKeyNormalize } from '../lib/anisonDb'
+import { uniqo, pickCharaIcy } from './../utils'
+import { parseCountWords } from '../utils'
+import { artistKeyNormalize, titleKeyNormalize } from '../anisonDb'
 
 let q: string
 test('parseWords', () => {
@@ -96,10 +96,10 @@ Array [
 ]
 `)
   expect(
-parseCountWords(
-'大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾)')).
-
-toMatchInlineSnapshot(`
+    parseCountWords(
+      '大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾)'
+    )
+  ).toMatchInlineSnapshot(`
 Array [
   "大槻唯",
   "山下七海",
