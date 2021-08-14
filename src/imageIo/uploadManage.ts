@@ -47,16 +47,17 @@ export const imageSortScore = (file: CacheFile, order: number): number => {
   if (0.95 < raito && raito < 1.05) point -= 1 // 正方形・ジャケット画像マイナス
   if (raito < 0.25 && 4 < raito) point -= 1 // 正方形・ジャケット画像マイナス
 
-  if (400_000 <= size) point -= 3
+  if (400_000 <= size) point -= 100 // 制限
   if (300_000 <= size && size < 400_000) point -= 2
   if (200_000 <= size && size < 300_000) point += 0
   if (100_000 <= size && size < 200_000) point += 1
-  if (size < 100_000) point += 2 // ちょうどよいサイズ 100KB~200KB
+  if (size < 100_000) point += 2 // 助かるサイズ 100KB~200KB
 
   const fsize = height + width // frame size raito
 
   if (500 <= fsize && fsize < 800) point -= 1 // 解像度が低すぎる
   if (fsize <= 500) point -= 3
+  if (fsize <= 300) point -= 100 // 制限
 
   return point
 }
