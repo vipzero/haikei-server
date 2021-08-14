@@ -65,7 +65,7 @@ export const imageSortScore = (file: CacheFile, order: number): number => {
 export const choiceImage = (files: CacheFile[]): CacheFile[] => {
   const res = files
     .map((file, i) => [imageSortScore(file, i), file] as const)
-    .sort(([a], [b]) => a - b)
+    .sort(([a], [b]) => b - a)
 
   return res.map(([, file]) => file)
 }
