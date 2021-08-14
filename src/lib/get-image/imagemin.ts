@@ -1,4 +1,4 @@
-import { error } from './logger'
+import { error } from '../logger'
 import imagemin from 'imagemin'
 import imageminMozjpeg from 'imagemin-mozjpeg'
 import imageminPngquant from 'imagemin-pngquant'

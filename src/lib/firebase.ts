@@ -1,6 +1,6 @@
 import { info, warn, log, error } from './logger'
 import admin from 'firebase-admin'
-import { downloadOptimize } from './download'
+import { downloadOptimize } from './get-image/download'
 import { Count, Counts, HistTop, Song, UploadFile } from './types/index'
 import { chunk } from './utils'
 

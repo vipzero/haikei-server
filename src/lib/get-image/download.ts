@@ -1,4 +1,4 @@
-import { error, warn, log } from './logger'
+import { error, warn, log } from '../logger'
 import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
