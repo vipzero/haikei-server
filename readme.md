@@ -45,3 +45,9 @@ iTunes API (認証なし)
 
 - spotify: アートワーク・アルバム名・(邦楽・アニソンあまり取れないため)
 - musixmatch: アートワーク・アルバム名・歌詞の出だし(有料 API では FULL)
+
+
+## 検索文字生成部分や調整しているアルゴリズムなど
+https://github.com/vipzero/haikei-server/wiki/algo
+
+
