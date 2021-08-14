@@ -12,6 +12,7 @@ export const warn = (key: string, description: string) => {
   console.warn(chalk.red(`${key}: ${description}`))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const songPrint = (song: any) => {
   console.log(
     `
