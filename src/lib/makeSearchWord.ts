@@ -1,14 +1,9 @@
 import { SongSeed } from './types/index'
 import { pickCharaIcy } from './utils'
 
-const animeExt = [
-  'アニメ',
-  'meme',
-  'ネタ',
-  'カット',
-  'キャラ',
-  'かわいい',
-].join(' OR ')
+const animeExt = ['アニメ', 'meme', 'キャプ画', 'キャラ', 'かわいい'].join(
+  ' OR '
+)
 const gameExt = ['ゲーム'].join(' OR ') // 実験
 
 export function makeSearchQuery(song: SongSeed): string {

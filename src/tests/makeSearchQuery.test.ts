@@ -38,7 +38,7 @@ describe('makeSearchQuery', () => {
         icy: 'artist - title',
       })
     ).toMatchInlineSnapshot(
-      `"アニメタイトルあり AND (アニメ OR meme OR ネタ OR カット OR キャラ OR かわいい)"`
+      `"アニメタイトルあり AND (アニメ OR meme OR キャプ画 OR キャラ OR かわいい)"`
     )
   })
   test('has animeTitle and category game', () => {
