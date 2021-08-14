@@ -1,8 +1,7 @@
-import { unlink } from 'fs/promises'
 import { findSong } from './findSong'
 import subscribeIcy from './icy'
 import { uploadByUrlAll } from './imageIo/uploadManage'
-import { error, info, log, songPrint, warn } from './logger'
+import { error, info, log, songPrint } from './logger'
 import { makeSearchQuery } from './makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'
 import {
@@ -23,12 +22,7 @@ import { anaCounts } from './wordCounts'
 const url = process.env.URL
 
 store.onExpiredStorageUrl = (urls) => {
-  urls.forEach(({ tmpFilePath, path }) => {
-    unlink(tmpFilePath).catch((e) => {
-      if (e.code === 'ENOENT') return warn('NoFile', tmpFilePath)
-
-      error('RemoveFile', e)
-    })
+  urls.forEach(({ path }) => {
     deleteFile(path)
   })
 }

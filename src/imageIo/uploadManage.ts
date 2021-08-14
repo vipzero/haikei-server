@@ -1,4 +1,4 @@
-import { log } from './../logger'
+import { unlink } from 'fs/promises'
 import { error } from '../logger'
 import { UploadFile } from '../types/index'
 import { uploadStorage } from './../service/firebase'
@@ -31,6 +31,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
     uploads.push(res)
     if (uploads.length >= 3) break
   }
+  downloads.map((f) => unlink(f.filePath))
 
   return uploads
 }
@@ -54,8 +55,8 @@ export const imageSortScore = (file: CacheFile, order: number): number => {
 
   const fsize = height + width // frame size raito
 
-  if (800 <= fsize && fsize < 1000) point -= 1 // 解像度が低すぎる
-  if (fsize <= 800) point -= 3
+  if (500 <= fsize && fsize < 800) point -= 1 // 解像度が低すぎる
+  if (fsize <= 500) point -= 3
 
   return point
 }

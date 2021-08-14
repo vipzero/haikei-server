@@ -97,26 +97,6 @@ Array [
     "width": 1360,
   },
   Object {
-    "filePath": "tmp/522cb4ac-796e-400b-b974-cf94bfd818d2",
-    "fileType": Object {
-      "ext": "jpg",
-      "mime": "image/jpeg",
-    },
-    "height": 290,
-    "size": 41281,
-    "width": 580,
-  },
-  Object {
-    "filePath": "tmp/2f04f0ad-3ebd-4df1-afd6-b2af6133fc85",
-    "fileType": Object {
-      "ext": "jpg",
-      "mime": "image/jpeg",
-    },
-    "height": 367,
-    "size": 26619,
-    "width": 620,
-  },
-  Object {
     "filePath": "tmp/35957313-fe13-480e-84bb-6c49c7fef9ce",
     "fileType": Object {
       "ext": "jpg",
@@ -135,6 +115,26 @@ Array [
     "height": 620,
     "size": 51619,
     "width": 450,
+  },
+  Object {
+    "filePath": "tmp/522cb4ac-796e-400b-b974-cf94bfd818d2",
+    "fileType": Object {
+      "ext": "jpg",
+      "mime": "image/jpeg",
+    },
+    "height": 290,
+    "size": 41281,
+    "width": 580,
+  },
+  Object {
+    "filePath": "tmp/2f04f0ad-3ebd-4df1-afd6-b2af6133fc85",
+    "fileType": Object {
+      "ext": "jpg",
+      "mime": "image/jpeg",
+    },
+    "height": 367,
+    "size": 26619,
+    "width": 620,
   },
   Object {
     "filePath": "tmp/e438e943-a0b5-4816-a8f1-60dc61ee7d98",
