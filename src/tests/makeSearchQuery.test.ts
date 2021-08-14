@@ -4,19 +4,19 @@ import { pickCharaIcy } from './../lib/utils'
 describe('makeSearchQuery', () => {
   test('lost animeTitle', () => {
     expect(
-      makeSearchQuery({
-        artist: '蒼井翔太',
-        title: 'give me ? me',
-        icy: '蒼井翔太 - give me ? me',
-      })
-    ).toMatchInlineSnapshot(`"蒼井翔太 give me ? me (アニメ OR キャラ)"`)
+makeSearchQuery({
+  artist: '蒼井翔太',
+  title: 'give me ? me',
+  icy: '蒼井翔太 - give me ? me' })).
+
+toMatchInlineSnapshot(`"蒼井翔太 give me ? me (名シーン OR キャラ) (キャプ画像 OR 壁紙) かわいい"`)
   })
   test('lost animeTitle and detect chara', () => {
     expect(
-      makeSearchQuery({
-        icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)',
-      })
-    ).toMatchInlineSnapshot(`"本城香澄 AND (名シーン OR キャラ)"`)
+makeSearchQuery({
+  icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)' })).
+
+toMatchInlineSnapshot(`"本城香澄 (名シーン OR キャラ) (キャプ画像 OR 壁紙) かわいい"`)
   })
   test('has animeTitle', () => {
     expect(
