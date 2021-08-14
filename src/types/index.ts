@@ -91,4 +91,7 @@ export type CacheFile = {
     ext: string
     mime: string
   }
+  size: number
+  width: number
+  height: number
 }

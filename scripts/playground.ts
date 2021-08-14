@@ -64,7 +64,7 @@
 // imageMin('tmp/tmp1.png').then(console.log)
 // imageMin('tmp/tmp2.png').then(console.log)
 
-import { sharpMin } from '../src/get-image/sharp'
+import { sharpMin } from '../src/imageIo/sharp'
 sharpMin('tmp/tmp1.png').then(console.log)
 // sharpMin('tmp/tmp2.png').then(console.log)
 

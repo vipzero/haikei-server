@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { error, log, info } from './logger'
-import { shuffle } from './utils'
+import { error, info, log } from '../logger'
 const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {
@@ -30,5 +29,5 @@ export const getImageLinks = async (q: string) => {
     return false as const
   })
   const imageLinks = res ? (res.data.items || []).map((item) => item.link) : []
-  return shuffle(imageLinks.filter(white))
+  return imageLinks.filter(white)
 }

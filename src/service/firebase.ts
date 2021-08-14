@@ -1,5 +1,6 @@
+import { CacheFile } from './../types/index'
 import admin from 'firebase-admin'
-import { downloadOptimize } from '../get-image/download'
+import { downloadOptimize } from '../imageIo/download'
 import { error, info, log, warn } from '../logger'
 import { Count, Counts, HistTop, Song, UploadFile } from '../types/index'
 import { chunk } from '../utils'
@@ -218,23 +219,19 @@ export const deleteFile = (path: string) => {
     })
 }
 
-export const uploadByUrl = async (
-  url: string,
-  name: string
-): Promise<UploadFile | false> => {
-  const res = await downloadOptimize(url)
-  if (!res) return false
-  const { filePath: tmpFilePath, fileType } = res
+export const uploadStorage = async (file: CacheFile, id: string) => {
+  const { filePath: tmpFilePath, fileType } = file
+  const { ext, mime: contentType } = fileType
 
-  const path = `img/${EVENT_ID}/${name}.${fileType.ext}`
+  const destination = `img/${EVENT_ID}/${id}.${ext}`
   await bucket.upload(tmpFilePath, {
-    contentType: fileType.mime,
-    destination: path,
+    contentType,
+    destination,
     predefinedAcl: 'publicRead',
   })
 
-  const downloadUrl = `${process.env.STRAGE_URL}${path}`
-  return { downloadUrl, path, tmpFilePath }
+  const downloadUrl = `${process.env.STRAGE_URL}${destination}`
+  return { downloadUrl, path: destination, tmpFilePath }
 }
 
 export const addHistoryNow = (title: string) => addHistory(title, +new Date())

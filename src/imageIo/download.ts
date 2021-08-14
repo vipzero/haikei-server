@@ -41,9 +41,10 @@ export const downloadOptimize = async (
   )
   if (res === 'SaveError') return false
   await imageMin(filePath)
-  await sharpMin(filePath)
+  const shapeRes = await sharpMin(filePath)
+  const { size, height, width } = shapeRes
 
-  const ft = await fileTypePromise
+  const fileType = (await fileTypePromise) || fileTypeDefault
 
-  return { filePath, fileType: ft || fileTypeDefault }
+  return { filePath, fileType, size, height, width }
 }

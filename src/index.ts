@@ -1,7 +1,7 @@
 import { unlink } from 'fs/promises'
 import { findSong } from './findSong'
 import subscribeIcy from './icy'
-import { uploadByUrlAll } from './get-image/uploadManage'
+import { uploadByUrlAll } from './imageIo/uploadManage'
 import { error, info, log, songPrint, warn } from './logger'
 import { makeSearchQuery } from './makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'

@@ -1,4 +1,4 @@
-import { log, error } from './logger'
+import { log, error } from '../logger'
 import axios from 'axios'
 
 const iTunesSearchSong = (term: string) =>
