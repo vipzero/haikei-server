@@ -46,7 +46,6 @@ const saveSong = (song: Song) => {
     .doc(EVENT_ID)
     .set({
       ...removeUndefined(song),
-      time: Date.now(),
     })
 }
 // const saveLyric = (text) => {

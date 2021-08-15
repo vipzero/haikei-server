@@ -35,6 +35,7 @@ async function prepareImages(q: string) {
 }
 
 async function receiveIcy(icy: string) {
+  const time = Date.now()
   info(icy)
 
   if (store.isDuplicate(icy)) return // 起動時の重複登録を防ぐ
@@ -69,7 +70,7 @@ async function receiveIcy(icy: string) {
     ...albumInfos,
     ...creators,
     wordCounts,
-    time: 0,
+    time,
   }
 
   songPrint(compSong)
