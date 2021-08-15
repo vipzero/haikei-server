@@ -1,5 +1,5 @@
-import { SongSeed } from './types/index'
-import { pickCharaIcy } from './utils'
+import { SongSeed } from '../types/index'
+import { pickCharaIcy } from '.'
 
 const animeExt = ['アニメ', 'meme', 'キャプ画', 'キャラ', 'かわいい'].join(
   ' OR '

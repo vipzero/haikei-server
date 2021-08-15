@@ -1,6 +1,6 @@
 import { Counts } from '../../src/types/index'
 
-import { findSong } from '../../src/findSong'
+import { findSong } from '../../src/anisonDb/findSong'
 import { textNormalize, parseCountWords } from '../../src/utils'
 import { loadAllIcy, setupCount } from '../../src/service/firebase'
 

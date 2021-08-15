@@ -1,6 +1,6 @@
-import { uniqo, pickCharaIcy } from './../utils'
+import { uniqo, pickCharaIcy } from '../utils'
 import { parseCountWords } from '../utils'
-import { artistKeyNormalize, titleKeyNormalize } from '../anisonDb'
+import { artistKeyNormalize, titleKeyNormalize } from '../anisonDb/anisonDb'
 
 let q: string
 test('parseWords', () => {

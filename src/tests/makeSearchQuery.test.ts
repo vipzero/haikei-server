@@ -1,5 +1,5 @@
-import { makeSearchQuery } from '../makeSearchWord'
-import { pickCharaIcy } from './../utils'
+import { makeSearchQuery } from '../utils/makeSearchWord'
+import { pickCharaIcy } from '../utils'
 
 describe('makeSearchQuery', () => {
   test('lost animeTitle', () => {

@@ -1,8 +1,8 @@
-import { findSong } from './findSong'
-import subscribeIcy from './icy'
+import { findSong } from './anisonDb/findSong'
+import subscribeIcy from './streaming/icy'
 import { uploadByUrlAll } from './imageIo/uploadManage'
-import { error, info, log, songPrint } from './logger'
-import { makeSearchQuery } from './makeSearchWord'
+import { error, info, log, songPrint } from './utils/logger'
+import { makeSearchQuery } from './utils/makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'
 import {
   addHistoryNow,
@@ -17,7 +17,7 @@ import { getLyricsSafe } from './service/jlyricnet'
 import { store } from './state/store'
 import { Song } from './types/index'
 import { sleep } from './utils'
-import { anaCounts } from './wordCounts'
+import { anaCounts } from './utils/wordCounts'
 
 const url = process.env.URL
 

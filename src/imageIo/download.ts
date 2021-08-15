@@ -1,4 +1,4 @@
-import { error, warn, log } from '../logger'
+import { error, warn, log } from '../utils/logger'
 import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
@@ -41,7 +41,12 @@ export const downloadOptimize = async (
   )
   if (res === 'SaveError') return false
   await imageMin(filePath)
-  const shapeRes = await sharpMin(filePath)
+  const shapeRes = await sharpMin(filePath).catch((e) => {
+    warn('UnsupportedError', e)
+    return false as const
+  })
+  if (!shapeRes) return false
+
   const { size, height, width } = shapeRes
 
   const fileType = (await fileTypePromise) || fileTypeDefault

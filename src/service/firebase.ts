@@ -1,9 +1,8 @@
-import { CacheFile } from './../types/index'
 import admin from 'firebase-admin'
-import { downloadOptimize } from '../imageIo/download'
-import { error, info, log, warn } from '../logger'
-import { Count, Counts, HistTop, Song, UploadFile } from '../types/index'
+import { Count, Counts, HistTop, Song } from '../types/index'
+import { error, info, log, warn } from '../utils/logger'
 import { chunk } from '../utils'
+import { CacheFile } from './../types/index'
 
 export { admin }
 

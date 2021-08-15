@@ -1,5 +1,5 @@
 import { unlink } from 'fs/promises'
-import { error } from '../logger'
+import { error } from '../utils/logger'
 import { UploadFile } from '../types/index'
 import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'

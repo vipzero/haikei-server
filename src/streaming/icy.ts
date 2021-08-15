@@ -1,5 +1,5 @@
-import { log } from './logger'
-import { sjisToUtf8 } from './utils'
+import { log } from '../utils/logger'
+import { sjisToUtf8 } from '../utils'
 const icy = require('icy')
 
 type IcyRes = {

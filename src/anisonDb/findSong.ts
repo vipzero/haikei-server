@@ -3,8 +3,8 @@ import songs, {
   artistKeyNormalize,
   titleKeyNormalize,
 } from './anisonDb'
-import { SongSeed } from './types/index'
-import { strLen } from './utils'
+import { SongSeed } from '../types'
+import { strLen } from '../utils'
 
 const trimTail = (s: string) => s.substring(0, s.length - 1)
 

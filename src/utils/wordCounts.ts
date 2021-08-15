@@ -1,7 +1,7 @@
-import { Counts } from './types/index'
-import { countupWords } from './service/firebase'
+import { Counts } from '../types/index'
+import { countupWords } from '../service/firebase'
 import { readFileSync, existsSync, writeFileSync } from 'fs'
-import { parseCountWords, textNormalize } from './utils'
+import { parseCountWords, textNormalize } from '.'
 
 export function getCounts() {
   if (!existsSync('counts.json')) {

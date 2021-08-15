@@ -1,4 +1,4 @@
-import { artistKeyNormalize } from '../anisonDb'
+import { artistKeyNormalize } from '../anisonDb/anisonDb'
 const Spotify = require('node-spotify-api')
 import { isHit } from '../utils'
 

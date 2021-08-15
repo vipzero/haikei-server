@@ -1,7 +1,7 @@
 import parse from 'csv-parse/lib/sync'
 import fs from 'fs'
-import { ProgramRecord, SongRecord, SongSupportAttr } from './types/index'
-import { parseCountWords, textNormalize } from './utils'
+import { ProgramRecord, SongRecord, SongSupportAttr } from '../types/index'
+import { parseCountWords, textNormalize } from '../utils'
 
 const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']

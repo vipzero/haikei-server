@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { error, info, log } from '../logger'
+import { error, info, log } from '../utils/logger'
 const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {

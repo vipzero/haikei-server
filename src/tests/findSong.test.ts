@@ -1,4 +1,4 @@
-import { findSong } from '../findSong'
+import { findSong } from '../anisonDb/findSong'
 
 // jest.mock('fs', () => ({
 //   readFileSync: jest.fn((path) => {
