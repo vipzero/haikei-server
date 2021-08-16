@@ -24,6 +24,8 @@ async function main() {
       composer: '',
       wordCountsAna: [{ name: '----', count: 0, label: '----' }],
     })
+  await fdb.collection('vote').doc(eventId).set({ postCount: 0 })
 }
 
-main()
+// eslint-disable-next-line no-console
+main().then(() => console.log('fin'))
