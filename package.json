@@ -2,7 +2,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@types/jest": "^27.0.0",
+    "@types/jest": "27.0.0",
     "axios": "0.21.1",
     "chalk": "4.1.2",
     "chch": "2.5.0",
@@ -30,12 +30,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@types/csv-parse": "^1.2.2",
-    "@types/imagemin": "^7.0.1",
-    "@types/imagemin-gifsicle": "^7.0.1",
-    "@types/imagemin-mozjpeg": "^8.0.1",
-    "@types/node": "^16.6.0",
-    "@types/sharp": "^0.28.5",
+    "@types/csv-parse": "1.2.2",
+    "@types/imagemin": "7.0.1",
+    "@types/imagemin-gifsicle": "7.0.1",
+    "@types/imagemin-mozjpeg": "8.0.1",
+    "@types/node": "16.6.0",
+    "@types/sharp": "0.28.5",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.16.0",
