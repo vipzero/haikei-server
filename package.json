@@ -38,7 +38,7 @@
     "@types/sharp": "0.28.5",
     "@typescript-eslint/eslint-plugin": "4.29.1",
     "@typescript-eslint/parser": "4.29.1",
-    "eslint": "^7.16.0",
+    "eslint": "7.32.0",
     "firebase-admin": "9.11.0",
     "imagemin": "7.0.1",
     "imagemin-gifsicle": "7.0.0",
