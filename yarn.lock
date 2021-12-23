@@ -1778,10 +1778,10 @@ char-regex@^1.0.2:
   resolved "https://registry.yarnpkg.com/char-regex/-/char-regex-1.0.2.tgz#d744358226217f981ed58f479b1d6bcc29545dcf"
   integrity sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==
 
-chch@2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/chch/-/chch-2.7.0.tgz#6db733c1c293ad871cd20cb73d332f3f1d83d8a2"
-  integrity sha512-6HlBKHql/OEPtNwC71g4ufcEPBl7rSlXncm9KNc9/Dyn3k9wGdn583blv3GWBk0ydLQCNUWs5UC6hxwmNWgDiA==
+chch@2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/chch/-/chch-2.8.0.tgz#7dc6bd63d61dfb01844dcd2aec2064abcc261298"
+  integrity sha512-+Ogc65yvfGcaARKiQC0i/HN2uOSNTn5JF1p51jSyUetaN9IyqWvlhmcFP2j8/dHNhAKw6CjT3WlqRdJdy0t/IA==
   dependencies:
     "2ch-trip" "^1.0.1"
     axios "^0.21.0"
