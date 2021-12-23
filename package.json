@@ -5,7 +5,7 @@
     "@types/jest": "27.0.0",
     "axios": "0.21.1",
     "chalk": "4.1.2",
-    "chch": "2.6.0",
+    "chch": "2.7.0",
     "cheerio": "1.0.0-rc.10",
     "csv-parse": "4.16.0",
     "date-fns": "2.23.0",
