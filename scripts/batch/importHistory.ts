@@ -9,9 +9,8 @@ const parseLine = (text: string) => {
   // text.split('|').pop() NOTE:  曲名に | が入る場合にエスケープされている瓦家内
   const m = /(?<time>.*?)\|.*?\|.*?\|(?<title>.*)/.exec(text)
 
-  if (!m) {
+  if (!m || !m.groups) {
     throw Error('ParseError')
-    return
   }
 
   // NOTE '27/Dec/2020:07:13:17 +0900' なんてフォーマット？

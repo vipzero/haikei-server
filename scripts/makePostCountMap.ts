@@ -41,20 +41,12 @@ async function main() {
 
   postTimes.sort((a, b) => a - b)
 
-  console.log(postTimes[0])
-  console.log(postTimes[1])
-  console.log(postTimes[2])
-
-  console.log(postTimes.length)
-  console.log(postTimes[0])
-  console.log(postTimes[postTimes.length - 1])
-
   const times = await loadHistoryTimes()
   console.log(times.length)
-  console.log(times[0])
-  console.log(times[times.length - 1])
+  // console.log(times[0])
+  // console.log(times[times.length - 1])
   const res = mergeCount(times.map(Number), postTimes)
-  console.log(res)
+  // console.log(res)
 
   await setupHistN(res)
 }
