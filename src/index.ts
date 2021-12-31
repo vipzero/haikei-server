@@ -73,6 +73,7 @@ async function receiveIcy(icy: string) {
     ...creators,
     wordCounts,
     time,
+    imageSearchWord,
   }
 
   songPrint(compSong)

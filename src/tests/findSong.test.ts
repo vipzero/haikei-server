@@ -141,18 +141,10 @@ Object {
   "title": "大城あかり(CV:木村千咲)",
 }
 `)
-  icy = 'Eve - 蒼のワルツ'
-  expect(findSong(icy)).toMatchInlineSnapshot(`
-Object {
-  "artist": "Eve",
-  "icy": "Eve - 蒼のワルツ",
-  "title": "蒼のワルツ",
-}
-`)
   icy = 'Cry Baby - Official髭男dism'
   expect(findSong(icy)).toMatchInlineSnapshot(`
 Object {
-  "animeTitle": "東京卍リベンジャーズ",
+  "animeTitle": "東京リベンジャーズ",
   "artist": "Official髭男dism",
   "icy": "Cry Baby - Official髭男dism",
   "opOrEd": "ED",
