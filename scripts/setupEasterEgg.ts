@@ -11,6 +11,15 @@ async function main() {
       '4': 0,
       '5': 0,
     },
+    oreimo: {
+      ki: 0,
+      ku: 0,
+      ay: 0,
+      ba: 0,
+      ka: 0,
+      ma: 0,
+      se: 0,
+    },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
