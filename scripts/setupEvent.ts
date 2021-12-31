@@ -3,6 +3,9 @@ const eventId = process.env.EVENT_ID
 
 async function main() {
   if (!eventId) return
+  const hist = await fdb.collection('hist').doc(eventId).get()
+  if (hist.exists) return
+
   await fdb.collection('hist').doc(eventId).set({ lasttime: 0 })
 
   await fdb
