@@ -1,0 +1,27 @@
+import { fdb } from '../src/service/firebase'
+const eventId = process.env.EVENT_ID
+
+async function main() {
+  if (!eventId) return
+  const votes = {
+    gotoyome: {
+      '1': 0,
+      '2': 0,
+      '3': 0,
+      '4': 0,
+      '5': 0,
+    },
+  }
+
+  const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
+    const animeRef = fdb.collection('cvote').doc(animeId)
+    const doc = await animeRef.get()
+    if (doc.exists) return
+
+    await animeRef.set(inits)
+  })
+  await Promise.all(tasks)
+}
+
+// eslint-disable-next-line no-console
+main().then(() => console.log('fin'))

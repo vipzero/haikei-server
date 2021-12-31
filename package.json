@@ -22,6 +22,7 @@
     "start": "ts-node src/index.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
     "setup": "ts-node scripts/setupEvent.ts",
+    "setup:ee": "ts-node scripts/setupEasterEgg.ts",
     "import2": "ts-node scripts/batch/importHistoryFromCells.ts",
     "map:watch": "./scripts/hourly-yarn-map.sh",
     "map": "yarn map-load-thread && yarn map-save",
