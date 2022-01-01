@@ -18,21 +18,17 @@ export function textNormalize(s: string) {
     .replace('！', '!')
     .replace('？', '?')
 }
-const parseWords = (s: string) =>
-  s
-    .replace(
-      /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi,
-      ','
-    )
-    .split(',')
-    .map((v) =>
-      v
-        .trim()
-        .replace(/^[.:：&＆]/, '')
-        .trim()
-    )
+const SP =
+  /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi
+const isTagWord = (v: string) => !!v && v !== '-'
+const trimWord = (v: string) =>
+  v
+    .trim()
+    .replace(/^[.:：&＆]/, '')
+    .trim()
 
-    .filter((v) => !!v && v !== '-')
+const parseWords = (s: string) =>
+  s.replace(SP, ',').split(',').map(trimWord).filter(isTagWord)
 
 export const shuffle = <T>(arr: T[]): T[] => {
   const a = [...arr]
