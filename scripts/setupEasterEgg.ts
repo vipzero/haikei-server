@@ -20,6 +20,12 @@ async function main() {
       ma: 0,
       se: 0,
     },
+    oregairu: {
+      yk: 0,
+      yi: 0,
+      ir: 0,
+      ot: 0,
+    },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
