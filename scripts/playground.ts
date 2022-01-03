@@ -64,8 +64,8 @@
 // imageMin('tmp/tmp1.png').then(console.log)
 // imageMin('tmp/tmp2.png').then(console.log)
 
-import { sharpMin } from '../src/imageIo/sharp'
-sharpMin('tmp/tmp1.png').then(console.log)
+// import { sharpMin } from '../src/imageIo/sharp'
+// sharpMin('tmp/tmp1.png').then(console.log)
 // sharpMin('tmp/tmp2.png').then(console.log)
 
 // import { state } from './../src/state/state'
@@ -74,3 +74,6 @@ sharpMin('tmp/tmp1.png').then(console.log)
 //   s.incN()
 //   p(s.n)
 // }, 1000)
+
+// import { getSyncConf } from './../src/utils/syncConf'
+// console.log(getSyncConf())

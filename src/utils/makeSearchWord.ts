@@ -1,3 +1,4 @@
+import { getSyncConf } from './syncConf'
 import { SongSeed } from '../types/index'
 import { pickCharaIcy } from '.'
 
@@ -9,6 +10,8 @@ const icyOpt = `(名シーン OR キャラ) (キャプ画像 OR 壁紙) かわ�
 
 export function makeSearchQuery(song: SongSeed): string {
   const { icy, category, animeTitle } = song
+  if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
+
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
     if (charaName) return `${charaName} ${icyOpt}`
