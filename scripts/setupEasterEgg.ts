@@ -33,6 +33,7 @@ async function main() {
       dri: 0, oti: 0, msi: 0, utd: 0, bng: 0, oth: 0,
     },
     jojo: { s1: 0, s2: 0, s3: 0, s4: 0, s5: 0, s6: 0, s7: 0, s8: 0, s9: 0 },
+    bobo: { b1: 0, b2: 0, b3: 0, b4: 0, b5: 0 },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
