@@ -24,6 +24,15 @@ async function main() {
     oreshura: { hr: 0, nt: 0, ak: 0, fy: 0 },
     jinsei: { ri: 0, bu: 0, ta: 0, si: 0, bi: 0 },
     steinsgate: { kr: 0, my: 0, sz: 0, fe: 0, rk: 0, me: 0 },
+    // prettier-ignore
+    toaru: {
+      msk: 0, ind: 0, skh: 0, krk: 0, uih: 0, stn: 0, knz: 0,
+      hmg: 0, ora: 0, mik: 0, kme: 0, huk: 0, ror: 0, itw: 0,
+      mtk: 0, knh: 0, hru: 0, may: 0, msj: 0, fky: 0, nnt: 0,
+      mgn: 0, frn: 0, mai: 0, tkt: 0, snr: 0, feb: 0, ars: 0,
+      dri: 0, oti: 0, msi: 0, utd: 0, bng: 0, oth: 0,
+    },
+    jojo: { s1: 0, s2: 0, s3: 0, s4: 0, s5: 0, s6: 0, s7: 0, s8: 0, s9: 0 },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
