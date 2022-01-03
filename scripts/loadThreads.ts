@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { loadingUrls } from './threadUrls'
+import { loadActiveUrls } from './threadUrls'
 import chch from 'chch'
 import { sleep } from '../src/utils'
 import { loadData, saveData } from './postTimeUtil'
@@ -12,7 +12,9 @@ async function main() {
         .map((t) => t.url)
     : []
 
-  const urls = loadingUrls.concat(currentTreads)
+  const urls = loadActiveUrls()
+    .map((v) => v.text)
+    .concat(currentTreads)
   console.log(urls)
 
   const data = loadData()
