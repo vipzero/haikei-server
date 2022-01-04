@@ -36,6 +36,13 @@ async function main() {
     bobo: { b1: 0, b2: 0, b3: 0, b4: 0, b5: 0 },
     rozen: { sg: 0, ki: 0, ss: 0, as: 0, mk: 0, hi: 0, br: 0 },
     amagami: { ay: 0, rh: 0, ko: 0, nk: 0, nn: 0, mr: 0, my: 0, kz: 0 },
+    // prettier-ignore
+    shanimas: {
+      mn: 0, as: 0, mg: 0, rn: 0, mm: 0, st: 0, yk: 0, kk: 0,
+      rh: 0, ty: 0, jr: 0, rs: 0, nh: 0, an: 0, kh: 0, cy: 0,
+      ah: 0, hy: 0, ai: 0, to: 0, md: 0, ki: 0, hn: 0, nt: 0,
+      mk: 0, rk: 0,
+    },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
