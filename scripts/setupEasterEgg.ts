@@ -23,7 +23,7 @@ async function main() {
     },
     oreshura: { hr: 0, nt: 0, ak: 0, fy: 0 },
     jinsei: { ri: 0, bu: 0, ta: 0, si: 0, bi: 0 },
-    steinsgate: { kr: 0, my: 0, sz: 0, fe: 0, rk: 0, me: 0 },
+    steinsgate: { kr: 0, my: 0, sz: 0, fe: 0, rk: 0, me: 0, mh: 0 },
     // prettier-ignore
     toaru: {
       msk: 0, ind: 0, skh: 0, krk: 0, uih: 0, stn: 0, knz: 0,
