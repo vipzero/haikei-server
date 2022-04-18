@@ -2,7 +2,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@types/jest": "27.0.0",
+    "@types/jest": "^27.4.1",
     "axios": "0.21.1",
     "chalk": "4.1.2",
     "chch": "2.8.0",
@@ -13,10 +13,9 @@
     "got": "11.8.2",
     "iconv-lite": "0.6.3",
     "icy": "2.1.0",
-    "jest": "27.0.6",
+    "jest": "^27.5.1",
     "node-spotify-api": "1.1.1",
-    "sharp": "0.28.3",
-    "ts-jest": "27.0.4"
+    "sharp": "0.28.3"
   },
   "scripts": {
     "start": "ts-node src/index.ts",
@@ -32,39 +31,25 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@swc/core": "^1.2.168",
+    "@swc/helpers": "^0.3.8",
+    "@swc/jest": "^0.2.20",
     "@types/csv-parse": "1.2.2",
     "@types/imagemin": "7.0.1",
     "@types/imagemin-gifsicle": "7.0.1",
     "@types/imagemin-mozjpeg": "8.0.1",
-    "@types/node": "16.6.0",
+    "@types/node": "17.0.24",
     "@types/sharp": "0.28.5",
     "@typescript-eslint/eslint-plugin": "4.29.1",
     "@typescript-eslint/parser": "4.29.1",
-    "eslint": "7.32.0",
+    "eslint": "8.13.0",
     "firebase-admin": "9.11.0",
     "imagemin": "7.0.1",
     "imagemin-gifsicle": "7.0.0",
     "imagemin-mozjpeg": "9.0.0",
     "imagemin-pngquant": "9.0.2",
     "rimraf": "3.0.2",
-    "ts-node": "10.2.0",
-    "typescript": "4.3.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "tsconfig.json"
-      }
-    },
-    "testMatch": [
-      "**/tests/**/*.test.ts"
-    ]
+    "ts-node": "10.7.0",
+    "typescript": "4.6.3"
   }
 }
