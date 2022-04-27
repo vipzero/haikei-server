@@ -3,11 +3,44 @@
 
 ## setup
 
+### 必要な環境変数を設定する
+
+.envrc.sample 内のものが必要
+
+[dotenv](https://github.com/direnv/direnv) を使う場合
+
 ```
 cp .envrc.sample .envrc
+# .envrc を編集
 ```
 
-## アニメ番組情報の取得
+### event セットアップ
+
+
+```
+export EVENT_ID="hoge" 
+```
+
+EVENT_ID を編集後
+
+
+```
+yarn setup
+yarn setup:ee # 投票機能
+```
+
+
+
+### アニメ番組情報の取得
+
+[zx](https://github.com/google/zx) を使える場合
+
+```
+yarn setup:anison
+```
+
+使えない場合以下のリンクから手動
+
 
 data に アニソンメタデータ設置
 
