@@ -47,7 +47,25 @@ iTunes API (認証なし)
 - musixmatch: アートワーク・アルバム名・歌詞の出だし(有料 API では FULL)
 
 
-## 検索文字生成部分や調整しているアルゴリズムなど
-https://github.com/vipzero/haikei-server/wiki/algo
 
+調整・アルゴリズム関係
 
+## 画像検索文字列の生成部分
+
+方針
+
+- 関連性のあるものが出るように
+- meme やキャプ画像が出るように
+- 平凡な公式タイトル画像以外が出るように
+
+コード
+
+https://github.com/vipzero/haikei-server/blob/main/src/utils/makeSearchWord.ts
+
+## 画像選択
+imagemin などで Optimize 後のメタデータで  
+ソートして上から3つ
+
+コード
+
+https://github.com/vipzero/haikei-server/blob/main/src/imageIo/uploadManage.ts
