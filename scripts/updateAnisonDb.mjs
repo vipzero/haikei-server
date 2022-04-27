@@ -1,0 +1,16 @@
+#!/usr/bin/env zx
+
+await $`mkdir -p workspace`
+
+await cd('workspace')
+
+const files = ['anison', 'program', 'sf', 'game']
+for (const file of files) {
+  await $`wget http://anison.info/data/download/${file}.zip`
+
+  await $`unzip ${file}.zip`
+  await $`mv -f ${file}.csv ../data`
+}
+
+await cd('../')
+await rm('workspace')
