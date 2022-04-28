@@ -14,7 +14,7 @@ import {
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 // import { spotifySearchSongInfo } from './spotify'
-import { store } from './state/store'
+import { Store, store } from './state/store'
 import { Song } from './types/index'
 import { sleep } from './utils'
 import { anaCounts } from './utils/wordCounts'
@@ -36,11 +36,14 @@ async function prepareImages(q: string) {
   return uploads.map((u) => u.downloadUrl)
 }
 
-async function receiveIcy(icy: string) {
-  const time = Date.now()
+export async function icyToSong(
+  icy: string,
+  time: number,
+  store: Store
+): Promise<Song | false> {
   info(icy)
 
-  if (store.isDuplicate(icy)) return // 起動時の重複登録を防ぐ
+  if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
 
   addHistoryNow(icy)
 
@@ -54,12 +57,8 @@ async function receiveIcy(icy: string) {
   const imageSearchWord = makeSearchQuery(song)
   const imageLinksSync = prepareImages(imageSearchWord)
 
-  // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
-  // if (spoinfo) song.artwork = spoinfo.artwork
-
   const albumInfosSync = getAlbum(icy)
   const lyricsSync = getLyricsSafe(song.title, song.artist)
-  // const lyric = lyrics ? lyrics.lyric : null
 
   const [imageLinks, albumInfos, { creators }] = await Promise.all([
     imageLinksSync,
@@ -75,9 +74,14 @@ async function receiveIcy(icy: string) {
     time,
     imageSearchWord,
   }
+  return compSong
+}
 
-  songPrint(compSong)
-  saveMusic(compSong)
+async function receiveIcy(icy: string) {
+  const song = await icyToSong(icy, Date.now(), store)
+  if (!song) return
+  songPrint(song)
+  saveMusic(song)
 }
 
 async function main() {
