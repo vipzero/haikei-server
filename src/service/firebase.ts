@@ -1,10 +1,21 @@
 import admin from 'firebase-admin'
-import { Count, Counts, HistTop, Song } from '../types/index'
-import { error, info, log, warn } from '../utils/logger'
+import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk } from '../utils'
+import { error, info, log, warn } from '../utils/logger'
 import { CacheFile } from './../types/index'
 
 export { admin }
+
+// const P_SONG = 'song'
+// const P_FEEDBACK = 'feedback'
+// const P_VOTE = 'vote'
+// const P_BOOKS = 'books'
+// const P_TABLE = 'table'
+// const P_COUNTS = 'counts'
+// const P_CVOTE = 'cvote'
+
+const P_SONGS = 'songs'
+const P_HIST = 'hist'
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -62,8 +73,18 @@ export const saveMusic = (song: Song) => {
   // }
 }
 
-export const histSongsRef = () =>
-  fdb.collection('hist').doc(EVENT_ID).collection('songs')
+export const histSongsRef = (eid = EVENT_ID) =>
+  fdb.collection(P_HIST).doc(eid).collection(P_SONGS)
+
+export const loadHistEventSongs = async (eid: string) => {
+  const snaps = await histSongsRef(eid).orderBy('time', 'asc').get()
+  const lines: HistoryRaw[] = []
+  snaps.docs.forEach((doc) => {
+    const d = doc.data() as HistoryRaw
+    lines.push(d)
+  })
+  return lines
+}
 
 export const loadHistoryTimes = async () => {
   const histSnaps = await histSongsRef()
@@ -230,6 +251,32 @@ export const uploadStorage = async (file: CacheFile, id: string) => {
 
   const downloadUrl = `${process.env.STRAGE_URL}${destination}`
   return { downloadUrl, path: destination, tmpFilePath }
+}
+
+const distPath = `archive`
+
+type StoragePaths = {
+  url: string
+  localFile: string
+  destination: string
+  filename: string
+}
+export const archiveUrl = (eid: string): StoragePaths => {
+  const localFile = `data/archvie_${eid}.csv`
+  const filename = `hist_${eid}.csv`
+  const destination = `${distPath}/${filename}`
+  const url = `${process.env.STRAGE_URL}/${destination}`
+  return { url, destination, filename, localFile }
+}
+export const uploadStorageArchive = async ({
+  localFile,
+  destination,
+}: StoragePaths) => {
+  await bucket.upload(localFile, {
+    contentType: 'text/csv',
+    destination,
+    predefinedAcl: 'publicRead',
+  })
 }
 
 export const addHistoryNow = (title: string) => addHistory(title, +new Date())

@@ -70,6 +70,7 @@ export type Song = Partial<SongSupportAttr> & (SongFull | SongMiss)
 export type HistoryRaw = {
   title: string
   time: number
+  n?: number
 }
 
 export type HistTop = {
