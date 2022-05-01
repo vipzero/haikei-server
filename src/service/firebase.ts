@@ -96,8 +96,12 @@ export const loadHistoryTimes = async () => {
   return times
 }
 
-export const addHistory = (title: string, time: number | null) => {
-  return histSongsRef().doc(String(time)).set({ title, time, n: null })
+export const addHistory = (
+  title: string,
+  time: number | null,
+  n: null | number = null
+) => {
+  return histSongsRef().doc(String(time)).set({ title, time, n })
 }
 
 export const loadAllIcy = async () => {
