@@ -16,6 +16,8 @@ export { admin }
 
 const P_SONGS = 'songs'
 const P_HIST = 'hist'
+const P_YO = 'yo'
+const P_CURRENT = 'current'
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -75,6 +77,7 @@ export const saveMusic = (song: Song) => {
 
 export const histSongsRef = (eid = EVENT_ID) =>
   fdb.collection(P_HIST).doc(eid).collection(P_SONGS)
+export const bookCountDocRef = () => fdb.collection(P_YO).doc(P_CURRENT)
 
 export const loadHistEventSongs = async (eid: string) => {
   const snaps = await histSongsRef(eid).orderBy('time', 'asc').get()
@@ -96,12 +99,14 @@ export const loadHistoryTimes = async () => {
   return times
 }
 
-export const addHistory = (
+export const addHistory = async (
   title: string,
   time: number | null,
   n: null | number = null
 ) => {
-  return histSongsRef().doc(String(time)).set({ title, time, n })
+  await bookCountDocRef().update({ bookCount: 0 })
+
+  return await histSongsRef().doc(String(time)).set({ title, time, n })
 }
 
 export const loadAllIcy = async () => {
