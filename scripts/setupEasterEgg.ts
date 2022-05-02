@@ -45,6 +45,7 @@ async function main() {
     },
     gabudoro: { gb: 0, vi: 0, st: 0, rf: 0 },
     yamajo: { ur: 0, nn: 0, mi: 0, mr: 0, na: 0, as: 0, si: 0 },
+    bryunhild: { nk: 0, kn: 0, kz: 0, kt: 0, nn: 0, ht: 0, mt: 0 },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
