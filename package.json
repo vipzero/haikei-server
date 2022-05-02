@@ -31,7 +31,8 @@
     "map-load-thread": "ts-node scripts/loadThreads.ts",
     "map-save": "ts-node scripts/makePostCountMap.ts",
     "active-thread": "chch dump-threads |jq -r '.threads[] | \"\\(.url),\\(.title)\"' |grep \"ならアニソン\"",
-    "test": "jest"
+    "test": "jest",
+    "test:type": "npx tsc --noEmit"
   },
   "devDependencies": {
     "@swc/core": "^1.2.168",

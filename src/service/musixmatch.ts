@@ -1,5 +1,5 @@
-import { error, log } from './logger'
 import axios from 'axios'
+import { log, error } from '../utils/logger'
 
 const apikey = process.env.MUSIXMATCH_API_KEY
 

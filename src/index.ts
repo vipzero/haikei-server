@@ -80,7 +80,9 @@ export async function icyToSong(
 async function receiveIcy(icy: string) {
   performance.mark('e2')
   performance.measure('first', 's2', 'e2')
-  log(performance.getEntriesByName('first')[0])
+  if (performance.getEntriesByName('first').length === 1) {
+    log(performance.getEntriesByName('first')[0])
+  }
 
   const song = await icyToSong(icy, Date.now(), store)
   if (!song) return
