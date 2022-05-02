@@ -10,6 +10,8 @@
     "csv-parse": "4.16.0",
     "csv-stringify": "^6.0.5",
     "date-fns": "2.23.0",
+    "esbuild": "^0.14.38",
+    "esbuild-register": "^3.3.2",
     "file-type": "16.5.3",
     "got": "11.8.2",
     "iconv-lite": "0.6.3",
@@ -19,7 +21,9 @@
     "sharp": "0.28.3"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "yarn start:esbuild",
+    "start:esbuild": "node -r esbuild-register src/index.ts",
+    "start:ts-node": "ts-node src/index.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
     "setup": "ts-node scripts/setupEvent.ts",
     "setup:ee": "ts-node scripts/setupEasterEgg.ts",
