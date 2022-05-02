@@ -106,7 +106,7 @@ export const addHistory = async (
 ) => {
   await bookCountDocRef().update({ bookCount: 0 })
 
-  return await histSongsRef().doc(String(time)).set({ title, time, n })
+  return await histSongsRef().doc(String(time)).set({ title, time, n, b: 0 })
 }
 
 export const loadAllIcy = async () => {

@@ -71,6 +71,7 @@ export type HistoryRaw = {
   title: string
   time: number
   n?: number
+  b?: number
 }
 
 export type HistTop = {
