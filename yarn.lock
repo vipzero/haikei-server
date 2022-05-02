@@ -2207,7 +2207,7 @@ combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.8.1:
+commander@^2.15.1, commander@^2.8.1:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -4237,6 +4237,13 @@ isurl@^1.0.0-alpha5:
   dependencies:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
+
+jaco@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jaco/-/jaco-4.0.0.tgz#7522a3dd4d7295b3e33b0ae82c08b34db99738e5"
+  integrity sha512-RBtY32bY4ICqgPVTmWOLoxn3rZQ+sFPtkcmCA2HJY7ZCCKkCMoMhv/zw0G+eGCzIb7Vkpx5dqSu4cwuS6c6l1w==
+  dependencies:
+    commander "^2.15.1"
 
 jest-changed-files@^27.5.1:
   version "27.5.1"

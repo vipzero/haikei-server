@@ -1,4 +1,6 @@
 import iconv from 'iconv-lite'
+import toWideKatakana from 'jaco/fn/toWideKatakana'
+import toNarrowAlphanumeric from 'jaco/fn/toNarrowAlphanumeric'
 
 export const isHit = (long: string, short: string) => long.indexOf(short) >= 0
 
@@ -9,14 +11,18 @@ export const sleep = (msec: number) => new Promise((rs) => setTimeout(rs, msec))
 
 // frontend と同じ必要あり
 export function textNormalize(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace('　', ' ')
-    .replace(/[（【「[]/, '(')
-    .replace(/[）】」\]]/, ')')
-    .replace('！', '!')
-    .replace('？', '?')
+  return toNarrowAlphanumeric(
+    toWideKatakana(
+      s
+        .trim()
+        .toLowerCase()
+        .replace('　', ' ')
+        .replace(/[（【「[]/, '(')
+        .replace(/[）】」\]]/, ')')
+        .replace('！', '!')
+        .replace('？', '?')
+    )
+  )
 }
 const SP =
   /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi
