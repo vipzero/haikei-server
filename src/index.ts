@@ -78,14 +78,27 @@ export async function icyToSong(
 }
 
 async function receiveIcy(icy: string) {
+  performance.mark('e2')
+  performance.measure('first', 's2', 'e2')
+  log(performance.getEntriesByName('first')[0])
+
   const song = await icyToSong(icy, Date.now(), store)
   if (!song) return
   songPrint(song)
   saveMusic(song)
 }
 
+performance.mark('s1')
+
 async function main() {
   const res = await getCurrentPlay()
+  performance.mark('e1')
+  performance.measure('launch', 's1', 'e1')
+
+  log(performance.getEntriesByName('launch')[0])
+
+  performance.mark('s2')
+
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)
   if (!url) {
