@@ -287,5 +287,3 @@ export const uploadStorageArchive = async ({
     predefinedAcl: 'publicRead',
   })
 }
-
-export const addHistoryNow = (title: string) => addHistory(title, +new Date())

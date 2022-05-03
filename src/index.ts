@@ -1,11 +1,8 @@
 import { findSong } from './anisonDb/findSong'
-import subscribeIcy from './streaming/icy'
 import { uploadByUrlAll } from './imageIo/uploadManage'
-import { error, info, log, songPrint } from './utils/logger'
-import { makeSearchQuery } from './utils/makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'
 import {
-  addHistoryNow,
+  addHistory,
   deleteFile,
   getCurrentPlay,
   init,
@@ -15,8 +12,11 @@ import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 // import { spotifySearchSongInfo } from './spotify'
 import { Store, store } from './state/store'
+import subscribeIcy from './streaming/icy'
 import { Song } from './types/index'
 import { sleep } from './utils'
+import { error, info, log, songPrint } from './utils/logger'
+import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
 
 const url = process.env.URL
@@ -45,9 +45,10 @@ export async function icyToSong(
 
   if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
 
-  addHistoryNow(icy)
+  addHistory(icy, time)
 
   const song = findSong(icy)
+
   const additionals: string[] = [song.animeTitle, song.title].filter(
     Boolean
   ) as string[]
