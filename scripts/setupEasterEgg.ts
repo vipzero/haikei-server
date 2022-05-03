@@ -46,6 +46,12 @@ async function main() {
     gabudoro: { gb: 0, vi: 0, st: 0, rf: 0 },
     yamajo: { ur: 0, nn: 0, mi: 0, mr: 0, na: 0, as: 0, si: 0 },
     bryunhild: { nk: 0, kn: 0, kz: 0, kt: 0, nn: 0, ht: 0, mt: 0 },
+    // prettier-ignore
+    imasmlpr: { mr: 0, sy: 0, kt: 0, ar: 0, kn: 0, em: 0, um: 0, mn: 0, nr: 0, no: 0, mt: 0, ik: 0, yr: 0, },
+    // prettier-ignore
+    imasmlfa: { jr: 0, tm: 0, sz: 0, sb: 0, ay: 0, mz: 0, ro: 0, sh: 0, mm: 0, em: 0, cz: 0, rk: 0, tg: 0, },
+    // prettier-ignore
+    imasmlan: { hn: 0, sr: 0, an: 0, tm: 0, ri: 0, el: 0, ak: 0, kn: 0, tb: 0, kl: 0, hk: 0, my: 0, ko: 0, },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
