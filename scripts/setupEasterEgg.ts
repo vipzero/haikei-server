@@ -54,6 +54,8 @@ async function main() {
     imasmlan: { hn: 0, sr: 0, an: 0, tm: 0, ri: 0, el: 0, ak: 0, kn: 0, tb: 0, kl: 0, hk: 0, my: 0, ko: 0, },
     // prettier-ignore
     rakupro: { mm: 0, si: 0, kt: 0, ym: 0, mk: 0, mo: 0, nn: 0, rr: 0, rt: 0, ma: 0, rn: 0, sz: 0, },
+    // prettier-ignore
+    shining: { hn: 0, ss: 0, mr: 0, hy: 0, gs: 0, rr: 0, kk: 0, uo: 0, ms: 0, hr: 0, er: 0, te: 0, },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {

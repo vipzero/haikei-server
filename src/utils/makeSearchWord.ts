@@ -34,25 +34,27 @@ export function makeSearchQuery(song: SongSeed, seed: number): string {
   const seed3 = (seed * 10000) % 1
   const { icy, category, animeTitle } = song
   if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
+  const opts = [
+    choise(animeExt, seed),
+    choise(animeExt, seed2),
+    choise(animeExt, seed3),
+  ]
 
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
-    if (charaName) return `${charaName} ${icyOpt} ${choise(animeExt, seed)}`
+    if (charaName) return `${charaName} ${icyOpt}`
 
     return (
       `(${icy
         .split(' - ')
         .map((v) => v.substring(0, 16))
-        .join(' OR ')})` + ` ${icyOpt}`
+        .join(' OR ')})` + ` ${opts.join(' OR ')}`
     )
   }
 
   if (!category) return animeTitle
   if (category.includes('アニメ')) {
-    return `${animeTitle} AND (${animeExtBase} OR ${choise(
-      animeExt,
-      seed
-    )} OR ${choise(animeExt, seed2)} OR ${choise(animeExt, seed3)})`
+    return `${animeTitle} AND (${animeExtBase} OR ${opts.join(' OR ')})`
   }
   if (category.includes('ゲーム')) {
     return `${animeTitle} AND (${gameExt})`

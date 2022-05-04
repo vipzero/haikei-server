@@ -13,7 +13,7 @@ makeSearchQuery(
 
 seed)).
 
-toMatchInlineSnapshot(`"(蒼井翔太 OR give me ? me) (名シーン OR キャラ) (キャプ画像 OR 壁紙)"`)
+toMatchInlineSnapshot(`"(蒼井翔太 OR give me ? me) キャプ画 OR かわいい OR ネタ画像"`)
   })
   test('lost animeTitle and detect chara', () => {
     expect(
@@ -23,7 +23,7 @@ makeSearchQuery(
 
 seed)).
 
-toMatchInlineSnapshot(`"本城香澄 (名シーン OR キャラ) (キャプ画像 OR 壁紙) キャプ画"`)
+toMatchInlineSnapshot(`"本城香澄 (名シーン OR キャラ) (キャプ画像 OR 壁紙)"`)
   })
   test('has animeTitle', () => {
     expect(
