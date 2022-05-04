@@ -55,7 +55,7 @@ export async function icyToSong(
   const { wordCounts, counts } = anaCounts(icy, store.counts || {}, additionals)
   store.counts = counts
 
-  const imageSearchWord = makeSearchQuery(song)
+  const imageSearchWord = makeSearchQuery(song, Math.random())
   const imageLinksSync = prepareImages(imageSearchWord)
 
   const albumInfosSync = getAlbum(icy)

@@ -46,8 +46,6 @@ iTunes API (認証なし)
 - spotify: アートワーク・アルバム名・(邦楽・アニソンあまり取れないため)
 - musixmatch: アートワーク・アルバム名・歌詞の出だし(有料 API では FULL)
 
-
-
 調整・アルゴリズム関係
 
 ## 画像検索文字列の生成部分
@@ -63,8 +61,9 @@ iTunes API (認証なし)
 https://github.com/vipzero/haikei-server/blob/main/src/utils/makeSearchWord.ts
 
 ## 画像選択
+
 imagemin などで Optimize 後のメタデータで  
-ソートして上から3つ
+ソートして上から 3 つ
 
 コード
 
