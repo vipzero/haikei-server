@@ -52,11 +52,14 @@ async function main() {
     imasmlfa: { jr: 0, tm: 0, sz: 0, sb: 0, ay: 0, mz: 0, ro: 0, sh: 0, mm: 0, em: 0, cz: 0, rk: 0, tg: 0, },
     // prettier-ignore
     imasmlan: { hn: 0, sr: 0, an: 0, tm: 0, ri: 0, el: 0, ak: 0, kn: 0, tb: 0, kl: 0, hk: 0, my: 0, ko: 0, },
+    // prettier-ignore
+    rakupro: { mm: 0, si: 0, kt: 0, ym: 0, mk: 0, mo: 0, nn: 0, rr: 0, rt: 0, ma: 0, rn: 0, sz: 0, },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
     const animeRef = fdb.collection('cvote').doc(animeId)
     const doc = await animeRef.get()
+
     if (doc.exists) return
 
     await animeRef.set(inits)
