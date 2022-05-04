@@ -77,3 +77,10 @@
 
 // import { getSyncConf } from './../src/utils/syncConf'
 // console.log(getSyncConf())
+
+import { makeSearchQuery } from '../src/utils/makeSearchWord'
+
+const song = {
+  icy: '愛美 - LIVE for LIFE ～狼たちの夜～',
+}
+console.log(makeSearchQuery(song, Math.random()))

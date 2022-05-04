@@ -15,6 +15,7 @@ const animeExt = [
   '壁紙',
   '相関図',
   '名シーン',
+  '作画',
 ]
 /* アニメカテゴリ場合は↓を検索クエリに追加する */
 const animeExtBase = ['アニメ'].join(' OR ')
