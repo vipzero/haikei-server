@@ -1,6 +1,7 @@
 import { pickCharaIcy } from '.'
 import { SongSeed } from '../types/index'
 import { getSyncConf } from './syncConf'
+import { shuffle } from './random'
 
 /* anison DB から曲情報を取れた場合アニメタイトル、カテゴリ(ゲーム,アニメ,SF,映画)などを使用できる */
 
@@ -16,12 +17,10 @@ const animeExt = [
   '相関図',
   '名シーン',
   '作画',
+  'wallpaper',
 ]
 /* アニメカテゴリ場合は↓を検索クエリに追加する */
 const animeExtBase = ['アニメ'].join(' OR ')
-
-export const choise = <T>(arr: T[], seed: number) =>
-  arr[Math.floor(arr.length * seed)] || arr[0]
 
 /* ゲームカテゴリ場合は↓を検索クエリに追加する */
 const gameExt = ['ゲーム'].join(' OR ')
@@ -30,15 +29,10 @@ const gameExt = ['ゲーム'].join(' OR ')
 const icyOpt = `(名シーン OR キャラ) (キャプ画像 OR 壁紙)`
 
 export function makeSearchQuery(song: SongSeed, seed: number): string {
-  const seed2 = (seed * 100) % 1
-  const seed3 = (seed * 10000) % 1
   const { icy, category, animeTitle } = song
   if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
-  const opts = [
-    choise(animeExt, seed),
-    choise(animeExt, seed2),
-    choise(animeExt, seed3),
-  ]
+  const r = shuffle(animeExt, `${seed}`)
+  const opts = [r[0], r[1], r[2]]
 
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
