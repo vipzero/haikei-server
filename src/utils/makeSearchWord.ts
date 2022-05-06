@@ -18,6 +18,12 @@ const animeExt = [
   '名シーン',
   '作画',
   'wallpaper',
+  '敵',
+  'ボス',
+  'ヒット',
+  '似てる',
+  '2話',
+  'ゲーム',
 ]
 /* アニメカテゴリ場合は↓を検索クエリに追加する */
 const animeExtBase = ['アニメ'].join(' OR ')
@@ -32,7 +38,7 @@ export function makeSearchQuery(song: SongSeed, seed: number): string {
   const { icy, category, animeTitle } = song
   if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
   const r = shuffle(animeExt, `${seed}`)
-  const opts = [r[0], r[1], r[2]]
+  const opts = [r[0], r[1], r[2], r[3]]
 
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
