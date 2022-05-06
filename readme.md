@@ -68,3 +68,63 @@ imagemin などで Optimize 後のメタデータで
 コード
 
 https://github.com/vipzero/haikei-server/blob/main/src/imageIo/uploadManage.ts
+
+## フロー
+
+### Event 作成
+
+```mermaid
+
+sequenceDiagram
+
+participant you_ as You
+participant envB as BackEnd環境設定
+participant appB as haikei-server
+participant envF as FronEnd環境設定
+participant fbdb as Firestore
+participant andb as AnisonDb
+
+you_ ->> envB :  .envrc EVENT_ID 更新
+you_ ->> envF :  .envrc, src/config 更新
+you_ ->> appB : yarn setup
+appB ->> fbdb : event 作成
+you_ ->> appB : yarn setup:anison
+appB ->> andb : get
+andb ->> envB : 同期
+```
+
+FrontEnd のセットアップ
+
+- rekka-haikei の `src/config/incdex.ts`
+- 開始時間・終了時間
+- (必要であれば) `Address.tsx` のリンク・`firebase.json` のリダイレクト
+
+### 動作中
+
+```mermaid
+
+sequenceDiagram
+
+participant you_ as You
+participant appB as haikei-server
+participant fbhi as Firestore/hist
+participant fbso as Firestore/song
+participant fbco as Firestore/counts
+participant strm as Stream
+
+you_ ->> appB : yarn start
+appB ->> fbhi : get [eventId]
+fbhi ->> appB : lastSong
+appB ->> fbco : get [eventId]
+fbco ->> appB : all cache
+
+appB ->> strm : subscribe
+
+loop update
+strm ->> appB : icy
+appB ->> appB : 解析
+appB ->> fbhi : update
+appB ->> fbso : push
+appB ->> fbco : update
+end
+```
