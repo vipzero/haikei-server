@@ -6,7 +6,23 @@ describe('shuffle', () => {
     const b = shuffle(a, 'a')
     const c = shuffle(a, 'b')
 
-    expect(b).toStrictEqual([2, 1, 5, 3, 4])
-    expect(c).toStrictEqual([2, 3, 1, 5, 4])
+    expect(b).toMatchInlineSnapshot(`
+Array [
+  3,
+  2,
+  4,
+  5,
+  1,
+]
+`)
+    expect(c).toMatchInlineSnapshot(`
+Array [
+  3,
+  4,
+  2,
+  1,
+  5,
+]
+`)
   })
 })

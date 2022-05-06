@@ -5,7 +5,7 @@ const random = (seed: string) =>
 
 export const shuffle = <T>(a: T[], seed: string) => {
   return a
-    .map((v) => ({ v, r: random(seed + v) }))
+    .map((v, i) => ({ v, r: random(seed + `${i}`) }))
     .sort((a, b) => a.r - b.r)
     .map(({ v }) => v)
 }

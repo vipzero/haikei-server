@@ -13,7 +13,7 @@ makeSearchQuery(
 
 seed)).
 
-toMatchInlineSnapshot(`"(蒼井翔太 OR give me ? me) キャラ OR 作画 OR 壁紙"`)
+toMatchInlineSnapshot(`"(蒼井翔太 OR give me ? me) ネタ画像 OR 壁紙 OR 作画"`)
   })
   test('lost animeTitle and detect chara', () => {
     expect(
@@ -50,7 +50,7 @@ makeSearchQuery(
 
 seed)).
 
-toMatchInlineSnapshot(`"アニメタイトルあり AND (アニメ OR キャラ OR 作画 OR 壁紙)"`)
+toMatchInlineSnapshot(`"アニメタイトルあり AND (アニメ OR ネタ画像 OR 壁紙 OR 作画)"`)
   })
   test('has animeTitle and category game', () => {
     expect(
