@@ -16,12 +16,12 @@ export function textNormalize(s: string) {
       s
         .trim()
         .toLowerCase()
-        .replace('　', ' ')
-        .replace(/[（【「[]/, '(')
-        .replace(/[）】」\]]/, ')')
-        .replace('〜', '~')
-        .replace('！', '!')
-        .replace('？', '?')
+        .replace(/　/g, ' ')
+        .replace(/[（【「[]/g, '(')
+        .replace(/[）】」\]]/g, ')')
+        .replace(/〜/g, '~')
+        .replace(/！/g, '!')
+        .replace(/？/g, '?')
     )
   )
 }

@@ -5,4 +5,7 @@ test('textNormalize', () => {
 
   const wided = textNormalize('ＴEｓtﾃｽトT　！？')
   expect(wided).toMatchInlineSnapshot(`"testテストt !?"`)
+
+  const multiple = textNormalize('〜スヤスヤ生活〜')
+  expect(multiple).toMatchInlineSnapshot(`"~スヤスヤ生活~"`)
 })
