@@ -56,6 +56,7 @@ async function main() {
     rakupro: { mm: 0, si: 0, kt: 0, ym: 0, mk: 0, mo: 0, nn: 0, rr: 0, rt: 0, ma: 0, rn: 0, sz: 0, },
     // prettier-ignore
     shining: { hn: 0, ss: 0, mr: 0, hy: 0, gs: 0, rr: 0, kk: 0, uo: 0, ms: 0, hr: 0, er: 0, te: 0, },
+    aobuta: { mi: 0, sk: 0, tm: 0, ft: 0, nd: 0, ke: 0 },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
