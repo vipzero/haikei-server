@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "5.21.0",
     "@typescript-eslint/parser": "5.21.0",
     "eslint": "8.14.0",
-    "firebase-admin": "9.11.0",
+    "firebase-admin": "10.3.0",
     "imagemin": "7.0.1",
     "imagemin-gifsicle": "7.0.0",
     "imagemin-mozjpeg": "9.0.0",
