@@ -1,3 +1,4 @@
+import { emojify } from 'jptext-to-emoji'
 import { findSong } from './anisonDb/findSong'
 import { uploadByUrlAll } from './imageIo/uploadManage'
 import { getImageLinks } from './service/customImageSearch'
@@ -13,7 +14,7 @@ import { getLyricsSafe } from './service/jlyricnet'
 // import { spotifySearchSongInfo } from './spotify'
 import { Store, store } from './state/store'
 import subscribeIcy from './streaming/icy'
-import { Song } from './types/index'
+import { Emol, Song } from './types/index'
 import { sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
@@ -40,7 +41,7 @@ export async function icyToSong(
   icy: string,
   time: number,
   store: Store
-): Promise<Song | false> {
+): Promise<[Song, Emol] | false> {
   info(icy)
 
   if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
@@ -61,11 +62,14 @@ export async function icyToSong(
   const albumInfosSync = getAlbum(icy)
   const lyricsSync = getLyricsSafe(song.title, song.artist)
 
-  const [imageLinks, albumInfos, { creators }] = await Promise.all([
+  const [imageLinks, albumInfos, { creators, lyric }] = await Promise.all([
     imageLinksSync,
     albumInfosSync,
     lyricsSync,
   ])
+  const emol = {
+    text: lyric === null ? '' : await emojify(lyric, { onlyEmoji: true }),
+  }
   const compSong: Song = {
     ...song,
     imageLinks,
@@ -75,7 +79,7 @@ export async function icyToSong(
     time,
     imageSearchWord,
   }
-  return compSong
+  return [compSong, emol]
 }
 
 async function receiveIcy(icy: string) {
@@ -85,10 +89,11 @@ async function receiveIcy(icy: string) {
     log(performance.getEntriesByName('first')[0])
   }
 
-  const song = await icyToSong(icy, Date.now(), store)
-  if (!song) return
+  const res = await icyToSong(icy, Date.now(), store)
+  if (!res) return
+  const [song, emol] = res
   songPrint(song)
-  saveMusic(song)
+  saveMusic(song, emol)
 }
 
 performance.mark('s1')

@@ -98,3 +98,4 @@ export type CacheFile = {
   width: number
   height: number
 }
+export type Emol = { text: string }

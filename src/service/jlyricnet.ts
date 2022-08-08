@@ -55,7 +55,7 @@ function scrapeLyrics(html: string) {
 
 export async function getLyricsSafe(title?: string, artist?: string) {
   const res = await getLyrics(title, artist)
-  if (!res) return { creators: {}, lyrics: null }
+  if (!res) return { creators: {}, lyric: null }
   return res
 }
 export async function getLyrics(title?: string, artist?: string) {
