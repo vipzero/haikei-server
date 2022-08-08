@@ -1,7 +1,7 @@
-import { emojify } from 'jptext-to-emoji'
 import { findSong } from './anisonDb/findSong'
 import { uploadByUrlAll } from './imageIo/uploadManage'
 import { getImageLinks } from './service/customImageSearch'
+import { makeEmol } from './service/emol'
 import {
   addHistory,
   deleteFile,
@@ -67,9 +67,7 @@ export async function icyToSong(
     albumInfosSync,
     lyricsSync,
   ])
-  const emol = {
-    text: lyric === null ? '' : await emojify(lyric, { onlyEmoji: true }),
-  }
+  const emol = await makeEmol(lyric)
   const compSong: Song = {
     ...song,
     imageLinks,
