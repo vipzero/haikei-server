@@ -4669,10 +4669,10 @@ jose@^2.0.5:
   dependencies:
     "@panva/asn1.js" "^1.0.0"
 
-jptext-to-emoji@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/jptext-to-emoji/-/jptext-to-emoji-0.2.5.tgz#079177b2de15b09451e033a0214fa63114c2b916"
-  integrity sha512-t8oPc+x5Sz4Utius5tkdf4SBG7dY3oyWEfSLYUMdemrtTQun0ZLafAJp7XPTaU7rzGPb0Hh6iji1rhu5U0GexA==
+jptext-to-emoji@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/jptext-to-emoji/-/jptext-to-emoji-0.2.6.tgz#8da8908f080836a88f85b2b3b197ccb03f51d34a"
+  integrity sha512-mzRKebmM2gRBRAFIbBciaoVcwg/u0bEB8XUIO8O7L8+ka/Lo+JElROjeEXd6rtqiYj2Axtp67MNuXOwdH50W9Q==
   dependencies:
     jaco "4.0.0"
     kuromojin "3.0.0"

@@ -18,7 +18,7 @@
     "icy": "2.1.0",
     "jaco": "^4.0.0",
     "jest": "^27.5.1",
-    "jptext-to-emoji": "0.2.5",
+    "jptext-to-emoji": "0.2.6",
     "node-spotify-api": "1.1.1",
     "sharp": "0.28.3"
   },
