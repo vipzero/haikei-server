@@ -23,7 +23,8 @@ async function main() {
 
     if (!data[thread.url]) data[thread.url] = {}
 
-    for (const post of thread.posts) {
+    // const idFilter = (p) => !p.userId.match(/^.{9}a/)
+    for (const post of thread.posts.filter((p) => p)) {
       data[thread.url][post.timestamp] = true
     }
     sleep(1000)
