@@ -1,5 +1,5 @@
 import axios from 'axios'
-import cheerio from 'cheerio'
+import { load } from 'cheerio'
 
 function searchJlyrics(title: string, artist: string | null) {
   const params: Record<string, string | number> = {
@@ -25,12 +25,12 @@ function searchJlyrics(title: string, artist: string | null) {
 // }
 
 function scrapeFirstResult(html: string) {
-  const $ = cheerio.load(html)
+  const $ = load(html)
   return $('#mnb a').attr('href')
 }
 
 function scrapeLyrics(html: string) {
-  const $ = cheerio.load(html)
+  const $ = load(html)
   $('#Lyric').find('br').replaceWith('\n')
   $('.lbdy').find('br').replaceWith('\n')
 

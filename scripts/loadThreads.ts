@@ -4,6 +4,9 @@ import chch from 'chch'
 import { sleep } from '../src/utils'
 import { loadData, saveData } from './postTimeUtil'
 
+const filterNonGreeting = (s: string) =>
+  !(s.includes('>>') && /^おつ|^よろ|^云々/m.exec(s))
+
 async function main() {
   const search = process.env.THREAD_TITLE_WORD
   const currentTreads = search
@@ -24,7 +27,9 @@ async function main() {
     if (!data[thread.url]) data[thread.url] = {}
 
     // const idFilter = (p) => !p.userId.match(/^.{9}a/)
-    for (const post of thread.posts.filter((p) => p)) {
+    for (const post of thread.posts.filter((v) =>
+      filterNonGreeting(v.message)
+    )) {
       data[thread.url][post.timestamp] = true
     }
     sleep(1000)
