@@ -6,7 +6,17 @@ export const makeEmol = async (lyric: string | null) => {
     await Promise.all(
       lyric
         .split('\n')
-        .map((line) => (line ? emojify(line, { onlyEmoji: true }) : ''))
+        .map(async (line) =>
+          (
+            await Promise.all(
+              line
+                .split(/[ \u3000]/)
+                .map((word) =>
+                  word ? emojify(word, { onlyEmoji: false }) : ''
+                )
+            )
+          ).join(' ')
+        )
     )
   )
     .filter(Boolean)
