@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { load } from 'cheerio'
 
 const qp = {
   format: 'json',
@@ -30,7 +31,7 @@ type PageResponse = {
         pageid: number
         ns: 0
         title: string
-        revisions: string[]
+        revisions: { '*': string }[]
       }
     }
   }
@@ -41,5 +42,9 @@ export const searchWikipedia = async (title: string) => {
   if (res.data.query.search.length === 0) return null
   const { pageId } = res.data.query.search[0]
 
-  await axios.get<PageResponse>(makePageUrl(pageId))
+  const res2 = await axios.get<PageResponse>(makePageUrl(pageId))
+  const html = res2.data.query.pages[pageId].revisions[0]['*']
+
+  const $ = load(html)
+  $
 }
