@@ -26,9 +26,8 @@ async function main() {
 
     if (!data[thread.url]) data[thread.url] = {}
 
-    // const idFilter = (p) => !p.userId.match(/^.{9}a/)
-    for (const post of thread.posts.filter((v) =>
-      filterNonGreeting(v.message)
+    for (const post of thread.posts.filter((p) =>
+      filterNonGreeting(p.message)
     )) {
       data[thread.url][post.timestamp] = true
     }
