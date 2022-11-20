@@ -1,4 +1,6 @@
 import iconv from 'iconv-lite'
+import toWideKatakana from 'jaco/fn/toWideKatakana'
+import toNarrowAlphanumeric from 'jaco/fn/toNarrowAlphanumeric'
 
 export const isHit = (long: string, short: string) => long.indexOf(short) >= 0
 
@@ -9,14 +11,19 @@ export const sleep = (msec: number) => new Promise((rs) => setTimeout(rs, msec))
 
 // frontend と同じ必要あり
 export function textNormalize(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace('　', ' ')
-    .replace(/[（【「[]/, '(')
-    .replace(/[）】」\]]/, ')')
-    .replace('！', '!')
-    .replace('？', '?')
+  return toNarrowAlphanumeric(
+    toWideKatakana(
+      s
+        .trim()
+        .toLowerCase()
+        .replace(/　/g, ' ')
+        .replace(/[（【「[]/g, '(')
+        .replace(/[）】」\]]/g, ')')
+        .replace(/〜/g, '~')
+        .replace(/！/g, '!')
+        .replace(/？/g, '?')
+    )
+  )
 }
 const SP =
   /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi
@@ -29,19 +36,6 @@ const trimWord = (v: string) =>
 
 const parseWords = (s: string) =>
   s.replace(SP, ',').split(',').map(trimWord).filter(isTagWord)
-
-export const shuffle = <T>(arr: T[]): T[] => {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const r = Math.floor(Math.random() * (i + 1))
-    const tmp = a[i]
-    a[i] = a[r]
-    a[r] = tmp
-  }
-  return a
-}
-
-export const sample = <T>(arr: T[], n = 1) => shuffle(arr).slice(0, n)
 
 export const uniq = <T>(arr: T[]) => Array.from(new Set(arr))
 export const uniqo = (arr: string[]) => {

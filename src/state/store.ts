@@ -1,7 +1,6 @@
-import { UploadFile } from './../types/index'
-import { Counts } from '../types/index'
+import { Counts, UploadFile } from '../types'
 
-class Store {
+export class Store {
   counts: Counts
   isFirst: boolean
   firstIcy: string

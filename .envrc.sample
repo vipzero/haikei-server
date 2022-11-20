@@ -17,8 +17,8 @@ export SPOTIFY_CLIENT_ID=""
 export SPOTIFY_CLIENT_SECRET=""
 
 export MUSIXMATCH_API_KEY=""
-export EVENT_ID=""
+export EVENT_ID="todo"
 export STRAGE_URL=""
 
-export THREAD_TITLE_WORD=""
+export THREAD_TITLE_WORD="ならアニソン"
 export DIRECT_MODE=0

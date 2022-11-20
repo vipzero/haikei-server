@@ -70,6 +70,8 @@ export type Song = Partial<SongSupportAttr> & (SongFull | SongMiss)
 export type HistoryRaw = {
   title: string
   time: number
+  n?: number
+  b?: number
 }
 
 export type HistTop = {
@@ -96,3 +98,4 @@ export type CacheFile = {
   width: number
   height: number
 }
+export type Emol = { text: string }

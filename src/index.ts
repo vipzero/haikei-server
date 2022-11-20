@@ -1,11 +1,9 @@
 import { findSong } from './anisonDb/findSong'
-import subscribeIcy from './streaming/icy'
 import { uploadByUrlAll } from './imageIo/uploadManage'
-import { error, info, log, songPrint } from './utils/logger'
-import { makeSearchQuery } from './utils/makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'
+import { makeEmol } from './service/emol'
 import {
-  addHistoryNow,
+  addHistory,
   deleteFile,
   getCurrentPlay,
   init,
@@ -14,9 +12,12 @@ import {
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 // import { spotifySearchSongInfo } from './spotify'
-import { store } from './state/store'
-import { Song } from './types/index'
+import { Store, store } from './state/store'
+import subscribeIcy from './streaming/icy'
+import { Emol, Song } from './types/index'
 import { sleep } from './utils'
+import { error, info, log, songPrint } from './utils/logger'
+import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
 
 const url = process.env.URL
@@ -36,36 +37,37 @@ async function prepareImages(q: string) {
   return uploads.map((u) => u.downloadUrl)
 }
 
-async function receiveIcy(icy: string) {
-  const time = Date.now()
+export async function icyToSong(
+  icy: string,
+  time: number,
+  store: Store
+): Promise<[Song, Emol] | false> {
   info(icy)
 
-  if (store.isDuplicate(icy)) return // 起動時の重複登録を防ぐ
+  if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
 
-  addHistoryNow(icy)
+  addHistory(icy, time)
 
   const song = findSong(icy)
+
   const additionals: string[] = [song.animeTitle, song.title].filter(
     Boolean
   ) as string[]
   const { wordCounts, counts } = anaCounts(icy, store.counts || {}, additionals)
   store.counts = counts
 
-  const imageSearchWord = makeSearchQuery(song)
+  const imageSearchWord = makeSearchQuery(song, Math.random())
   const imageLinksSync = prepareImages(imageSearchWord)
-
-  // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
-  // if (spoinfo) song.artwork = spoinfo.artwork
 
   const albumInfosSync = getAlbum(icy)
   const lyricsSync = getLyricsSafe(song.title, song.artist)
-  // const lyric = lyrics ? lyrics.lyric : null
 
-  const [imageLinks, albumInfos, { creators }] = await Promise.all([
+  const [imageLinks, albumInfos, { creators, lyric }] = await Promise.all([
     imageLinksSync,
     albumInfosSync,
     lyricsSync,
   ])
+  const emol = await makeEmol(lyric)
   const compSong: Song = {
     ...song,
     imageLinks,
@@ -75,13 +77,34 @@ async function receiveIcy(icy: string) {
     time,
     imageSearchWord,
   }
-
-  songPrint(compSong)
-  saveMusic(compSong)
+  return [compSong, emol]
 }
+
+async function receiveIcy(icy: string) {
+  performance.mark('e2')
+  performance.measure('first', 's2', 'e2')
+  if (performance.getEntriesByName('first').length === 1) {
+    log(performance.getEntriesByName('first')[0])
+  }
+
+  const res = await icyToSong(icy, Date.now(), store)
+  if (!res) return
+  const [song, emol] = res
+  songPrint(song)
+  saveMusic(song, emol)
+}
+
+performance.mark('s1')
 
 async function main() {
   const res = await getCurrentPlay()
+  performance.mark('e1')
+  performance.measure('launch', 's1', 'e1')
+
+  log(performance.getEntriesByName('launch')[0])
+
+  performance.mark('s2')
+
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)
   if (!url) {
