@@ -1,10 +1,25 @@
 import admin from 'firebase-admin'
-import { Count, Counts, HistTop, Song } from '../types/index'
-import { error, info, log, warn } from '../utils/logger'
+import { Count, Counts, Emol, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk } from '../utils'
+import { error, info, log, warn } from '../utils/logger'
 import { CacheFile } from './../types/index'
 
 export { admin }
+
+// const P_SONG = 'song'
+// const P_FEEDBACK = 'feedback'
+// const P_VOTE = 'vote'
+// const P_BOOKS = 'books'
+// const P_TABLE = 'table'
+// const P_COUNTS = 'counts'
+// const P_CVOTE = 'cvote'
+
+const P_SONGS = 'songs'
+const P_SONG = 'song'
+const P_EMOL = 'emol'
+const P_HIST = 'hist'
+const P_YO = 'yo'
+const P_CURRENT = 'current'
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -36,25 +51,29 @@ export const init = async () => {
 }
 
 export const getCurrentPlay = async () => {
-  const res = await fdb.collection('song').doc(EVENT_ID).get()
+  const res = await fdb.collection(P_SONG).doc(EVENT_ID).get()
   return res.data() || { icy: '' }
 }
 
 const saveSong = (song: Song) => {
   fdb
-    .collection('song')
+    .collection(P_SONG)
     .doc(EVENT_ID)
     .set({
       ...removeUndefined(song),
     })
+}
+const saveEmol = (emol: Emol) => {
+  fdb.collection(P_EMOL).doc(EVENT_ID).set(emol)
 }
 // const saveLyric = (text) => {
 //   // console.log(lyric)
 //   fdb.collection('song').doc('lyric').set({ text })
 // }
 
-export const saveMusic = (song: Song) => {
+export const saveMusic = (song: Song, emol: Emol) => {
   saveSong(song)
+  saveEmol(emol)
   // if (lyric) {
   //   saveLyric(lyric)
   // } else {
@@ -62,8 +81,19 @@ export const saveMusic = (song: Song) => {
   // }
 }
 
-export const histSongsRef = () =>
-  fdb.collection('hist').doc(EVENT_ID).collection('songs')
+export const histSongsRef = (eid = EVENT_ID) =>
+  fdb.collection(P_HIST).doc(eid).collection(P_SONGS)
+export const bookCountDocRef = () => fdb.collection(P_YO).doc(P_CURRENT)
+
+export const loadHistEventSongs = async (eid: string) => {
+  const snaps = await histSongsRef(eid).orderBy('time', 'asc').get()
+  const lines: HistoryRaw[] = []
+  snaps.docs.forEach((doc) => {
+    const d = doc.data() as HistoryRaw
+    lines.push(d)
+  })
+  return lines
+}
 
 export const loadHistoryTimes = async () => {
   const histSnaps = await histSongsRef()
@@ -75,8 +105,14 @@ export const loadHistoryTimes = async () => {
   return times
 }
 
-export const addHistory = (title: string, time: number | null) => {
-  return histSongsRef().doc(String(time)).set({ title, time, n: null })
+export const addHistory = async (
+  title: string,
+  time: number | null,
+  n: null | number = null
+) => {
+  await bookCountDocRef().update({ bookCount: 0 })
+
+  return await histSongsRef().doc(String(time)).set({ title, time, n, b: 0 })
 }
 
 export const loadAllIcy = async () => {
@@ -232,4 +268,28 @@ export const uploadStorage = async (file: CacheFile, id: string) => {
   return { downloadUrl, path: destination, tmpFilePath }
 }
 
-export const addHistoryNow = (title: string) => addHistory(title, +new Date())
+const distPath = `archive`
+
+type StoragePaths = {
+  url: string
+  localFile: string
+  destination: string
+  filename: string
+}
+export const archiveUrl = (eid: string): StoragePaths => {
+  const localFile = `data/archvie_${eid}.csv`
+  const filename = `hist_${eid}.csv`
+  const destination = `${distPath}/${filename}`
+  const url = `${process.env.STRAGE_URL}/${destination}`
+  return { url, destination, filename, localFile }
+}
+export const uploadStorageArchive = async ({
+  localFile,
+  destination,
+}: StoragePaths) => {
+  await bucket.upload(localFile, {
+    contentType: 'text/csv',
+    destination,
+    predefinedAcl: 'publicRead',
+  })
+}
