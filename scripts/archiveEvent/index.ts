@@ -11,6 +11,7 @@ import { log } from '../../src/utils/logger'
 
 const archiveEventCsv = async (id: string) => {
   log({ id })
+  if (!id) return
   const data = await loadHistEventSongs(id)
   const dataWithN = data.map((d) => ({ ...d, n: d.n || 0 }))
   const csvText = stringify(dataWithN, {
