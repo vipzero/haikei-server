@@ -16,10 +16,11 @@ export function textNormalize(s: string) {
       s
         .trim()
         .toLowerCase()
+        // eslint-disable-next-line no-irregular-whitespace
         .replace(/　/g, ' ')
         .replace(/[（【「[]/g, '(')
         .replace(/[）】」\]]/g, ')')
-        .replace(/〜/g, '~')
+        .replace(/[〜～]/g, '~')
         .replace(/！/g, '!')
         .replace(/？/g, '?')
     )
