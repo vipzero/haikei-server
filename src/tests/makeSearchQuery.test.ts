@@ -46,20 +46,18 @@ describe('makeSearchQuery', () => {
   })
   test('has animeTitle and category anime', () => {
     expect(
-      makeSearchQuery(
-        {
-          artist: 'artist',
-          title: 'title',
-          animeTitle: 'アニメタイトルあり',
-          category: 'ほにゃららアニメ',
-          icy: 'artist - title',
-        },
+makeSearchQuery(
+{
+  artist: 'artist',
+  title: 'title',
+  animeTitle: 'アニメタイトルあり',
+  category: 'ほにゃららアニメ',
+  icy: 'artist - title' },
 
-        seed
-      )
-    ).toMatchInlineSnapshot(
-      `"アニメタイトルあり アニメ AND (ネタ画像 OR 壁紙 OR 作画 OR 5話)"`
-    )
+
+seed)).
+
+toMatchInlineSnapshot(`"アニメタイトルあり アニメ -公式 AND (ネタ画像 OR 壁紙 OR 作画 OR 5話)"`)
   })
   test('has animeTitle and category game', () => {
     expect(

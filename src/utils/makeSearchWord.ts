@@ -27,7 +27,7 @@ const animeExt = [
 const range = (n: number) => [...Array(n).keys()]
 const animeExtEp = [...[...range(8)].map((i) => `${i}話`), '映画']
 /* アニメカテゴリ場合は↓を検索クエリに追加する */
-const animeExtBase = ['アニメ'].join(' OR ')
+const animeExtBase = 'アニメ -公式'
 
 /* ゲームカテゴリ場合は↓を検索クエリに追加する */
 const gameExt = ['ゲーム'].join(' OR ')
