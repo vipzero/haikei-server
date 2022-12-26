@@ -5,25 +5,31 @@ const seed = 0.123456789
 describe('makeSearchQuery', () => {
   test('lost animeTitle', () => {
     expect(
-makeSearchQuery(
-{
-  artist: '蒼井翔太',
-  title: 'give me ? me',
-  icy: '蒼井翔太 - give me ? me' },
+      makeSearchQuery(
+        {
+          artist: '蒼井翔太',
+          title: 'give me ? me',
+          icy: '蒼井翔太 - give me ? me',
+        },
 
-seed)).
-
-toMatchInlineSnapshot(`"(蒼井翔太 OR give me ? me) ネタ画像 OR 壁紙 OR 作画 OR 5話"`)
+        seed
+      )
+    ).toMatchInlineSnapshot(
+      `"(蒼井翔太 OR give me ? me) ネタ画像 OR 壁紙 OR 作画 OR 5話"`
+    )
   })
   test('lost animeTitle and detect chara', () => {
     expect(
-makeSearchQuery(
-{
-  icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)' },
+      makeSearchQuery(
+        {
+          icy: 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)',
+        },
 
-seed)).
-
-toMatchInlineSnapshot(`"本城香澄 (名シーン OR キャラ) (キャプ画像 OR 壁紙)"`)
+        seed
+      )
+    ).toMatchInlineSnapshot(
+      `"本城香澄 (名シーン OR キャラ) (キャプ画像 OR 壁紙)"`
+    )
   })
   test('has animeTitle', () => {
     expect(
@@ -40,17 +46,20 @@ toMatchInlineSnapshot(`"本城香澄 (名シーン OR キャラ) (キャプ画�
   })
   test('has animeTitle and category anime', () => {
     expect(
-makeSearchQuery(
-{
-  artist: 'artist',
-  title: 'title',
-  animeTitle: 'アニメタイトルあり',
-  category: 'ほにゃららアニメ',
-  icy: 'artist - title' },
+      makeSearchQuery(
+        {
+          artist: 'artist',
+          title: 'title',
+          animeTitle: 'アニメタイトルあり',
+          category: 'ほにゃららアニメ',
+          icy: 'artist - title',
+        },
 
-seed)).
-
-toMatchInlineSnapshot(`"アニメタイトルあり AND (アニメ OR ネタ画像 OR 壁紙 OR 作画 OR 5話)"`)
+        seed
+      )
+    ).toMatchInlineSnapshot(
+      `"アニメタイトルあり アニメ AND (ネタ画像 OR 壁紙 OR 作画 OR 5話)"`
+    )
   })
   test('has animeTitle and category game', () => {
     expect(

@@ -56,7 +56,7 @@ export function makeSearchQuery(song: SongSeed, seed: number): string {
 
   if (!category) return animeTitle
   if (category.includes('アニメ')) {
-    return `${animeTitle} AND (${animeExtBase} OR ${opts.join(' OR ')})`
+    return `${animeTitle} ${animeExtBase} AND (${opts.join(' OR ')})`
   }
   if (category.includes('ゲーム')) {
     return `${animeTitle} AND (${gameExt})`
