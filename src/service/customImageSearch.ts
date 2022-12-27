@@ -17,7 +17,13 @@ export const getImage = (q: string) => {
   })
 }
 
-const blackList = ['static.wikia.nocookie.net', 'amazon.com']
+const blackList = [
+  'static.wikia.nocookie.net',
+  'amazon.com',
+  'fril.jp',
+  'shopping.yahoo.co.jp',
+  'static.mercdn.net',
+]
 const white = (v: string) => !blackList.some((blink) => v.includes(blink))
 
 export const getImageLinks = async (q: string) => {
