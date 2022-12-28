@@ -23,6 +23,7 @@ const blackList = [
   'fril.jp',
   'shopping.yahoo.co.jp',
   'static.mercdn.net',
+  'auctions.c.yimg.jp',
 ]
 const white = (v: string) => !blackList.some((blink) => v.includes(blink))
 

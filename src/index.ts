@@ -28,7 +28,7 @@ store.onExpiredStorageUrl = (urls) => {
   })
 }
 
-const DIRECT_MODE = Boolean(process.env.DIRECT_MODE)
+const DIRECT_MODE = Boolean(Number(process.env.DIRECT_MODE))
 async function prepareImages(q: string) {
   const googleImageLinks = await getImageLinks(q)
   if (DIRECT_MODE) return googleImageLinks
