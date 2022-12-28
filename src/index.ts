@@ -1,7 +1,6 @@
 import { findSong } from './anisonDb/findSong'
 import { uploadByUrlAll } from './imageIo/uploadManage'
 import { getImageLinks } from './service/customImageSearch'
-import { makeEmol } from './service/emol'
 import {
   addHistory,
   deleteFile,
@@ -11,10 +10,9 @@ import {
 } from './service/firebase'
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
-// import { spotifySearchSongInfo } from './spotify'
 import { Store, store } from './state/store'
 import subscribeIcy from './streaming/icy'
-import { Emol, Song } from './types/index'
+import { Song } from './types/index'
 import { sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
@@ -41,7 +39,7 @@ export async function icyToSong(
   icy: string,
   time: number,
   store: Store
-): Promise<[Song, Emol] | false> {
+): Promise<[Song] | false> {
   info(icy)
 
   if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
@@ -62,12 +60,11 @@ export async function icyToSong(
   const albumInfosSync = getAlbum(icy)
   const lyricsSync = getLyricsSafe(song.title, song.artist)
 
-  const [imageLinks, albumInfos, { creators, lyric }] = await Promise.all([
+  const [imageLinks, albumInfos, { creators }] = await Promise.all([
     imageLinksSync,
     albumInfosSync,
     lyricsSync,
   ])
-  const emol = await makeEmol(lyric)
   const compSong: Song = {
     ...song,
     imageLinks,
@@ -77,7 +74,7 @@ export async function icyToSong(
     time,
     imageSearchWord,
   }
-  return [compSong, emol]
+  return [compSong]
 }
 
 async function receiveIcy(icy: string) {
@@ -89,9 +86,9 @@ async function receiveIcy(icy: string) {
 
   const res = await icyToSong(icy, Date.now(), store)
   if (!res) return
-  const [song, emol] = res
+  const [song] = res
   songPrint(song)
-  saveMusic(song, emol)
+  saveMusic(song)
 }
 
 performance.mark('s1')

@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { Count, Counts, Emol, HistoryRaw, HistTop, Song } from '../types/index'
+import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk } from '../utils'
 import { error, info, log, warn } from '../utils/logger'
 import { CacheFile } from './../types/index'
@@ -16,7 +16,7 @@ export { admin }
 
 const P_SONGS = 'songs'
 const P_SONG = 'song'
-const P_EMOL = 'emol'
+// const P_EMOL = 'emol'
 const P_HIST = 'hist'
 const P_YO = 'yo'
 const P_CURRENT = 'current'
@@ -63,22 +63,9 @@ const saveSong = (song: Song) => {
       ...removeUndefined(song),
     })
 }
-const saveEmol = (emol: Emol) => {
-  fdb.collection(P_EMOL).doc(EVENT_ID).set(emol)
-}
-// const saveLyric = (text) => {
-//   // console.log(lyric)
-//   fdb.collection('song').doc('lyric').set({ text })
-// }
 
-export const saveMusic = (song: Song, emol: Emol) => {
+export const saveMusic = (song: Song) => {
   saveSong(song)
-  saveEmol(emol)
-  // if (lyric) {
-  //   saveLyric(lyric)
-  // } else {
-  //   saveLyric('no lyric')
-  // }
 }
 
 export const histSongsRef = (eid = EVENT_ID) =>
