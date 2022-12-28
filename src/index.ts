@@ -27,10 +27,13 @@ store.onExpiredStorageUrl = (urls) => {
 }
 
 const DIRECT_MODE = Boolean(Number(process.env.DIRECT_MODE))
+console.log({ DIRECT_MODE })
 async function prepareImages(q: string) {
   const googleImageLinks = await getImageLinks(q)
+  console.log(googleImageLinks)
   if (DIRECT_MODE) return googleImageLinks
   const uploads = await uploadByUrlAll(googleImageLinks)
+  console.log(uploads)
   store.addQueue(uploads)
   return uploads.map((u) => u.downloadUrl)
 }
@@ -44,7 +47,7 @@ export async function icyToSong(
 
   if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
 
-  addHistory(icy, time)
+  // addHistory(icy, time)
 
   const song = findSong(icy)
 
@@ -78,29 +81,15 @@ export async function icyToSong(
 }
 
 async function receiveIcy(icy: string) {
-  performance.mark('e2')
-  performance.measure('first', 's2', 'e2')
-  if (performance.getEntriesByName('first').length === 1) {
-    log(performance.getEntriesByName('first')[0])
-  }
-
   const res = await icyToSong(icy, Date.now(), store)
   if (!res) return
   const [song] = res
   songPrint(song)
-  saveMusic(song)
+  // saveMusic(song)
 }
-
-performance.mark('s1')
 
 async function main() {
   const res = await getCurrentPlay()
-  performance.mark('e1')
-  performance.measure('launch', 's1', 'e1')
-
-  log(performance.getEntriesByName('launch')[0])
-
-  performance.mark('s2')
 
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)

@@ -33,7 +33,10 @@ const credential = admin.credential.cert(serviceAccount)
 admin.initializeApp({ credential })
 
 export const fdb = admin.firestore()
-export const bucket = admin.storage().bucket('rekka-haikei.appspot.com')
+const storageId = process.env.STORAGE_ID || ''
+const storageUrl = process.env.STORAGE_URL || ''
+const bucketUrl = storageUrl + storageId
+export const bucket = admin.storage().bucket(storageId)
 
 type Obj = { [key: string]: number | string | object }
 const removeUndefined = (obj: Obj) => {
@@ -251,7 +254,7 @@ export const uploadStorage = async (file: CacheFile, id: string) => {
     predefinedAcl: 'publicRead',
   })
 
-  const downloadUrl = `${process.env.STRAGE_URL}${destination}`
+  const downloadUrl = `${bucketUrl}/${destination}`
   return { downloadUrl, path: destination, tmpFilePath }
 }
 
@@ -267,7 +270,7 @@ export const archiveUrl = (eid: string): StoragePaths => {
   const localFile = `data/archvie_${eid}.csv`
   const filename = `hist_${eid}.csv`
   const destination = `${distPath}/${filename}`
-  const url = `${process.env.STRAGE_URL}/${destination}`
+  const url = `${bucketUrl}/${destination}`
   return { url, destination, filename, localFile }
 }
 export const uploadStorageArchive = async ({
