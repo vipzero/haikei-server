@@ -27,13 +27,10 @@ store.onExpiredStorageUrl = (urls) => {
 }
 
 const DIRECT_MODE = Boolean(Number(process.env.DIRECT_MODE))
-console.log({ DIRECT_MODE })
 async function prepareImages(q: string) {
   const googleImageLinks = await getImageLinks(q)
-  console.log(googleImageLinks)
   if (DIRECT_MODE) return googleImageLinks
   const uploads = await uploadByUrlAll(googleImageLinks)
-  console.log(uploads)
   store.addQueue(uploads)
   return uploads.map((u) => u.downloadUrl)
 }
@@ -47,7 +44,7 @@ export async function icyToSong(
 
   if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
 
-  // addHistory(icy, time)
+  addHistory(icy, time)
 
   const song = findSong(icy)
 
@@ -85,7 +82,7 @@ async function receiveIcy(icy: string) {
   if (!res) return
   const [song] = res
   songPrint(song)
-  // saveMusic(song)
+  saveMusic(song)
 }
 
 async function main() {
