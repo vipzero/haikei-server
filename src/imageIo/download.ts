@@ -40,9 +40,7 @@ export const downloadOptimize = async (
     }
   )
   if (res === 'SaveError') return false
-  if (!(await imageMin(filePath))) {
-    return false
-  }
+  await imageMin(filePath)
   const shapeRes = await sharpMin(filePath).catch((e) => {
     warn('UnsupportedError', e)
     return false as const
