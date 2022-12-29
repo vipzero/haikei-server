@@ -13,7 +13,7 @@ import { getLyricsSafe } from './service/jlyricnet'
 import { store } from './state/store'
 import subscribeIcy from './streaming/icy'
 import { Counts, Song } from './types/index'
-import { nonEmpty, sleep } from './utils'
+import { convertTimeTags, nonEmpty, sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
@@ -49,8 +49,10 @@ export async function icyToSong(
     getAlbum(icy),
     getLyricsSafe(song.title, song.artist),
   ])
+
   const additionals: string[] = nonEmpty([
     song.animeTitle,
+    ...convertTimeTags(song.date),
     ...Object.values(creators),
   ])
   const { wordCounts, counts } = anaCounts(
