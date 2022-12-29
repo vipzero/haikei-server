@@ -12,8 +12,8 @@ import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 import { Store, store } from './state/store'
 import subscribeIcy from './streaming/icy'
-import { Song } from './types/index'
-import { sleep } from './utils'
+import { Counts, Song } from './types/index'
+import { nonEmpty, sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
@@ -38,33 +38,25 @@ async function prepareImages(q: string) {
 export async function icyToSong(
   icy: string,
   time: number,
-  store: Store
-): Promise<[Song] | false> {
-  info(icy)
-
-  if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
-
-  addHistory(icy, time)
-
+  prevCounts: Counts = {}
+): Promise<[Song, Counts] | false> {
   const song = findSong(icy)
 
-  const additionals: string[] = [song.animeTitle, song.title].filter(
-    Boolean
-  ) as string[]
-  const { wordCounts, counts } = anaCounts(icy, store.counts || {}, additionals)
-  store.counts = counts
-
   const imageSearchWord = makeSearchQuery(song, Math.random())
-  const imageLinksSync = prepareImages(imageSearchWord)
-
-  const albumInfosSync = getAlbum(icy)
-  const lyricsSync = getLyricsSafe(song.title, song.artist)
 
   const [imageLinks, albumInfos, { creators }] = await Promise.all([
-    imageLinksSync,
-    albumInfosSync,
-    lyricsSync,
+    prepareImages(imageSearchWord),
+    getAlbum(icy),
+    getLyricsSafe(song.title, song.artist),
   ])
+  const additionals: string[] = nonEmpty([
+    song.animeTitle,
+    song.title,
+    song.artist,
+    ...Object.values(creators),
+  ])
+  const { wordCounts, counts } = anaCounts([icy], prevCounts, additionals)
+
   const compSong: Song = {
     ...song,
     imageLinks,
@@ -74,15 +66,22 @@ export async function icyToSong(
     time,
     imageSearchWord,
   }
-  return [compSong]
+  return [compSong, counts]
 }
 
 async function receiveIcy(icy: string) {
-  const res = await icyToSong(icy, Date.now(), store)
+  info(icy)
+
+  if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
+
+  const time = Date.now()
+  const res = await icyToSong(icy, time, store.counts)
   if (!res) return
-  const [song] = res
+  const [song, counts] = res
+  store.counts = counts
   songPrint(song)
   saveMusic(song)
+  addHistory(icy, time)
 }
 
 async function main() {

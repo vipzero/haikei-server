@@ -11,7 +11,6 @@ export { admin }
 // const P_VOTE = 'vote'
 // const P_BOOKS = 'books'
 // const P_TABLE = 'table'
-// const P_COUNTS = 'counts'
 // const P_CVOTE = 'cvote'
 
 const P_SONGS = 'songs'
@@ -19,6 +18,7 @@ const P_SONG = 'song'
 // const P_EMOL = 'emol'
 const P_HIST = 'hist'
 const P_YO = 'yo'
+const P_COUNTS = 'counts'
 const P_CURRENT = 'current'
 
 const { SERVICE_ACCOUNT_FILE_PATH, EVENT_ID } = process.env
@@ -138,7 +138,7 @@ export const setupCount = async (counts: Counts, lasttime: number) => {
     ents.forEach(([k, v]) => {
       if (!k || !v) return
       batch.set(
-        fdb.collection('hist').doc(EVENT_ID).collection('counts').doc(),
+        fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(),
         {
           word: k,
           count: v,

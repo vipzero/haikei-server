@@ -16,11 +16,11 @@ export function saveCountsFile(counts: Counts, time = Date.now()) {
 }
 
 export function anaCounts(
-  icy: string,
+  icys: string[],
   countsOld: Counts,
   additionals: string[] = []
 ) {
-  const entries = parseCountWords(icy, additionals)
+  const entries = parseCountWords(icys, additionals)
   const counts = { ...countsOld }
   const entriesNoms = entries.map(textNormalize)
 

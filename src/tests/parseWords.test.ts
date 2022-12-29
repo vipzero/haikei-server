@@ -16,6 +16,28 @@ Array [
 ]
 `)
 
+  expect(parseCountWords([q, q])).toMatchInlineSnapshot(`
+Array [
+  "イリス",
+  "フレイア",
+  "日高里菜",
+  "物部深月",
+  "沼倉愛美",
+  "Ray of bullet",
+]
+`)
+
+  expect(parseCountWords([q, ''])).toMatchInlineSnapshot(`
+Array [
+  "イリス",
+  "フレイア",
+  "日高里菜",
+  "物部深月",
+  "沼倉愛美",
+  "Ray of bullet",
+]
+`)
+
   q =
     'ショコラ (CV:八木侑紀)、バニラ (CV:佐伯伊織)、アズキ (CV:井澤詩織)、メイプル (CV:伊藤美来)、シナモン (CV:のぐちゆり)、ココナツ (CV:水谷麻鈴) - Shiny Happy Days'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`

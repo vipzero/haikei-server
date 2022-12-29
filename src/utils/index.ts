@@ -53,8 +53,13 @@ export const uniqo = (arr: string[]) => {
   return Object.values(obj)
 }
 
-export const parseCountWords = (icy: string, additional: string[] = []) => {
-  const words = parseWords(icy)
+export const parseCountWords = (
+  icys: string | string[],
+  additional: string[] = []
+) => {
+  const words = (Array.isArray(icys) ? icys : [icys])
+    .map((icy) => parseWords(icy))
+    .flat()
   const entries = uniqo([...additional, ...words])
 
   return entries
@@ -92,3 +97,6 @@ export const pickChara = (s: string): string[] => {
 
 export const flatten = <T>(arr: T[][]) =>
   arr.reduce<T[]>((a, b) => a.concat(b), [])
+
+export const nonEmpty = (strs: (string | undefined)[]) =>
+  strs.filter(Boolean) as string[]
