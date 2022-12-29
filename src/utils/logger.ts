@@ -9,7 +9,7 @@ export const error = (key: string, description: string) => {
 }
 
 export const warn = (key: string, description: string) => {
-  console.warn(chalk.red(`${key}: ${description}`))
+  console.warn(chalk.yellow(`${key}: ${description}`))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

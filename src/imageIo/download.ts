@@ -19,14 +19,14 @@ export const downloadOptimize = async (
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
   const stream = got.stream(url)
-  const fileTypePromise = fromStream(stream).catch((e) => {
-    if (e.message.includes('End-Of-Stream')) {
-      warn(`EndOfStreamError`, `${url} ${filePath}`)
-      return
-    } else {
-      error(`FileTypeError`, `${url} ${filePath}`)
-      log(JSON.stringify(e))
-    }
+  const fileTypePromise = fromStream(stream).catch(() => {
+    // if (e.message.includes('End-Of-Stream')) {
+    //   warn(`EndOfStreamError`, `${url} ${filePath}`)
+    //   return
+    // } else {
+    //   error(`FileTypeError`, `${url} ${filePath}`)
+    //   log(JSON.stringify(e))
+    // }
 
     return fileTypeDefault
   })
