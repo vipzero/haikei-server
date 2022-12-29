@@ -76,7 +76,10 @@ export const histSongsRef = (eid = EVENT_ID) =>
 export const bookCountDocRef = () => fdb.collection(P_YO).doc(P_CURRENT)
 
 export const loadHistEventSongs = async (eid: string) => {
-  const snaps = await histSongsRef(eid).orderBy('time', 'asc').get()
+  const snaps = await histSongsRef(eid)
+    .orderBy('time', 'asc')
+    .where('time', '<', 1672298643907)
+    .get()
   const lines: HistoryRaw[] = []
   snaps.docs.forEach((doc) => {
     const d = doc.data() as HistoryRaw
@@ -118,7 +121,7 @@ export const loadWordCounts = async () => {
   const snap = await fdb
     .collection('hist')
     .doc(EVENT_ID)
-    .collection('counts')
+    .collection(P_COUNTS)
     .get()
   const hist = await fdb.collection('hist').doc(EVENT_ID).get()
   const lasttime = (hist.exists && (hist.data() as HistTop).lasttime) || 0
@@ -173,6 +176,39 @@ export const setupHistN = async (ns: Record<string, number | null>) => {
   }
 }
 
+export const countupWordsEntry = async (words: Record<string, number>) => {
+  const batch = fdb.batch()
+  const check: Record<string, true> = {}
+  for (const ws of chunk(Object.entries(words), 10)) {
+    const docs = await fdb
+      .collection('hist')
+      .doc(EVENT_ID)
+      .collection(P_COUNTS)
+      .where(
+        'word',
+        'in',
+        ws.map((v) => v[0])
+      )
+      .get()
+    docs.forEach((doc) => {
+      const wk = (doc.data() as Count).word
+      check[wk] = true
+      batch.update(doc.ref, {
+        count: admin.firestore.FieldValue.increment(words[wk]),
+      })
+    })
+  }
+  Object.entries(words).forEach(([word, count]) => {
+    if (check[word]) return
+    batch.set(fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(), {
+      word,
+      count,
+    })
+  })
+
+  await batch.commit()
+}
+
 export const countupWords = async (words: string[]) => {
   const batch = fdb.batch()
   const check: Record<string, true> = {}
@@ -180,7 +216,7 @@ export const countupWords = async (words: string[]) => {
     const docs = await fdb
       .collection('hist')
       .doc(EVENT_ID)
-      .collection('counts')
+      .collection(P_COUNTS)
       .where('word', 'in', ws)
       .get()
     docs.forEach((doc) => {
@@ -190,7 +226,7 @@ export const countupWords = async (words: string[]) => {
   }
   words.forEach((word) => {
     if (check[word]) return
-    batch.set(fdb.collection('hist').doc(EVENT_ID).collection('counts').doc(), {
+    batch.set(fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(), {
       word,
       count: 1,
     })

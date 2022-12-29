@@ -18,13 +18,15 @@ export function saveCountsFile(counts: Counts, time = Date.now()) {
 export function anaCounts(
   icys: string[],
   countsOld: Counts,
-  additionals: string[] = []
+  additionals: string[] = [],
+  write = false
 ) {
+  console.log({ icys, additionals })
   const entries = parseCountWords(icys, additionals)
   const counts = { ...countsOld }
   const entriesNoms = entries.map(textNormalize)
 
-  countupWords(entriesNoms)
+  if (write) countupWords(entriesNoms)
   entriesNoms.forEach((v) => {
     counts[v] = (countsOld[v] || 0) + 1
   })

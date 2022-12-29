@@ -23,7 +23,7 @@ async function main() {
     await sleep(200)
 
     await addHistory(title.trim(), Number(time), 0)
-    anaCounts(title, {})
+    anaCounts([title], {}, [], true)
 
     process.stdout.write('.')
   }

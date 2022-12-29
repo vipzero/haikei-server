@@ -22,7 +22,7 @@ async function main() {
     const { title, time } = parseLine(line)
     await sleep(200)
     await addHistory(title, time)
-    anaCounts(title, {})
+    anaCounts([title], {}, [], true)
 
     process.stdout.write('.')
   }

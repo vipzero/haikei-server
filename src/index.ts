@@ -10,7 +10,7 @@ import {
 } from './service/firebase'
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
-import { Store, store } from './state/store'
+import { store } from './state/store'
 import subscribeIcy from './streaming/icy'
 import { Counts, Song } from './types/index'
 import { nonEmpty, sleep } from './utils'
@@ -51,11 +51,13 @@ export async function icyToSong(
   ])
   const additionals: string[] = nonEmpty([
     song.animeTitle,
-    song.title,
-    song.artist,
     ...Object.values(creators),
   ])
-  const { wordCounts, counts } = anaCounts([icy], prevCounts, additionals)
+  const { wordCounts, counts } = anaCounts(
+    [icy, song.artist || ''],
+    prevCounts,
+    additionals
+  )
 
   const compSong: Song = {
     ...song,
