@@ -100,3 +100,9 @@ export const flatten = <T>(arr: T[][]) =>
 
 export const nonEmpty = (strs: (string | undefined)[]) =>
   strs.filter(Boolean) as string[]
+
+// YYYY-MM-DD -> [YYYY, YYYY-MM, YYYY-SX]
+export const convertTimeTags = (songDate: string) => {
+  const [y, m] = songDate.split('-')
+  return [`[${y}]`, `[${y}-${m}]`, `[${y}-S${Math.floor((+m - 1) / 3) + 1}]`]
+}
