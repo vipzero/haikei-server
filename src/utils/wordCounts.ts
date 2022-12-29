@@ -21,7 +21,6 @@ export function anaCounts(
   additionals: string[] = [],
   write = false
 ) {
-  console.log({ icys, additionals })
   const entries = parseCountWords(icys, additionals)
   const counts = { ...countsOld }
   const entriesNoms = entries.map(textNormalize)

@@ -32,7 +32,7 @@ const isTagWord = (v: string) => !!v && v !== '-'
 const trimWord = (v: string) =>
   v
     .trim()
-    .replace(/^[.:：&＆]/, '')
+    .replace(/^[.:：&＆/]/, '')
     .trim()
 
 const parseWords = (s: string) =>
