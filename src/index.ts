@@ -53,10 +53,9 @@ export async function icyToSong(
   const additionals: string[] = nonEmpty([
     song.animeTitle,
     ...convertTimeTags(song.date),
-    ...Object.values(creators),
   ])
   const { wordCounts, counts } = anaCounts(
-    [icy, song.artist || ''],
+    [icy, song.artist || '', ...nonEmpty(Object.values(creators))],
     prevCounts,
     additionals
   )

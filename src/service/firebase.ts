@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
 import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
-import { chunk } from '../utils'
+import { chunk, textNormalize } from '../utils'
 import { error, info, log, warn } from '../utils/logger'
 import { CacheFile } from './../types/index'
 
@@ -124,7 +124,9 @@ export const loadWordCounts = async () => {
   const lasttime = (hist.exists && (hist.data() as HistTop).lasttime) || 0
 
   const counts: Counts = {}
-  snap.docs.forEach((v) => (counts[v.data().word] = v.data().count))
+  snap.docs.forEach(
+    (v) => (counts[textNormalize(v.data().word)] = v.data().count)
+  )
 
   return { counts, lasttime }
 }

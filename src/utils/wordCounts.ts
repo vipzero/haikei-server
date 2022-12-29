@@ -26,6 +26,7 @@ export function anaCounts(
   const entriesNoms = entries.map(textNormalize)
 
   if (write) countupWords(entriesNoms)
+
   entriesNoms.forEach((v) => {
     counts[v] = (countsOld[v] || 0) + 1
   })
