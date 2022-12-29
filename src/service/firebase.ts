@@ -76,10 +76,7 @@ export const histSongsRef = (eid = EVENT_ID) =>
 export const bookCountDocRef = () => fdb.collection(P_YO).doc(P_CURRENT)
 
 export const loadHistEventSongs = async (eid: string) => {
-  const snaps = await histSongsRef(eid)
-    .orderBy('time', 'asc')
-    .where('time', '<', 1672298643907)
-    .get()
+  const snaps = await histSongsRef(eid).orderBy('time', 'asc').get()
   const lines: HistoryRaw[] = []
   snaps.docs.forEach((doc) => {
     const d = doc.data() as HistoryRaw
