@@ -18,7 +18,7 @@ export const downloadOptimize = async (
 ): Promise<CacheFile | false> => {
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
-  const stream = got.stream(url)
+  const stream = got.stream(url, { timeout: { request: 1000 } })
   const fileTypePromise = fromStream(stream).catch(() => {
     // if (e.message.includes('End-Of-Stream')) {
     //   warn(`EndOfStreamError`, `${url} ${filePath}`)
