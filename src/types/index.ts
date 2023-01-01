@@ -90,10 +90,7 @@ export type Count = {
 
 export type CacheFile = {
   filePath: string
-  fileType: {
-    ext: string
-    mime: string
-  }
+  fileType: { ext: string; mime: string }
   size: number
   width: number
   height: number

@@ -1,35 +1,38 @@
-import { error, warn, log } from '../utils/logger'
-import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
+import { CacheFile } from '../types'
+import { error, log, warn } from '../utils/logger'
 import { imageMin } from './imagemin'
 import { sharpMin } from './sharp'
-import { CacheFile } from '../types'
 
 const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
-const fileTypeDefault = { ext: 'png', mime: 'image/png' }
+
+const mimeJpg = { ext: 'jpg', mime: 'image/jpeg' }
+const mimePng = { ext: 'png', mime: 'image/png' }
+const mimeWebp = { ext: 'webp', mime: 'image/webp' }
+const mimeGif = { ext: 'gif', mime: 'image/gif' }
+const mimeSvg = { ext: 'svg', mime: 'image/svg+xml' }
+
+const mimeMap: Record<string, CacheFile['fileType']> = {
+  jpeg: mimeJpg,
+  jpg: mimeJpg, // will unuse
+  png: mimePng,
+  webp: mimeWebp,
+  gif: mimeGif,
+  svg: mimeSvg,
+}
+const fileTypeDefault = mimePng
 
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
   const uuid = uuidv4()
   const filePath = `tmp/${uuid}`
-  const stream = got.stream(url, { timeout: { request: 1000 } })
-  const fileTypePromise = fromStream(stream).catch(() => {
-    // if (e.message.includes('End-Of-Stream')) {
-    //   warn(`EndOfStreamError`, `${url} ${filePath}`)
-    //   return
-    // } else {
-    //   error(`FileTypeError`, `${url} ${filePath}`)
-    //   log(JSON.stringify(e))
-    // }
-
-    return fileTypeDefault
-  })
+  const stream = got.stream(url, { timeout: { request: 5000 } })
 
   const res = await pipeline(stream, fs.createWriteStream(filePath)).catch(
     (e) => {
@@ -47,9 +50,9 @@ export const downloadOptimize = async (
   })
   if (!shapeRes) return false
 
-  const { size, height, width } = shapeRes
+  const { size, height, width, format } = shapeRes
 
-  const fileType = (await fileTypePromise) || fileTypeDefault
+  const fileType = mimeMap[format] || fileTypeDefault
 
   return { filePath, fileType, size, height, width }
 }
