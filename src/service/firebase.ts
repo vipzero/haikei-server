@@ -263,7 +263,7 @@ export const countupWords = async (words: string[]) => {
 // }
 
 export const deleteFile = (path: string) => {
-  info(`delete op: ${path}`)
+  // info(`delete op: ${path}`)
 
   return bucket
     .file(path)
