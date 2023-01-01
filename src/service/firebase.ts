@@ -1,7 +1,7 @@
 import admin from 'firebase-admin'
 import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk, textNormalize } from '../utils'
-import { error, info, log, warn } from '../utils/logger'
+import { error, log, warn } from '../utils/logger'
 import { CacheFile } from './../types/index'
 
 export { admin }

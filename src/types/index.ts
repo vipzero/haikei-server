@@ -94,5 +94,6 @@ export type CacheFile = {
   size: number
   width: number
   height: number
+  hash: string
 }
 export type Emol = { text: string }

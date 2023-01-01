@@ -4,7 +4,7 @@ import stream from 'stream'
 import { promisify } from 'util'
 import { CacheFile } from '../types'
 import { error, log, warn } from '../utils/logger'
-import { imageMin } from './imagemin'
+import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
 
 const uuidv4 = require('uuid/v4')
@@ -26,24 +26,32 @@ const mimeMap: Record<string, CacheFile['fileType']> = {
   svg: mimeSvg,
 }
 const fileTypeDefault = mimePng
+const gotOption = { timeout: { request: 5000 } }
 
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
-  const uuid = uuidv4()
-  const filePath = `tmp/${uuid}`
-  const stream = got.stream(url, { timeout: { request: 5000 } })
+  const filePath = `tmp/${uuidv4()}`
+  const stream = got.stream(url, gotOption)
 
-  const res = await pipeline(stream, fs.createWriteStream(filePath)).catch(
-    (e) => {
+  let ts = Date.now()
+  let res
+  try {
+    res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
       error(`DownloadSaveError`, `${url} ${filePath}`)
-      log(typeof e)
       log(JSON.stringify(e))
       return 'SaveError' as const
-    }
-  )
+    })
+  } catch (e) {
+    warn(`out-DownloadSaveError`, JSON.stringify(e))
+    res = 'SaveError'
+  }
+  log(` dw: ${Date.now() - ts}ms`)
   if (res === 'SaveError') return false
-  await imageMin(filePath)
+  // await imageMin(filePath)
+
+  ts = Date.now()
+
   const shapeRes = await sharpMin(filePath).catch((e) => {
     warn('UnsupportedError', e)
     return false as const
@@ -51,8 +59,19 @@ export const downloadOptimize = async (
   if (!shapeRes) return false
 
   const { size, height, width, format } = shapeRes
-
   const fileType = mimeMap[format] || fileTypeDefault
 
-  return { filePath, fileType, size, height, width }
+  log(` shape: ${Date.now() - ts}ms`)
+
+  ts = Date.now()
+  const resj = await jimpHash(filePath, fileType.mime).catch((e) => {
+    warn('JimpError', e)
+    return false as const
+  })
+  if (!resj) return false
+  const { hash } = resj
+  log(`  jimp: ${Date.now() - ts}ms`)
+  log(`   size: ${width}x${height}`)
+
+  return { filePath, fileType, size, height, width, hash }
 }
