@@ -59,6 +59,9 @@ export async function icyToSong(
     prevCounts,
     additionals
   )
+  if (albumInfos?.artworkUrl100) {
+    imageLinks.push(albumInfos.artworkUrl100)
+  }
 
   const compSong: Song = {
     ...song,
