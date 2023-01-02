@@ -1,7 +1,7 @@
 import admin from 'firebase-admin'
 import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk, textNormalize } from '../utils'
-import { error, log, warn } from '../utils/logger'
+import { error, log, warnDesc } from '../utils/logger'
 import { CacheFile } from './../types/index'
 
 export { admin }
@@ -263,7 +263,7 @@ export const deleteFile = (path: string) => {
     .delete()
     .catch((e) => {
       if (e.code === 404) {
-        warn(`NoDeleteTargetWarn`, `no delete target ${path}`)
+        warnDesc(`NoDeleteTargetWarn`, `no delete target ${path}`)
         return
       }
       error(`DeleteFileError`, path)

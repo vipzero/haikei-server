@@ -1,11 +1,11 @@
 import { writeFile } from 'fs/promises'
 import { compareHashes, read } from 'jimp'
-import { warn } from '../utils/logger'
+import { warnDesc } from '../utils/logger'
 
 export async function jimpHash(path: string, mime: string) {
   const img = await read(path).catch(() => false as const)
   if (img === false) {
-    warn('read error', path)
+    warnDesc('read error', path)
 
     return false
   }

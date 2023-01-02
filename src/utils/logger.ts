@@ -7,8 +7,10 @@ export const info = (str: string | number | object) =>
 export const error = (key: string, description: string) => {
   console.error(chalk.red(`${key}: ${description}`))
 }
+export const warn = (str: string | number | object) =>
+  console.warn(chalk.yellow(str))
 
-export const warn = (key: string, description: string) => {
+export const warnDesc = (key: string, description: string) => {
   console.warn(chalk.yellow(`${key}: ${description}`))
 }
 
