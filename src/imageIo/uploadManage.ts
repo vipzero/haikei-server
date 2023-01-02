@@ -1,6 +1,6 @@
 import { unlink } from 'fs/promises'
 import { UploadFile } from '../types/index'
-import { error } from '../utils/logger'
+import { error, log } from '../utils/logger'
 import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'
 import { downloadOptimize } from './download'
@@ -10,15 +10,11 @@ const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
 
+  log(urls)
+  log(urls.length)
   const downloads: CacheFile[] = (
     await Promise.all(urls.map(downloadOptimize))
   ).filter((v) => nonFalse(v)) as CacheFile[]
-
-  for (const url of urls) {
-    const res = await downloadOptimize(url)
-    if (!res) continue
-    downloads.push(res)
-  }
 
   const uploads: UploadFile[] = []
   const selects = choiceImage(downloads)

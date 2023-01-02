@@ -26,11 +26,12 @@ const mimeMap: Record<string, CacheFile['fileType']> = {
   svg: mimeSvg,
 }
 const fileTypeDefault = mimePng
-const gotOption = { timeout: { request: 5000 } }
+const gotOption = { timeout: { request: 3000 } }
 
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
+  // log('s: ' + url)
   const filePath = `tmp/${uuidv4()}`
   const stream = got.stream(url, gotOption)
 
@@ -38,8 +39,12 @@ export const downloadOptimize = async (
   let res
   try {
     res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
-      error(`DownloadSaveError`, `${url} ${filePath}`)
-      log(JSON.stringify(e))
+      if (e.name === 'TimeoutError') {
+        log(`Timeout`, `${url}`)
+      } else {
+        error(`DownloadSaveError`, `${url} ${filePath}`)
+        log(JSON.stringify(e))
+      }
       return 'SaveError' as const
     })
   } catch (e) {
@@ -71,7 +76,7 @@ export const downloadOptimize = async (
   if (!resj) return false
   const { hash } = resj
   log(`  jimp: ${Date.now() - ts}ms`)
-  log(`   size: ${width}x${height}`)
+  // log(`   size: ${width}x${height}`)
 
   return { filePath, fileType, size, height, width, hash }
 }
