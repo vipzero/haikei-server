@@ -3,7 +3,7 @@ import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
 import { CacheFile } from '../types'
-import { error, log, warn } from '../utils/logger'
+import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
 
@@ -28,14 +28,33 @@ const mimeMap: Record<string, CacheFile['fileType']> = {
 const fileTypeDefault = mimePng
 const gotOption = { timeout: { request: 3000 } }
 
+const putil = () => {
+  let prev = performance.now()
+
+  return {
+    mark(name: string) {
+      const cur = performance.now()
+      const ms = Math.floor(cur - prev)
+      if (ms < 1000) {
+        info(`${name}${ms}ms`)
+      } else {
+        warn(`${name}${ms}ms`)
+      }
+
+      prev = cur
+    },
+  }
+}
+
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
+  const time = putil()
+
   // log('s: ' + url)
   const filePath = `tmp/${uuidv4()}`
   const stream = got.stream(url, gotOption)
 
-  let ts = Date.now()
   let res
   try {
     res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
@@ -48,17 +67,16 @@ export const downloadOptimize = async (
       return 'SaveError' as const
     })
   } catch (e) {
-    warn(`out-DownloadSaveError`, JSON.stringify(e))
+    warnDesc(`out-DownloadSaveError`, JSON.stringify(e))
     res = 'SaveError'
   }
-  log(` dw: ${Date.now() - ts}ms`)
+
+  time.mark(` dw: `)
   if (res === 'SaveError') return false
   // await imageMin(filePath)
 
-  ts = Date.now()
-
   const shapeRes = await sharpMin(filePath).catch((e) => {
-    warn('UnsupportedError', e)
+    warnDesc('UnsupportedError', e)
     return false as const
   })
   if (!shapeRes) return false
@@ -66,17 +84,16 @@ export const downloadOptimize = async (
   const { size, height, width, format } = shapeRes
   const fileType = mimeMap[format] || fileTypeDefault
 
-  log(` shape: ${Date.now() - ts}ms`)
+  time.mark(` shape: `)
 
-  ts = Date.now()
   const resj = await jimpHash(filePath, fileType.mime).catch((e) => {
-    warn('JimpError', e)
+    warnDesc('JimpError', e)
     return false as const
   })
   if (!resj) return false
   const { hash } = resj
-  log(`  jimp: ${Date.now() - ts}ms`)
-  // log(`   size: ${width}x${height}`)
+  time.mark(`  jimp: `)
+  // time.mark(`   size: `)
 
   return { filePath, fileType, size, height, width, hash }
 }
