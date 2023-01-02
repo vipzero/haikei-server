@@ -1,4 +1,5 @@
 import { choiceImage } from '../imageIo/uploadManage'
+import { CacheFile } from '../types'
 
 test('choiceImage', () => {
   const basePng = {
@@ -6,8 +7,9 @@ test('choiceImage', () => {
     size: 100_000,
     height: 700,
     width: 800,
+    hash: 'ffffff',
   }
-  const downloads = [
+  const downloads: CacheFile[] = [
     {
       ...basePng,
       filePath: 'will skipped',
