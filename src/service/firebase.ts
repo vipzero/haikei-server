@@ -6,13 +6,6 @@ import { CacheFile } from './../types/index'
 
 export { admin }
 
-// const P_SONG = 'song'
-// const P_FEEDBACK = 'feedback'
-// const P_VOTE = 'vote'
-// const P_BOOKS = 'books'
-// const P_TABLE = 'table'
-// const P_CVOTE = 'cvote'
-
 const P_SONGS = 'songs'
 const P_SONG = 'song'
 // const P_EMOL = 'emol'
@@ -107,7 +100,7 @@ export const addHistory = async (
 
 export const loadAllIcy = async () => {
   const snap = await fdb
-    .collection('hist')
+    .collection(P_HIST)
     .doc(EVENT_ID)
     .collection('songs')
     .get()
@@ -116,11 +109,11 @@ export const loadAllIcy = async () => {
 
 export const loadWordCounts = async () => {
   const snap = await fdb
-    .collection('hist')
+    .collection(P_HIST)
     .doc(EVENT_ID)
     .collection(P_COUNTS)
     .get()
-  const hist = await fdb.collection('hist').doc(EVENT_ID).get()
+  const hist = await fdb.collection(P_HIST).doc(EVENT_ID).get()
   const lasttime = (hist.exists && (hist.data() as HistTop).lasttime) || 0
 
   const counts: Counts = {}
@@ -140,7 +133,7 @@ export const setupCount = async (counts: Counts, lasttime: number) => {
     ents.forEach(([k, v]) => {
       if (!k || !v) return
       batch.set(
-        fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(),
+        fdb.collection(P_HIST).doc(EVENT_ID).collection(P_COUNTS).doc(),
         {
           word: k,
           count: v,
@@ -149,14 +142,14 @@ export const setupCount = async (counts: Counts, lasttime: number) => {
     })
     await batch.commit()
   }
-  fdb.collection('hist').doc(EVENT_ID).set({ lasttime }, { merge: true })
+  fdb.collection(P_HIST).doc(EVENT_ID).set({ lasttime }, { merge: true })
 }
 
 export const setupHistN500 = async (ns: Record<string, number>) => {
   const batch = fdb.batch()
   for (const [id, n] of Object.entries(ns)) {
     batch.update(
-      fdb.collection('hist').doc(EVENT_ID).collection('song').doc(id),
+      fdb.collection(P_HIST).doc(EVENT_ID).collection('song').doc(id),
       { n }
     )
   }
@@ -180,7 +173,7 @@ export const countupWordsEntry = async (words: Record<string, number>) => {
   const check: Record<string, true> = {}
   for (const ws of chunk(Object.entries(words), 10)) {
     const docs = await fdb
-      .collection('hist')
+      .collection(P_HIST)
       .doc(EVENT_ID)
       .collection(P_COUNTS)
       .where(
@@ -199,7 +192,7 @@ export const countupWordsEntry = async (words: Record<string, number>) => {
   }
   Object.entries(words).forEach(([word, count]) => {
     if (check[word]) return
-    batch.set(fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(), {
+    batch.set(fdb.collection(P_HIST).doc(EVENT_ID).collection(P_COUNTS).doc(), {
       word,
       count,
     })
@@ -213,7 +206,7 @@ export const countupWords = async (words: string[]) => {
   const check: Record<string, true> = {}
   for (const ws of chunk(words, 10)) {
     const docs = await fdb
-      .collection('hist')
+      .collection(P_HIST)
       .doc(EVENT_ID)
       .collection(P_COUNTS)
       .where('word', 'in', ws)
@@ -225,12 +218,12 @@ export const countupWords = async (words: string[]) => {
   }
   words.forEach((word) => {
     if (check[word]) return
-    batch.set(fdb.collection('hist').doc(EVENT_ID).collection(P_COUNTS).doc(), {
+    batch.set(fdb.collection(P_HIST).doc(EVENT_ID).collection(P_COUNTS).doc(), {
       word,
       count: 1,
     })
   })
-  batch.update(fdb.collection('hist').doc(EVENT_ID), { lasttime: +new Date() })
+  batch.update(fdb.collection(P_HIST).doc(EVENT_ID), { lasttime: +new Date() })
   await batch.commit()
 }
 
@@ -239,7 +232,7 @@ export const countupWords = async (words: string[]) => {
 //   const check = {}
 //   for (const ws of chunk(Object.keys(words), 10)) {
 //     const docs = await fdb
-//       .collection('hist')
+//       .collection(P_HIST)
 //       .doc(EVENT_ID)
 //       .collection('counts')
 //       .where('word', 'in', ws)
@@ -253,12 +246,12 @@ export const countupWords = async (words: string[]) => {
 //   }
 //   Object.keys(words).forEach((word) => {
 //     if (check[word]) return
-//     batch.set(fdb.collection('hist').doc(EVENT_ID).collection('counts').doc(), {
+//     batch.set(fdb.collection(P_HIST).doc(EVENT_ID).collection('counts').doc(), {
 //       word,
 //       count: 1,
 //     })
 //   })
-//   batch.update(fdb.collection('hist').doc(EVENT_ID), { lasttime: +new Date() })
+//   batch.update(fdb.collection(P_HIST).doc(EVENT_ID), { lasttime: +new Date() })
 //   await batch.commit()
 // }
 
