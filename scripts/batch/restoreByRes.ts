@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import { loadActiveUrls } from './threadUrls'
+import { loadActiveUrls } from './../threadUrls'
 import chch from 'chch'
-import { sleep } from '../src/utils'
-import { loadData, saveData } from './postTimeUtil'
+import { Post } from 'chch/dist/types'
+import { sleep } from '../../src/utils'
 
-const filterNonGreeting = (s: string) =>
-  !(s.includes('>>') && /^おつ|^よろ|^云々/m.exec(s))
+const filterRes = (p: Post) =>
+  p.name.raw.includes(process.env.TARGET_NAME || '---')
 
 async function main() {
   const search = process.env.THREAD_TITLE_WORD
@@ -20,20 +20,16 @@ async function main() {
     .concat(currentTreads)
   console.log(urls)
 
-  const data = loadData()
   for (const url of urls) {
     const thread = await chch.getThread(url)
 
-    if (!data[thread.url]) data[thread.url] = {}
-
-    for (const post of thread.posts.filter((p) =>
-      filterNonGreeting(p.message)
-    )) {
-      data[thread.url][post.timestamp] = true
+    for (const post of thread.posts.filter(filterRes)) {
+      const line1 = post.message.split('\n')[0]
+      if (line1.includes('　'))
+        console.log(line1.split('　').join(',') + ',' + post.timestamp)
     }
     sleep(1000)
   }
-  saveData(data)
 }
 
 // watch()

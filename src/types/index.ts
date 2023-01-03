@@ -70,6 +70,8 @@ export type Song = Partial<SongSupportAttr> & (SongFull | SongMiss)
 export type HistoryRaw = {
   title: string
   time: number
+  n?: number
+  b?: number
 }
 
 export type HistTop = {
@@ -88,11 +90,10 @@ export type Count = {
 
 export type CacheFile = {
   filePath: string
-  fileType: {
-    ext: string
-    mime: string
-  }
+  fileType: { ext: string; mime: string }
   size: number
   width: number
   height: number
+  hash: string
 }
+export type Emol = { text: string }

@@ -1,11 +1,8 @@
 import { findSong } from './anisonDb/findSong'
-import subscribeIcy from './streaming/icy'
 import { uploadByUrlAll } from './imageIo/uploadManage'
-import { error, info, log, songPrint } from './utils/logger'
-import { makeSearchQuery } from './utils/makeSearchWord'
 import { getImageLinks } from './service/customImageSearch'
 import {
-  addHistoryNow,
+  addHistory,
   deleteFile,
   getCurrentPlay,
   init,
@@ -13,10 +10,12 @@ import {
 } from './service/firebase'
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
-// import { spotifySearchSongInfo } from './spotify'
 import { store } from './state/store'
-import { Song } from './types/index'
-import { sleep } from './utils'
+import subscribeIcy from './streaming/icy'
+import { Counts, Song } from './types/index'
+import { convertTimeTags, nonEmpty, sleep } from './utils'
+import { error, info, log, songPrint } from './utils/logger'
+import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
 
 const url = process.env.URL
@@ -27,7 +26,7 @@ store.onExpiredStorageUrl = (urls) => {
   })
 }
 
-const DIRECT_MODE = Boolean(process.env.DIRECT_MODE)
+const DIRECT_MODE = Boolean(Number(process.env.DIRECT_MODE))
 async function prepareImages(q: string) {
   const googleImageLinks = await getImageLinks(q)
   if (DIRECT_MODE) return googleImageLinks
@@ -36,36 +35,34 @@ async function prepareImages(q: string) {
   return uploads.map((u) => u.downloadUrl)
 }
 
-async function receiveIcy(icy: string) {
-  const time = Date.now()
-  info(icy)
-
-  if (store.isDuplicate(icy)) return // 起動時の重複登録を防ぐ
-
-  addHistoryNow(icy)
-
+export async function icyToSong(
+  icy: string,
+  time: number,
+  prevCounts: Counts = {}
+): Promise<[Song, Counts] | false> {
   const song = findSong(icy)
-  const additionals: string[] = [song.animeTitle, song.title].filter(
-    Boolean
-  ) as string[]
-  const { wordCounts, counts } = anaCounts(icy, store.counts || {}, additionals)
-  store.counts = counts
 
-  const imageSearchWord = makeSearchQuery(song)
-  const imageLinksSync = prepareImages(imageSearchWord)
-
-  // const spoinfo = spotifySearchSongInfo(song.title, song.artist)
-  // if (spoinfo) song.artwork = spoinfo.artwork
-
-  const albumInfosSync = getAlbum(icy)
-  const lyricsSync = getLyricsSafe(song.title, song.artist)
-  // const lyric = lyrics ? lyrics.lyric : null
+  const imageSearchWord = makeSearchQuery(song, Math.random())
 
   const [imageLinks, albumInfos, { creators }] = await Promise.all([
-    imageLinksSync,
-    albumInfosSync,
-    lyricsSync,
+    prepareImages(imageSearchWord),
+    getAlbum(icy),
+    getLyricsSafe(song.title, song.artist),
   ])
+
+  const additionals: string[] = nonEmpty([
+    song.animeTitle,
+    ...convertTimeTags(song.date),
+  ])
+  const { wordCounts, counts } = anaCounts(
+    [icy, song.artist || '', ...nonEmpty(Object.values(creators))],
+    prevCounts,
+    additionals
+  )
+  if (albumInfos?.artworkUrl100) {
+    imageLinks.push(albumInfos.artworkUrl100)
+  }
+
   const compSong: Song = {
     ...song,
     imageLinks,
@@ -75,13 +72,27 @@ async function receiveIcy(icy: string) {
     time,
     imageSearchWord,
   }
+  return [compSong, counts]
+}
 
-  songPrint(compSong)
-  saveMusic(compSong)
+async function receiveIcy(icy: string) {
+  info(icy)
+
+  if (store.isDuplicate(icy)) return false // 起動時の重複登録を防ぐ
+
+  const time = Date.now()
+  const res = await icyToSong(icy, time, store.counts)
+  if (!res) return
+  const [song, counts] = res
+  store.counts = counts
+  songPrint(song)
+  saveMusic(song)
+  addHistory(icy, time)
 }
 
 async function main() {
   const res = await getCurrentPlay()
+
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)
   if (!url) {
