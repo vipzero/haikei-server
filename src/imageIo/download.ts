@@ -53,10 +53,10 @@ export const downloadOptimize = async (
 
   // log('s: ' + url)
   const filePath = `tmp/${uuidv4()}`
-  const stream = got.stream(url, gotOption)
 
   let res
   try {
+    const stream = got.stream(url, gotOption)
     res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
       if (e.name === 'TimeoutError') {
         log(`Timeout`, `${url}`)
