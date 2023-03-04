@@ -1,55 +1,99 @@
-import { error, warn, log } from '../utils/logger'
-import { fromStream } from 'file-type'
 import fs from 'fs'
 import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
-import { imageMin } from './imagemin'
-import { sharpMin } from './sharp'
 import { CacheFile } from '../types'
+import { error, info, log, warn, warnDesc } from '../utils/logger'
+import { jimpHash } from './jimp'
+import { sharpMin } from './sharp'
 
 const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
-const fileTypeDefault = { ext: 'png', mime: 'image/png' }
+
+const mimeJpg = { ext: 'jpg', mime: 'image/jpeg' }
+const mimePng = { ext: 'png', mime: 'image/png' }
+const mimeWebp = { ext: 'webp', mime: 'image/webp' }
+const mimeGif = { ext: 'gif', mime: 'image/gif' }
+const mimeSvg = { ext: 'svg', mime: 'image/svg+xml' }
+
+const mimeMap: Record<string, CacheFile['fileType']> = {
+  jpeg: mimeJpg,
+  jpg: mimeJpg, // will unuse
+  png: mimePng,
+  webp: mimeWebp,
+  gif: mimeGif,
+  svg: mimeSvg,
+}
+const fileTypeDefault = mimePng
+const gotOption = { timeout: { request: 3000 } }
+
+const putil = () => {
+  let prev = performance.now()
+
+  return {
+    mark(name: string) {
+      const cur = performance.now()
+      const ms = Math.floor(cur - prev)
+      if (ms < 1000) {
+        info(`${name}${ms}ms`)
+      } else {
+        warn(`${name}${ms}ms`)
+      }
+
+      prev = cur
+    },
+  }
+}
 
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
-  const uuid = uuidv4()
-  const filePath = `tmp/${uuid}`
-  const stream = got.stream(url)
-  const fileTypePromise = fromStream(stream).catch((e) => {
-    if (e.message.includes('End-Of-Stream')) {
-      warn(`EndOfStreamError`, `${url} ${filePath}`)
-      return
-    } else {
-      error(`FileTypeError`, `${url} ${filePath}`)
-      log(JSON.stringify(e))
-    }
+  const time = putil()
 
-    return fileTypeDefault
-  })
+  // log('s: ' + url)
+  const filePath = `tmp/${uuidv4()}`
+  const stream = got.stream(url, gotOption)
 
-  const res = await pipeline(stream, fs.createWriteStream(filePath)).catch(
-    (e) => {
-      error(`DownloadSaveError`, `${url} ${filePath}`)
-      log(typeof e)
-      log(JSON.stringify(e))
+  let res
+  try {
+    res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
+      if (e.name === 'TimeoutError') {
+        log(`Timeout`, `${url}`)
+      } else {
+        error(`DownloadSaveError`, `${url} ${filePath}`)
+        log(JSON.stringify(e))
+      }
       return 'SaveError' as const
-    }
-  )
+    })
+  } catch (e) {
+    warnDesc(`out-DownloadSaveError`, JSON.stringify(e))
+    res = 'SaveError'
+  }
+
+  time.mark(` dw: `)
   if (res === 'SaveError') return false
-  await imageMin(filePath)
+  // await imageMin(filePath)
+
   const shapeRes = await sharpMin(filePath).catch((e) => {
-    warn('UnsupportedError', e)
+    warnDesc('UnsupportedError', e)
     return false as const
   })
   if (!shapeRes) return false
 
-  const { size, height, width } = shapeRes
+  const { size, height, width, format } = shapeRes
+  const fileType = mimeMap[format] || fileTypeDefault
 
-  const fileType = (await fileTypePromise) || fileTypeDefault
+  time.mark(` shape: `)
 
-  return { filePath, fileType, size, height, width }
+  const resj = await jimpHash(filePath, fileType.mime).catch((e) => {
+    warnDesc('JimpError', e)
+    return false as const
+  })
+  if (!resj) return false
+  const { hash } = resj
+  time.mark(`  jimp: `)
+  // time.mark(`   size: `)
+
+  return { filePath, fileType, size, height, width, hash }
 }
