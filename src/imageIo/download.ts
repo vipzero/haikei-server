@@ -6,6 +6,7 @@ import { CacheFile } from '../types'
 import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
+import { sleep } from '../utils'
 
 const uuidv4 = require('uuid/v4')
 
@@ -86,10 +87,18 @@ export const downloadOptimize = async (
 
   time.mark(` shape: `)
 
-  const resj = await jimpHash(filePath, fileType.mime).catch((e) => {
+  const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
     return false as const
   })
+  const resj = await Promise.race([
+    jimpTask,
+    (async () => {
+      await sleep(10000)
+      return false as const
+    })(),
+  ])
+
   if (!resj) return false
   const { hash } = resj
   time.mark(`  jimp: `)
