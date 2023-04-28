@@ -108,15 +108,11 @@ export const convertTimeTags = (songDate?: string) => {
   return [`[${y}]`, `[${y}-${m}]`, `[${y}-S${Math.floor((+m - 1) / 3) + 1}]`]
 }
 
-export const raseTimeout = async <T, U>(
-  task: Promise<T>,
-  msec: number,
-  alt: U
-): Promise<T | U> => {
+export const raseTimeout = <T, U>(task: Promise<T>, msec: number, alt: U) => {
   const timeout = async () => {
     await sleep(msec)
     return alt
   }
 
-  return await Promise.race([task, timeout()])
+  return Promise.race([task, timeout()])
 }

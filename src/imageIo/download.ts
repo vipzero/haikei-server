@@ -3,10 +3,10 @@ import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
 import { CacheFile } from '../types'
+import { raseTimeout } from '../utils'
 import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
-import { raseTimeout, sleep } from '../utils'
 
 const uuidv4 = require('uuid/v4')
 
@@ -47,18 +47,20 @@ const putil = () => {
   }
 }
 export const download = async (url: string, filePath: string) => {
-  let res
+  let res: string | boolean = true
   try {
     const stream = got.stream(url, gotOption)
-    res = await pipeline(stream, fs.createWriteStream(filePath)).catch((e) => {
-      if (e.name === 'TimeoutError') {
-        log(`Timeout`, `${url}`)
-      } else {
-        error(`DownloadSaveError`, `${url} ${filePath}`)
-        log(JSON.stringify(e))
-      }
-      return 'SaveError' as const
-    })
+    res = await pipeline(stream, fs.createWriteStream(filePath))
+      .catch((e) => {
+        if (e.name === 'TimeoutError') {
+          log(`Timeout`, `${url}`)
+        } else {
+          error(`DownloadSaveError`, `${url} ${filePath}`)
+          log(JSON.stringify(e))
+        }
+        return 'SaveError' as const
+      })
+      .then(() => true)
   } catch (e) {
     warnDesc(`out-DownloadSaveError`, JSON.stringify(e))
     res = 'SaveError'
