@@ -27,7 +27,7 @@ const mimeMap: Record<string, CacheFile['fileType']> = {
   svg: mimeSvg,
 }
 const fileTypeDefault = mimePng
-const gotOption = { timeout: { request: 3000 } }
+const gotOption = { timeout: { response: 10_000 } }
 
 const putil = () => {
   let prev = performance.now()
