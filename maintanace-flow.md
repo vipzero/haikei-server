@@ -93,5 +93,5 @@ appB ->> fbco : update
 イベント中の履歴は Firestore からロードするが、アーカイブ後は履歴を Cloud Storage からダウンロードするようになる。
 
 ```
-yarn close:archive  # EVENT_ID から動作
+yarn close:archive {event_ia}
 ```
