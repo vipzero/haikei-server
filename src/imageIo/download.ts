@@ -46,15 +46,7 @@ const putil = () => {
     },
   }
 }
-
-export const downloadOptimize = async (
-  url: string
-): Promise<CacheFile | false> => {
-  const time = putil()
-
-  // log('s: ' + url)
-  const filePath = `tmp/${uuidv4()}`
-
+export const download = async (url: string, filePath: string) => {
   let res
   try {
     const stream = got.stream(url, gotOption)
@@ -71,9 +63,21 @@ export const downloadOptimize = async (
     warnDesc(`out-DownloadSaveError`, JSON.stringify(e))
     res = 'SaveError'
   }
+  return res
+}
+
+export const downloadOptimize = async (
+  url: string
+): Promise<CacheFile | false> => {
+  const time = putil()
+
+  // log('s: ' + url)
+  const filePath = `tmp/${uuidv4()}`
+
+  const res = await raseTimeout(download(url, filePath), 10000, false as const)
 
   time.mark(` dw: `)
-  if (res === 'SaveError') return false
+  if (res === 'SaveError' || !res) return false
   // await imageMin(filePath)
 
   const shapeTask = sharpMin(filePath).catch((e) => {
