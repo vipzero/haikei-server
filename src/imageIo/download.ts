@@ -6,7 +6,7 @@ import { CacheFile } from '../types'
 import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
-import { sleep } from '../utils'
+import { raseTimeout, sleep } from '../utils'
 
 const uuidv4 = require('uuid/v4')
 
@@ -76,10 +76,11 @@ export const downloadOptimize = async (
   if (res === 'SaveError') return false
   // await imageMin(filePath)
 
-  const shapeRes = await sharpMin(filePath).catch((e) => {
+  const shapeTask = sharpMin(filePath).catch((e) => {
     warnDesc('UnsupportedError', e)
     return false as const
   })
+  const shapeRes = await raseTimeout(shapeTask, 10000, false as const)
   if (!shapeRes) return false
 
   const { size, height, width, format } = shapeRes
@@ -91,13 +92,7 @@ export const downloadOptimize = async (
     warnDesc('JimpError', e)
     return false as const
   })
-  const resj = await Promise.race([
-    jimpTask,
-    (async () => {
-      await sleep(10000)
-      return false as const
-    })(),
-  ])
+  const resj = await raseTimeout(jimpTask, 10000, false as const)
 
   if (!resj) return false
   const { hash } = resj
