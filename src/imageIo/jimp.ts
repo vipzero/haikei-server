@@ -1,8 +1,14 @@
-import { writeFile } from 'fs/promises'
+import { statSync } from 'fs'
 import { compareHashes, read } from 'jimp'
 import { info, warnDesc } from '../utils/logger'
 
+const QUALITY_MAP: Record<string, number> = {
+  'image/jpeg': 50,
+  'image/png': 70,
+}
+
 export async function jimpHash(path: string, mime: string) {
+  const befSize = statSync(path).size
   const img = await read(path).catch(() => false as const)
   if (img === false) {
     warnDesc('read error', path)
@@ -10,15 +16,9 @@ export async function jimpHash(path: string, mime: string) {
     return false
   }
 
-  // const res = await img.scaleToFit(1500, 1500).quality(60)
-  const res = await img.quality(60)
-  const res2 = await writeFile(path, await res.getBufferAsync(mime)).catch(
-    () => false as const
-  )
-  if (res2 === false) return false
-  const befSize = Buffer.byteLength(await img.getBufferAsync(mime))
-  const aftSize = Buffer.byteLength(await res.getBufferAsync(mime))
-  info(`${befSize} => ${aftSize}`)
+  const res = await img.quality(QUALITY_MAP[mime] || 80).write(path)
+  const aftSize = statSync(path).size
+  info(`${befSize / 1000}KB => ${aftSize / 1000}KB`)
 
   return { hash: res.hash(), height: res.getHeight(), width: res.getWidth() }
 }
