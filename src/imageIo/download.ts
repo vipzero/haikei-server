@@ -78,8 +78,8 @@ export const downloadOptimize = async (
 
   const res = await raseTimeout(download(url, filePath), 10000, false as const)
 
-  time.mark(` dw: `)
   if (res === 'SaveError' || !res) return false
+  time.mark(` dw: `)
   // await imageMin(filePath)
 
   const shapeTask = sharpMin(filePath).catch((e) => {
