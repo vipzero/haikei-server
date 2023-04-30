@@ -50,10 +50,19 @@ export const imageSetupTimeTable = () => {
           const times = cols
             .map((ms) => (ms ? decoTime(ms) : '-'.padStart(8)))
             .join(', ')
-          return `${id.substring(0, 30).padStart(30)}, ${times}`
+          return `${printId(id).substring(0, 30).padStart(30)}, ${times}`
         })
         .join('\n')
       log(res)
     },
   }
+}
+const printId = (str: string) => {
+  const id = str.substring(0, 30)
+  if (str.length <= 30) return str
+  return (
+    str.substring(0, 20 - 5) +
+    ' ... ' +
+    str.substring(str.length - 10, str.length)
+  )
 }
