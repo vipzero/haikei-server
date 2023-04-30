@@ -17,6 +17,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
   const downloads: CacheFile[] = (
     await Promise.all(urls.map((url) => downloadOptimize(url, tt)))
   ).filter((v) => nonFalse(v)) as CacheFile[]
+  tt.print()
 
   const uploads: UploadFile[] = []
   const selects = choiceImage(downloads)
