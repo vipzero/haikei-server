@@ -4,13 +4,9 @@ import stream from 'stream'
 import { promisify } from 'util'
 import { CacheFile, CacheFileStat } from '../types'
 import { raseTimeout } from '../utils'
-import { error, info, log, warn, warnDesc } from '../utils/logger'
+import { error, log, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
-import {
-  ImageSetupTimeTable,
-  printImageSetupTimeTable,
-} from '../utils/tableTimeLogger'
 
 const uuidv4 = require('uuid/v4')
 
@@ -58,9 +54,6 @@ export const download = async (url: string, filePath: string) => {
 export const downloadOptimize = async (
   url: string
 ): Promise<CacheFile | false> => {
-  // tt.init(url)
-
-  // log('s: ' + url)
   const stat: CacheFileStat = {
     url,
     times: { prev: performance.now(), dw: 0, sharp: 0, jimp: 0 },
@@ -75,8 +68,6 @@ export const downloadOptimize = async (
   stat.times.dw = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
   stat.size.before = statSync(filePath).size
-
-  // await imageMin(filePath)
 
   const shapeTask = sharpMin(filePath).catch((e) => {
     warnDesc('UnsupportedError', e)

@@ -1,9 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-console */
 
-import { findSong } from '../src/anisonDb/findSong'
-import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
-
 // import { pathQueue, push } from './state/pathQueue'
 // const { spotifySearchSongInfo } = require('./spotify')
 // const { getMusixMatch, getMusixLyrics } = require('./musixmatch')
@@ -98,20 +95,3 @@ import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
 
 // const icy = `READY STEADY GO - L'Arc～en～Ciel`
 // console.log(findSong(icy))
-
-const tt = printImageSetupTimeTable()
-tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg')
-tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg')
-tt.init('http://example.com/c.jpg')
-
-tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'dw')
-tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'sharp')
-tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'jimp')
-tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'dw')
-tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'sharp')
-// tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'jimp')
-tt.mark('http://example.com/c.jpg', 'dw')
-tt.mark('http://example.com/c.jpg', 'sharp')
-tt.mark('http://example.com/c.jpg', 'jimp')
-
-tt.print()
