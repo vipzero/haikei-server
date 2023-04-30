@@ -33,23 +33,6 @@ const mimeMap: Record<string, CacheFile['fileType']> = {
 const fileTypeDefault = mimePng
 const gotOption = { timeout: { response: 10_000 } }
 
-const putil = () => {
-  let prev = performance.now()
-
-  return {
-    mark(name: string) {
-      const cur = performance.now()
-      const ms = Math.floor(cur - prev)
-      if (ms < 1000) {
-        info(`${name}${ms}ms`)
-      } else {
-        warn(`${name}${ms}ms`)
-      }
-
-      prev = cur
-    },
-  }
-}
 export const download = async (url: string, filePath: string) => {
   let res: string | boolean = true
   try {
@@ -76,7 +59,7 @@ export const downloadOptimize = async (
   url: string,
   tt: ImageSetupTimeTable
 ): Promise<CacheFile | false> => {
-  tt.init(url)
+  // tt.init(url)
 
   // log('s: ' + url)
   const filePath = `tmp/${uuidv4()}`
@@ -84,7 +67,7 @@ export const downloadOptimize = async (
   const res = await raseTimeout(download(url, filePath), 10000, false as const)
 
   if (res === 'SaveError' || !res) return false
-  tt.mark(url, 'dw')
+  // tt.mark(url, 'dw')
 
   // await imageMin(filePath)
 
@@ -98,7 +81,7 @@ export const downloadOptimize = async (
   const { size, height, width, format } = shapeRes
   const fileType = mimeMap[format] || fileTypeDefault
 
-  tt.mark(url, 'sharp')
+  // tt.mark(url, 'sharp')
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
@@ -109,7 +92,7 @@ export const downloadOptimize = async (
 
   if (!resj) return false
   const { hash } = resj
-  tt.mark(url, 'jimp')
+  // tt.mark(url, 'jimp')
   // time.mark(`   size: `)
 
   return { filePath, fileType, size, height, width, hash }
