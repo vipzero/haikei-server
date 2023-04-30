@@ -2,14 +2,14 @@ import fs from 'fs'
 import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
-import { CacheFile } from '../types'
+import { CacheFile, CacheFileStat } from '../types'
 import { raseTimeout } from '../utils'
 import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
 import {
   ImageSetupTimeTable,
-  imageSetupTimeTable,
+  printImageSetupTimeTable,
 } from '../utils/tableTimeLogger'
 
 const uuidv4 = require('uuid/v4')
@@ -56,18 +56,24 @@ export const download = async (url: string, filePath: string) => {
 }
 
 export const downloadOptimize = async (
-  url: string,
-  tt: ImageSetupTimeTable
+  url: string
 ): Promise<CacheFile | false> => {
   // tt.init(url)
 
   // log('s: ' + url)
+  const stat: CacheFileStat = {
+    url,
+    times: { prev: performance.now(), dw: 0, sharp: 0, jimp: 0 },
+    size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
+  }
+
   const filePath = `tmp/${uuidv4()}`
 
   const res = await raseTimeout(download(url, filePath), 10000, false as const)
 
   if (res === 'SaveError' || !res) return false
-  // tt.mark(url, 'dw')
+  stat.times.dw = performance.now() - stat.times.prev
+  stat.times.prev = performance.now()
 
   // await imageMin(filePath)
 
@@ -81,7 +87,8 @@ export const downloadOptimize = async (
   const { size, height, width, format } = shapeRes
   const fileType = mimeMap[format] || fileTypeDefault
 
-  // tt.mark(url, 'sharp')
+  stat.times.sharp = performance.now() - stat.times.prev
+  stat.times.prev = performance.now()
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
@@ -92,8 +99,8 @@ export const downloadOptimize = async (
 
   if (!resj) return false
   const { hash } = resj
-  // tt.mark(url, 'jimp')
-  // time.mark(`   size: `)
+  stat.times.jimp = performance.now() - stat.times.prev
+  stat.times.prev = performance.now()
 
-  return { filePath, fileType, size, height, width, hash }
+  return { filePath, fileType, size, height, width, hash, stat }
 }

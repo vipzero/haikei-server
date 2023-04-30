@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 
 import { findSong } from '../src/anisonDb/findSong'
-import { imageSetupTimeTable } from '../src/utils/tableTimeLogger'
+import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
 
 // import { pathQueue, push } from './state/pathQueue'
 // const { spotifySearchSongInfo } = require('./spotify')
@@ -99,7 +99,7 @@ import { imageSetupTimeTable } from '../src/utils/tableTimeLogger'
 // const icy = `READY STEADY GO - L'Arc～en～Ciel`
 // console.log(findSong(icy))
 
-const tt = imageSetupTimeTable()
+const tt = printImageSetupTimeTable()
 tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg')
 tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg')
 tt.init('http://example.com/c.jpg')

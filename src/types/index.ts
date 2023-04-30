@@ -95,5 +95,22 @@ export type CacheFile = {
   width: number
   height: number
   hash: string
+  stat: CacheFileStat
+}
+
+export type CacheFileStat = {
+  url: string
+  times: {
+    prev: number
+    dw: number
+    sharp: number
+    jimp: number
+  }
+  size: {
+    before: number
+    sharped: number
+    sharpReport: number
+    jimped: number
+  }
 }
 export type Emol = { text: string }

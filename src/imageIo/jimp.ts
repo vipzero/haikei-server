@@ -7,7 +7,6 @@ const QUALITY_MAP: Record<string, number> = {
 }
 
 export async function jimpHash(path: string, mime: string) {
-  // const befSize = statSync(path).size
   const img = await read(path).catch(() => false as const)
   if (img === false) {
     warnDesc('read error', path)
@@ -16,8 +15,6 @@ export async function jimpHash(path: string, mime: string) {
   }
 
   const res = await img.quality(QUALITY_MAP[mime] || 80).write(path)
-  // const aftSize = statSync(path).size
-  // info(`${befSize / 1000}KB => ${aftSize / 1000}KB`)
 
   return { hash: res.hash(), height: res.getHeight(), width: res.getWidth() }
 }
