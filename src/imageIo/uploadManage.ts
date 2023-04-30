@@ -5,6 +5,7 @@ import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'
 import { downloadOptimize } from './download'
 import { isUniqueHash } from './jimp'
+import { imageSetupTimeTable } from '../utils/tableTimeLogger'
 
 const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
@@ -12,8 +13,9 @@ export const uploadByUrlAll = async (urls: string[]) => {
 
   log(urls)
   log(urls.length)
+  const tt = imageSetupTimeTable()
   const downloads: CacheFile[] = (
-    await Promise.all(urls.map(downloadOptimize))
+    await Promise.all(urls.map((url) => downloadOptimize(url, tt)))
   ).filter((v) => nonFalse(v)) as CacheFile[]
 
   const uploads: UploadFile[] = []

@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import chalk from 'chalk'
 
+export const logLine = (str: string) => process.stdout.write(chalk.gray(str))
+
 export const log = console.log
 export const info = (str: string | number | object) =>
   console.log(chalk.gray(str))

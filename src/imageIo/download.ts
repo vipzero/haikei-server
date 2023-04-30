@@ -7,6 +7,10 @@ import { raseTimeout } from '../utils'
 import { error, info, log, warn, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
+import {
+  ImageSetupTimeTable,
+  imageSetupTimeTable,
+} from '../utils/tableTimeLogger'
 
 const uuidv4 = require('uuid/v4')
 
@@ -69,9 +73,10 @@ export const download = async (url: string, filePath: string) => {
 }
 
 export const downloadOptimize = async (
-  url: string
+  url: string,
+  tt: ImageSetupTimeTable
 ): Promise<CacheFile | false> => {
-  const time = putil()
+  tt.init(url)
 
   // log('s: ' + url)
   const filePath = `tmp/${uuidv4()}`
@@ -79,7 +84,8 @@ export const downloadOptimize = async (
   const res = await raseTimeout(download(url, filePath), 10000, false as const)
 
   if (res === 'SaveError' || !res) return false
-  time.mark(` dw: `)
+  tt.mark(url, 'dw')
+
   // await imageMin(filePath)
 
   const shapeTask = sharpMin(filePath).catch((e) => {
@@ -92,17 +98,18 @@ export const downloadOptimize = async (
   const { size, height, width, format } = shapeRes
   const fileType = mimeMap[format] || fileTypeDefault
 
-  time.mark(` shape: `)
+  tt.mark(url, 'shape')
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
     return false as const
   })
+
   const resj = await raseTimeout(jimpTask, 10000, false as const)
 
   if (!resj) return false
   const { hash } = resj
-  time.mark(`  jimp: `)
+  tt.mark(url, 'jimp')
   // time.mark(`   size: `)
 
   return { filePath, fileType, size, height, width, hash }
