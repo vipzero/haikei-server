@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 import { findSong } from '../src/anisonDb/findSong'
+import { imageSetupTimeTable } from '../src/utils/tableTimeLogger'
 
 // import { pathQueue, push } from './state/pathQueue'
 // const { spotifySearchSongInfo } = require('./spotify')
@@ -95,5 +96,22 @@ import { findSong } from '../src/anisonDb/findSong'
 // // emojify(text, { onlyEmoji: true }).then(console.log)
 // makeEmol(text).then(console.log)
 
-const icy = `READY STEADY GO - L'Arc～en～Ciel`
-console.log(findSong(icy))
+// const icy = `READY STEADY GO - L'Arc～en～Ciel`
+// console.log(findSong(icy))
+
+const tt = imageSetupTimeTable()
+tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg')
+tt.init('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg')
+tt.init('http://example.com/c.jpg')
+
+tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'dw')
+tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'sharp')
+tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/a.jpg', 'jimp')
+tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'dw')
+tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'sharp')
+// tt.mark('http://example.com/aaaaaaaaaaa/bbbbbbbbbbbb/b.jpg', 'jimp')
+tt.mark('http://example.com/c.jpg', 'dw')
+tt.mark('http://example.com/c.jpg', 'sharp')
+tt.mark('http://example.com/c.jpg', 'jimp')
+
+tt.print()

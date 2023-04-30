@@ -98,7 +98,7 @@ export const downloadOptimize = async (
   const { size, height, width, format } = shapeRes
   const fileType = mimeMap[format] || fileTypeDefault
 
-  tt.mark(url, 'shape')
+  tt.mark(url, 'sharp')
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
