@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs, { statSync } from 'fs'
 import got from 'got'
 import stream from 'stream'
 import { promisify } from 'util'
@@ -74,6 +74,7 @@ export const downloadOptimize = async (
   if (res === 'SaveError' || !res) return false
   stat.times.dw = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
+  stat.size.before = statSync(filePath).size
 
   // await imageMin(filePath)
 
@@ -89,6 +90,8 @@ export const downloadOptimize = async (
 
   stat.times.sharp = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
+  stat.size.sharped = statSync(filePath).size
+  stat.size.sharpReport = size
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
@@ -101,6 +104,7 @@ export const downloadOptimize = async (
   const { hash } = resj
   stat.times.jimp = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
+  stat.size.jimped = statSync(filePath).size
 
   return { filePath, fileType, size, height, width, hash, stat }
 }

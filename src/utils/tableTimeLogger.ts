@@ -5,10 +5,11 @@ import chalk from 'chalk'
 
 export type ImageSetupTimeTable = ReturnType<typeof printImageSetupTimeTable>
 const decoTime = (ms: number) => {
+  const s = `${Math.floor(ms)}ms`.padStart(8)
   if (ms < 1000) {
-    return chalk.gray(`${ms}ms`.padStart(8))
+    return chalk.gray(s)
   } else {
-    return chalk.yellow(`${ms}ms`.padStart(8))
+    return chalk.yellow(s)
   }
 }
 export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
