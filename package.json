@@ -37,6 +37,7 @@
     "map": "yarn map-load-thread && yarn map-save",
     "map-load-thread": "ts-node scripts/loadThreads.ts",
     "map-save": "ts-node scripts/makePostCountMap.ts",
+    "fix:counts": "ts-node scripts/batch/migrateWordCounts.ts",
     "active-thread": "chch dump-threads |jq -r '.threads[] | \"\\(.url),\\(.title)\"' |grep \"ならアニソン\"",
     "test": "jest",
     "test:type": "npx tsc --noEmit"
