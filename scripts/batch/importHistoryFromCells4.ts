@@ -27,11 +27,14 @@ async function main() {
     const time = DateTime.fromFormat(timeStr, 'dd/MMM/yyyy:HH:mm:ss')
       .setLocale('ja')
       .toMillis()
+    if (i === 0) console.log('start1: ', time)
+    if (i === 1) console.log('start2: ', time)
+    if (i === lines.length - 1) console.log('end: ', time)
 
-    await addHistory(title.trim(), Number(time), 0)
-    anaCounts([title], {}, [], true)
+    // await addHistory(title.trim(), Number(time), 0)
+    // anaCounts([title], {}, [], true)
 
-    process.stdout.write('.')
+    // process.stdout.write('.')
   }
 }
 
