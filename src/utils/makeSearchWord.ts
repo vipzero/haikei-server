@@ -37,13 +37,17 @@ const icyOpt = `(名シーン OR キャラ) (キャプ画像 OR 壁紙)`
 
 export function makeSearchQuery(song: SongSeed, seed: number): string {
   const { icy, category, animeTitle } = song
-  if (icy === '') {
-    return process.env.EMPTY_MODE_SEARCH_WORD || 'アニメ'
-  }
   if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
   const r = shuffle(animeExt, `${seed}`)
   const rEp = shuffle(animeExtEp, `${seed}`)
   const opts = [r[0], r[1], r[2], rEp[0]]
+
+  if (icy === '') {
+    return (
+      process.env.EMPTY_MODE_SEARCH_WORD ||
+      'アニメ' + ` AND (${opts.join(' OR ')})`
+    )
+  }
 
   if (!animeTitle) {
     const charaName = pickCharaIcy(icy).join(' ')
