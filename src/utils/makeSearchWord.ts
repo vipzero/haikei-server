@@ -44,8 +44,8 @@ export function makeSearchQuery(song: SongSeed, seed: number): string {
 
   if (icy === '') {
     return (
-      process.env.EMPTY_MODE_SEARCH_WORD ||
-      'アニメ' + ` AND (${opts.join(' OR ')})`
+      (process.env.EMPTY_MODE_SEARCH_WORD || 'アニメ') +
+      ` AND (${opts.join(' OR ')})`
     )
   }
 
