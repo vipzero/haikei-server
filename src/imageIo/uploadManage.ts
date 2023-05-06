@@ -1,27 +1,34 @@
 import { unlink } from 'fs/promises'
-import { error } from '../utils/logger'
 import { UploadFile } from '../types/index'
+import { error, log } from '../utils/logger'
 import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'
 import { downloadOptimize } from './download'
+import { isUniqueHash } from './jimp'
+import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
 
+const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
 
-  const downloads: CacheFile[] = []
-  for (const url of urls) {
-    // console.log(url)
-    const res = await downloadOptimize(url)
-    if (!res) continue
-    downloads.push(res)
-    // console.log(res)
-  }
+  log(urls)
+  log(urls.length)
+  const downloads: CacheFile[] = (
+    await Promise.all(urls.map((url) => downloadOptimize(url)))
+  ).filter((v) => nonFalse(v)) as CacheFile[]
+  // tt.print()
+  printImageSetupTimeTable(downloads.map((v) => v.stat))
 
   const uploads: UploadFile[] = []
-
   const selects = choiceImage(downloads)
+  const hashs: string[] = []
 
   for (const [i, file] of selects.entries()) {
+    if (!(await isUniqueHash(file.hash, hashs))) {
+      continue
+    }
+    hashs.push(file.hash)
+
     const id = `${timeId}_${i}`
     const res = await uploadStorage(file, id).catch((e) => {
       error('UploadError', e)
@@ -29,7 +36,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
     })
     if (!res) continue
     uploads.push(res)
-    if (uploads.length >= 3) break
+    if (uploads.length >= 5) break
   }
   downloads.map((f) => unlink(f.filePath))
 
