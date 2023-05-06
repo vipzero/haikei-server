@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
-import { addHistory } from '../../src/service/firebase'
+// import { addHistory } from '../../src/service/firebase'
 import { sleep } from '../../src/utils'
-import { anaCounts } from '../../src/utils/wordCounts'
+// import { anaCounts } from '../../src/utils/wordCounts'
 import { DateTime } from 'luxon'
 
 const parseLine = (text: string) => {

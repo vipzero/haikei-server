@@ -21,5 +21,7 @@ export EVENT_ID="todo"
 export STORAGE_ID=""
 export STORAGE_URL=""
 
+export EMPTY_MODE_SEARCH_WORD="探偵 クイズ 推理 アニメ " # クイズなど
+
 export THREAD_TITLE_WORD="ならアニソン"
 export DIRECT_MODE=0
