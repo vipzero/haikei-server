@@ -1,4 +1,6 @@
 import iconv from 'iconv-lite'
+import toWideKatakana from 'jaco/fn/toWideKatakana'
+import toNarrowAlphanumeric from 'jaco/fn/toNarrowAlphanumeric'
 
 export const isHit = (long: string, short: string) => long.indexOf(short) >= 0
 
@@ -9,14 +11,20 @@ export const sleep = (msec: number) => new Promise((rs) => setTimeout(rs, msec))
 
 // frontend と同じ必要あり
 export function textNormalize(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace('　', ' ')
-    .replace(/[（【「[]/, '(')
-    .replace(/[）】」\]]/, ')')
-    .replace('！', '!')
-    .replace('？', '?')
+  return toNarrowAlphanumeric(
+    toWideKatakana(
+      s
+        .trim()
+        .toLowerCase()
+        // eslint-disable-next-line no-irregular-whitespace
+        .replace(/　/g, ' ')
+        .replace(/[（【「[]/g, '(')
+        .replace(/[）】」\]]/g, ')')
+        .replace(/[〜～]/g, '~')
+        .replace(/！/g, '!')
+        .replace(/？/g, '?')
+    )
+  )
 }
 const SP =
   /CV ?|[（［([](CV)? ?|[〈〉（）［］()【】[\]、・：．]| x | - |feat\.?/gi
@@ -24,24 +32,11 @@ const isTagWord = (v: string) => !!v && v !== '-'
 const trimWord = (v: string) =>
   v
     .trim()
-    .replace(/^[.:：&＆]/, '')
+    .replace(/^[.:：&＆/]/, '')
     .trim()
 
 const parseWords = (s: string) =>
   s.replace(SP, ',').split(',').map(trimWord).filter(isTagWord)
-
-export const shuffle = <T>(arr: T[]): T[] => {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const r = Math.floor(Math.random() * (i + 1))
-    const tmp = a[i]
-    a[i] = a[r]
-    a[r] = tmp
-  }
-  return a
-}
-
-export const sample = <T>(arr: T[], n = 1) => shuffle(arr).slice(0, n)
 
 export const uniq = <T>(arr: T[]) => Array.from(new Set(arr))
 export const uniqo = (arr: string[]) => {
@@ -58,8 +53,13 @@ export const uniqo = (arr: string[]) => {
   return Object.values(obj)
 }
 
-export const parseCountWords = (icy: string, additional: string[] = []) => {
-  const words = parseWords(icy)
+export const parseCountWords = (
+  icys: string | string[],
+  additional: string[] = []
+) => {
+  const words = (Array.isArray(icys) ? icys : [icys])
+    .map((icy) => parseWords(icy))
+    .flat()
   const entries = uniqo([...additional, ...words])
 
   return entries
@@ -97,3 +97,22 @@ export const pickChara = (s: string): string[] => {
 
 export const flatten = <T>(arr: T[][]) =>
   arr.reduce<T[]>((a, b) => a.concat(b), [])
+
+export const nonEmpty = (strs: (string | undefined)[]) =>
+  strs.filter(Boolean) as string[]
+
+// YYYY-MM-DD -> [YYYY, YYYY-MM, YYYY-SX]
+export const convertTimeTags = (songDate?: string) => {
+  if (!songDate) return []
+  const [y, m] = songDate.split('-')
+  return [`[${y}]`, `[${y}-${m}]`, `[${y}-S${Math.floor((+m - 1) / 3) + 1}]`]
+}
+
+export const raseTimeout = <T, U>(task: Promise<T>, msec: number, alt: U) => {
+  const timeout = async () => {
+    await sleep(msec)
+    return alt
+  }
+
+  return Promise.race([task, timeout()])
+}
