@@ -8,9 +8,10 @@ const files = ['anison', 'program', 'sf', 'game']
 for (const file of files) {
   await $`wget http://anison.info/data/download/${file}.zip`
 
-  await $`unzip ${file}.zip`
+  await $`unzip -o ${file}.zip`
   await $`mv -f ${file}.csv ../data`
 }
 
 await cd('../')
-await rm('workspace')
+await $`rm -rf workspace`
+// await rm('workspace')

@@ -17,13 +17,20 @@ export const getImage = (q: string) => {
   })
 }
 
-const blackList = ['static.wikia.nocookie.net', 'amazon.com']
+const blackList = [
+  'static.wikia.nocookie.net',
+  'amazon.com',
+  'fril.jp',
+  'shopping.yahoo.co.jp',
+  'static.mercdn.net',
+  'auctions.c.yimg.jp',
+]
 const white = (v: string) => !blackList.some((blink) => v.includes(blink))
 
 export const getImageLinks = async (q: string) => {
   // マイナス検索を省く
 
-  const res = await getImage(q.replace(/-/g, ' ')).catch((e) => {
+  const res = await getImage(q).catch((e) => {
     error('GetImageError', q)
     log(e)
     return false as const

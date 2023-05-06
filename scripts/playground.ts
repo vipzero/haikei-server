@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-console */
 
 // import { pathQueue, push } from './state/pathQueue'
@@ -77,3 +78,20 @@
 
 // import { getSyncConf } from './../src/utils/syncConf'
 // console.log(getSyncConf())
+
+// import { makeSearchQuery } from '../src/utils/makeSearchWord'
+//
+// const song = {
+//   icy: '愛美 - LIVE for LIFE ～狼たちの夜～',
+// }
+// console.log(makeSearchQuery(song, Math.random()))
+
+// import { makeEmol } from '../src/service/emol'
+
+// const text =
+//   '水面が 揺らぐ\n風の輪が 拡がる\n触れ合った指先の\n青い電流\n\n見つめあうだけで\n孤独な加速度が\n一瞬に砕け散る\nあなたが好きよ\n\n透明な真珠のように\n宙に浮く涙\n悲劇だってかまわない\nあなたと生きたい\n\nキラッ!\n流星にまたがって\nあなたに急降下　ah ah\n濃紺の星空に\n私たち花火みたい\n心が光の矢を放つ\n\n会話などなしに\n内側に潜って\n考えが読み取れる\n不思議な夜\n\nあなたの名　呪文みたいに\n無限のリピート\n憎らしくて手の甲に\n爪をたててみる\n\nキラッ!\n身体ごと透き通り\n絵のように漂う　uh uh\nけし粒の生命でも\n私たち瞬いてる\n魂に銀河　雪崩れてく\n\n流星にまたがって\nあなたは急上昇　oh oh\n濃紺の星空に\n私たち花火みたい\n心が光の矢を放つ\n\nけし粒の生命でも\n私たち瞬いてる\n魂に銀河　雪崩れてく\n魂に銀河　雪崩れてく'
+// // emojify(text, { onlyEmoji: true }).then(console.log)
+// makeEmol(text).then(console.log)
+
+// const icy = `READY STEADY GO - L'Arc～en～Ciel`
+// console.log(findSong(icy))
