@@ -13,7 +13,7 @@
     "esbuild": "^0.14.38",
     "esbuild-register": "^3.3.2",
     "file-type": "16.5.3",
-    "got": "11.8.2",
+    "got": "12.6.0",
     "iconv-lite": "0.6.3",
     "icy": "2.1.0",
     "jaco": "^4.0.0",
