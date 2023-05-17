@@ -19,6 +19,7 @@ export SPOTIFY_CLIENT_SECRET=""
 export MUSIXMATCH_API_KEY=""
 export EVENT_ID="todo"
 export STORAGE_ID=""
+export STORAGE_ID_ARCHIVE=""
 export STORAGE_URL=""
 
 export EMPTY_MODE_SEARCH_WORD="探偵 クイズ 推理 アニメ " # クイズなど

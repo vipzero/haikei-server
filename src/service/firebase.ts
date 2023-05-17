@@ -27,9 +27,13 @@ admin.initializeApp({ credential })
 
 export const fdb = admin.firestore()
 const storageId = process.env.STORAGE_ID || ''
+const storageIdArchive = process.env.STORAGE_ID_ARCHIVE || ''
 const storageUrl = process.env.STORAGE_URL || ''
 const bucketUrl = storageUrl + storageId
-export const bucket = admin.storage().bucket(storageId)
+export const getBucket = (storageId: string) =>
+  admin.storage().bucket(storageId)
+export const bucket = getBucket(storageId)
+export const bucketArchive = getBucket(storageIdArchive)
 
 type Obj = { [key: string]: number | string | object }
 const removeUndefined = (obj: Obj) => {
@@ -305,7 +309,7 @@ export const uploadStorageArchive = async ({
   localFile,
   destination,
 }: StoragePaths) => {
-  await bucket.upload(localFile, {
+  await bucketArchive.upload(localFile, {
     contentType: 'text/csv',
     destination,
     predefinedAcl: 'publicRead',
