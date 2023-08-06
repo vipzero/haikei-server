@@ -2,14 +2,14 @@ import { convertTimeTags } from '../utils'
 
 test('convertTimeTags', () => {
   expect(convertTimeTags('2000-01-01')).toMatchInlineSnapshot(`
-Array [
+[
   "[2000]",
   "[2000-01]",
   "[2000-S1]",
 ]
 `)
   expect(convertTimeTags('2010-05-20')).toMatchInlineSnapshot(`
-Array [
+[
   "[2010]",
   "[2010-05]",
   "[2010-S2]",
@@ -22,7 +22,7 @@ Array [
   )
 
   expect(res.map((v) => v[2])).toMatchInlineSnapshot(`
-Array [
+[
   "[2000-S1]",
   "[2000-S1]",
   "[2000-S1]",

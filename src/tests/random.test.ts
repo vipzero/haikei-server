@@ -7,7 +7,7 @@ describe('shuffle', () => {
     const c = shuffle(a, 'b')
 
     expect(b).toMatchInlineSnapshot(`
-Array [
+[
   3,
   2,
   4,
@@ -16,7 +16,7 @@ Array [
 ]
 `)
     expect(c).toMatchInlineSnapshot(`
-Array [
+[
   3,
   4,
   2,

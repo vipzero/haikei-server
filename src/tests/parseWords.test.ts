@@ -6,7 +6,7 @@ let q: string
 test('parseWords', () => {
   q = 'イリス・フレイア(CV.日高里菜)、物部深月(CV.沼倉愛美) - Ray of bullet'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
-Array [
+[
   "イリス",
   "フレイア",
   "日高里菜",
@@ -17,7 +17,7 @@ Array [
 `)
 
   expect(parseCountWords([q, q])).toMatchInlineSnapshot(`
-Array [
+[
   "イリス",
   "フレイア",
   "日高里菜",
@@ -28,7 +28,7 @@ Array [
 `)
 
   expect(parseCountWords([q, ''])).toMatchInlineSnapshot(`
-Array [
+[
   "イリス",
   "フレイア",
   "日高里菜",
@@ -41,7 +41,7 @@ Array [
   q =
     'ショコラ (CV:八木侑紀)、バニラ (CV:佐伯伊織)、アズキ (CV:井澤詩織)、メイプル (CV:伊藤美来)、シナモン (CV:のぐちゆり)、ココナツ (CV:水谷麻鈴) - Shiny Happy Days'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
-Array [
+[
   "ショコラ",
   "八木侑紀",
   "バニラ",
@@ -60,7 +60,7 @@ Array [
   q =
     '「ストライクウィッチーズ2」エンディング・メドレー - 宮藤芳佳(福圓美里)＆坂本美緒(世戸さおり)＆ミーナ・ディートリンデ・ヴィルケ(田中理恵)＆ペリーヌ・クロステルマン(沢城みゆき)＆リネット・ビショップ(名塚佳織)＆エーリカ・ハルトマン(野川さくら)＆ゲルトルート・バルクホルン(園崎未恵)＆フランチェスカ・ルッキーニ(斎藤千和)＆シャーロット・E・イェーガー(小清水亜美)＆サーニャ・V・リトヴャク(門脇舞以)＆エイラ・イルマタル・ユーティライネン(大橋歩夕)'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
-Array [
+[
   "「ストライクウィッチーズ2」エンディング",
   "メドレー",
   "宮藤芳佳",
@@ -102,15 +102,15 @@ Array [
 `) // (^-^)b
 
   expect(parseCountWords('井口裕香,阿澄佳奈')).toMatchInlineSnapshot(`
-Array [
+[
   "井口裕香",
   "阿澄佳奈",
 ]
 `)
 
-  expect(parseCountWords('あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)'))
-    .toMatchInlineSnapshot(`
-Array [
+  expect(parseCountWords('あおい(CV:井口裕香)、ひなた(CV:阿澄佳奈)')).
+toMatchInlineSnapshot(`
+[
   "あおい",
   "井口裕香",
   "ひなた",
@@ -118,11 +118,11 @@ Array [
 ]
 `)
   expect(
-    parseCountWords(
-      '大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾)'
-    )
-  ).toMatchInlineSnapshot(`
-Array [
+parseCountWords(
+'大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾)')).
+
+toMatchInlineSnapshot(`
+[
   "大槻唯",
   "山下七海",
   "緒方智絵里",
@@ -135,7 +135,7 @@ Array [
 
 test('uniqo', () => {
   expect(uniqo(['a', 'b', 'c', 'A', 'B'])).toMatchInlineSnapshot(`
-Array [
+[
   "A",
   "B",
   "c",
@@ -146,7 +146,7 @@ Array [
 test('pickCharactor', () => {
   q = 'せーので跳べって言ってんの! - 本城香澄(CV:岩橋由佳)'
   expect(pickCharaIcy(q)).toMatchInlineSnapshot(`
-Array [
+[
   "本城香澄",
 ]
 `)
@@ -154,7 +154,7 @@ Array [
   q =
     'ちいさな冒険者 - アクア(CV.雨宮天)、めぐみん(CV.高橋李依)、ダクネス(CV.茅野愛衣)'
   expect(pickCharaIcy(q)).toMatchInlineSnapshot(`
-Array [
+[
   "アクア",
   "めぐみん",
   "ダクネス",
@@ -164,7 +164,7 @@ Array [
   q =
     '劇団ひととせ(桜木ひな子(cv:m・a・o)/夏川くいな(cv:富田美憂)/柊真雪(cv:小倉唯)/萩野千秋(cv:東城日沙子)/中島ゆあ(cv:高野麻里佳))'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
-Array [
+[
   "劇団ひととせ",
   "桜木ひな子",
   "m",

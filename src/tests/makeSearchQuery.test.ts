@@ -80,11 +80,11 @@ toMatchInlineSnapshot(`"アニメタイトルあり アニメ -公式 AND (ネ�
 
 test('chara pick', () => {
   expect(
-    pickCharaIcy(
-      '大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾) - 銀のイルカと熱い風'
-    )
-  ).toMatchInlineSnapshot(`
-Array [
+pickCharaIcy(
+'大槻唯 (CV: 山下七海), 緒方智絵里 (CV: 大空直美) & 新田美波 (CV: 洲崎 綾) - 銀のイルカと熱い風')).
+
+toMatchInlineSnapshot(`
+[
   "大槻唯",
   "緒方智絵里",
   "新田美波",
