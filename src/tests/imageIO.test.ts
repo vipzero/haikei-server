@@ -8,7 +8,12 @@ test('choiceImage', () => {
     height: 700,
     width: 800,
     hash: 'ffffff',
-  }
+    // stat: {
+    //   url: '',
+    //   times: { prev: 0, dw: 0, sharp: 0, jimp: 0 },
+    //   size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
+    // },
+  } as CacheFile
   const downloads: CacheFile[] = [
     {
       ...basePng,
