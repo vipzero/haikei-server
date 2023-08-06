@@ -55,17 +55,13 @@ export const getCurrentPlay = async () => {
   return res.data() || { icy: '' }
 }
 
-const saveSong = (song: Song) => {
+export const saveSong = (song: Song) => {
   fdb
     .collection(P_SONG)
     .doc(EVENT_ID)
     .set({
       ...removeUndefined(song),
     })
-}
-
-export const saveMusic = (song: Song) => {
-  saveSong(song)
 }
 
 export const histSongsRef = (eid = EVENT_ID) =>

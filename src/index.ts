@@ -6,7 +6,7 @@ import {
   deleteFile,
   getCurrentPlay,
   init,
-  saveMusic,
+  saveSong,
 } from './service/firebase'
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
@@ -86,7 +86,7 @@ async function receiveIcy(icy: string) {
   const [song, counts] = res
   store.counts = counts
   songPrint(song)
-  saveMusic(song)
+  saveSong(song)
   addHistory(icy, time)
 }
 
