@@ -45,10 +45,10 @@ test('choiceImage', () => {
   ]
 
   expect(choiceImage(downloads)).toMatchInlineSnapshot(`
-Array [
-  Object {
+[
+  {
     "filePath": "tmp/base_png",
-    "fileType": Object {
+    "fileType": {
       "ext": "png",
       "mime": "image/png",
     },
@@ -57,9 +57,9 @@ Array [
     "size": 100000,
     "width": 800,
   },
-  Object {
+  {
     "filePath": "tmp/bad_raito",
-    "fileType": Object {
+    "fileType": {
       "ext": "png",
       "mime": "image/png",
     },
@@ -68,9 +68,9 @@ Array [
     "size": 100000,
     "width": 30,
   },
-  Object {
+  {
     "filePath": "tmp/base_jpg",
-    "fileType": Object {
+    "fileType": {
       "ext": "jpg",
       "mime": "image/jpeg",
     },
@@ -79,9 +79,9 @@ Array [
     "size": 100000,
     "width": 800,
   },
-  Object {
+  {
     "filePath": "tmp/jacket_png",
-    "fileType": Object {
+    "fileType": {
       "ext": "png",
       "mime": "image/png",
     },
@@ -90,9 +90,9 @@ Array [
     "size": 100000,
     "width": 500,
   },
-  Object {
+  {
     "filePath": "will skipped",
-    "fileType": Object {
+    "fileType": {
       "ext": "png",
       "mime": "image/png",
     },
@@ -101,9 +101,9 @@ Array [
     "size": 555117,
     "width": 800,
   },
-  Object {
+  {
     "filePath": "tmp/will_skip_smaller",
-    "fileType": Object {
+    "fileType": {
       "ext": "png",
       "mime": "image/png",
     },

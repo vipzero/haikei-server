@@ -30,10 +30,8 @@ const storageId = process.env.STORAGE_ID || ''
 const storageIdArchive = process.env.STORAGE_ID_ARCHIVE || ''
 const storageUrl = process.env.STORAGE_URL || ''
 const bucketUrl = storageUrl + storageId
-export const getBucket = (storageId: string) =>
-  admin.storage().bucket(storageId)
-export const bucket = getBucket(storageId)
-export const bucketArchive = getBucket(storageIdArchive)
+export const getBucket = (id: string = storageId) => admin.storage().bucket(id)
+export const getArchiveBucket = () => getBucket(storageIdArchive)
 
 type Obj = { [key: string]: number | string | object }
 const removeUndefined = (obj: Obj) => {
@@ -258,7 +256,7 @@ export const countupWords = async (words: string[]) => {
 export const deleteFile = (path: string) => {
   // info(`delete op: ${path}`)
 
-  return bucket
+  return getBucket()
     .file(path)
     .delete()
     .catch((e) => {
@@ -276,7 +274,7 @@ export const uploadStorage = async (file: CacheFile, id: string) => {
   const { ext, mime: contentType } = fileType
 
   const destination = `img/${EVENT_ID}/${id}.${ext}`
-  await bucket.upload(tmpFilePath, {
+  await getBucket().upload(tmpFilePath, {
     contentType,
     destination,
     predefinedAcl: 'publicRead',
@@ -305,7 +303,7 @@ export const uploadStorageArchive = async ({
   localFile,
   destination,
 }: StoragePaths) => {
-  await bucketArchive.upload(localFile, {
+  await getArchiveBucket().upload(localFile, {
     contentType: 'text/csv',
     destination,
     predefinedAcl: 'publicRead',
