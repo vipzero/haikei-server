@@ -5,6 +5,19 @@
 
 ```
 cp .envrc.sample .envrc
+
+# 設定状況などの確認
+yarn ps
+```
+
+## 実行
+
+```
+# esbuildを使う版
+yarn start
+
+# ts-nodeを使う版
+# yarn start:ts-node
 ```
 
 ## アニメ番組情報の取得
