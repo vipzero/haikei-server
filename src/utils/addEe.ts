@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
 import { Song } from '../types'
+import { seriesLib } from './imaslib/seriesLib'
 const eventId = process.env.EVENT_ID
 
 const statusFile = `data/status.${eventId}.json`
@@ -10,9 +11,8 @@ type Status = {
 const initialStatus: Status = {
   mts: '00000',
 }
-const saveStatus = (status: Status) => {
+const saveStatus = (status: Status) =>
   writeFileSync(statusFile, JSON.stringify(status))
-}
 
 const loadStatus = (): Status => {
   if (!existsSync(statusFile)) saveStatus(initialStatus)
@@ -20,6 +20,24 @@ const loadStatus = (): Status => {
   return JSON.parse(readFileSync(statusFile, 'utf-8')) as Status
 }
 
+const byT: Map<string, string> = new Map()
+seriesLib.map(({ names, k }) => {
+  names
+    .trim()
+    .split('\n')
+    .map(titleKeyNormalize)
+    .forEach((t) => {
+      byT.set(t, k)
+    })
+})
+
+const range = (s: number) => [...Array(s).keys()]
+
+export const startWithMatch = <T>(s: string, lib: Map<string, T>) =>
+  range(s.length - 1).find(
+    (i) => lib.get(s.substring(0, s.length - i)) || false
+  )
+export const startWithMatchMt = (s: string) => startWithMatch(s, byT)
 export const mtsTitles = [
   'Crossing!',
   'Criminally Dinner ～正餐とイーヴルナイフ～',
@@ -33,15 +51,19 @@ const charPut = (s: string, i: number, c: string) =>
 export function addEe(song: Song): Song {
   song.icy.split(' - ').forEach((title) => {
     const titleNorm = titleKeyNormalize(title)
+    const mk = byT.get(titleNorm)
 
     const t = mtsTitles.findIndex((v) => v === titleNorm)
-    if (t === -1) return
+    if (mk === undefined && t === -1) return
 
     const status = loadStatus()
-    status.mts = charPut(status.mts, t, '1')
-    saveStatus(status)
+    if (t !== -1) {
+      status.mts = charPut(status.mts, t, '1')
+      saveStatus(status)
+    }
 
     song.hedwig = `mts10:${charPut(status.mts, t, '1')}`
+    if (mk) song.hedwig += ':' + mk
   })
 
   return song
