@@ -1,21 +1,29 @@
+# stream url
 export URL="http://autols1.ggtea.net:8196/autoxmas"
 
+# 画像検索 Google Custom search API 設定
 export GCP_CUSTOM_SEARCH_API_KEY=""
 export GCP_CUSTOM_SEARCH_ENGINE_ID=""
 
+# Cloud Firestore, Cloud Storage
 export SERVICE_ACCOUNT_FILE_PATH=""
+export STORAGE_ID="" # 画像をアップロード
+export STORAGE_ID_ARCHIVE="" # history アーカイブ先
+export STORAGE_URL="https://storage.googleapis.com/" # 基本固定
 
-
+# Spotify API 歌詞取得用, 作詞作曲編曲者取得用
 export SPOTIFY_CLIENT_ID=""
 export SPOTIFY_CLIENT_SECRET=""
 
-export MUSIXMATCH_API_KEY=""
-export EVENT_ID="todo"
-export STORAGE_ID=""
-export STORAGE_ID_ARCHIVE=""
-export STORAGE_URL=""
+# 歌詞取得用 → 現在非使用
+# export MUSIXMATCH_API_KEY=""
 
+
+# icy が伏せられてたときに画像検索に使う代わりの単語
 export EMPTY_MODE_SEARCH_WORD="探偵 クイズ 推理 アニメ " # クイズなど
+
+# イベントのID
+export EVENT_ID="todo"
 
 export THREAD_TITLE_WORD="ならアニソン"
 export DIRECT_MODE=0
