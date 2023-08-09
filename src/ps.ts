@@ -22,8 +22,8 @@ const checkEnvs = [
   { name: 'STORAGE_ID' },
   { name: 'STORAGE_ID_ARCHIVE' },
   { name: 'STORAGE_URL' },
-  { name: 'SPOTIFY_CLIENT_ID' },
-  { name: 'SPOTIFY_CLIENT_SECRET' },
+  // { name: 'SPOTIFY_CLIENT_ID' },
+  // { name: 'SPOTIFY_CLIENT_SECRET' },
   // { name: 'MUSIXMATCH_API_KEY' },
   { name: 'DIRECT_MODE' },
 ]
@@ -62,10 +62,10 @@ const checkFirebase = async () => {
   }
 }
 
-const checkStream = () => {
-  log('# checkStream')
-  //
-}
+// const checkStream = () => {
+//   log('# checkStream')
+//   //
+// }
 
 const formatDate = (date: Date) => {
   return date.toLocaleString()

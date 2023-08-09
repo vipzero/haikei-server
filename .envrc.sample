@@ -11,9 +11,9 @@ export STORAGE_ID="" # 画像をアップロード
 export STORAGE_ID_ARCHIVE="" # history アーカイブ先
 export STORAGE_URL="https://storage.googleapis.com/" # 基本固定
 
-# Spotify API 歌詞取得用, 作詞作曲編曲者取得用
-export SPOTIFY_CLIENT_ID=""
-export SPOTIFY_CLIENT_SECRET=""
+# Spotify API 歌詞取得用, 作詞作曲編曲者取得用 → 現在非使用
+# export SPOTIFY_CLIENT_ID=""
+# export SPOTIFY_CLIENT_SECRET=""
 
 # 歌詞取得用 → 現在非使用
 # export MUSIXMATCH_API_KEY=""
