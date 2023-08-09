@@ -1,3 +1,6 @@
+import { checkFileStats, checkNewestProgram } from './anisonDb/anisonDb'
+import { log, warn } from './utils/logger'
+
 type SetupStatus = {
   ok: boolean
   key: string
@@ -7,47 +10,70 @@ const checkStatus = (key: string): SetupStatus => {
   const value = process.env[key] || ''
   return { ok: !!value, key, value }
 }
-
-function ps() {
-  console.log('-- envvar')
-  const streamUrl = checkStatus('URL')
-  if (streamUrl.ok) {
-    console.log(streamUrl.value)
-  }
-
-  firebaseEnvs.map(checkStatus).forEach((v) => {
-    if (!v.ok) console.log(v.value)
-  })
-}
-
-const firebaseEnvs = [
-  'FIREBASE_API_KEY',
-  'FIREBASE_AUTH_DOMAIN',
-  'FIREBASE_PROJECT_ID',
-  'FIREBASE_STORAGE_BUCKET',
-  'FIREBASE_MESSAGING_SENDER_ID',
-  'FIREBASE_APP_ID',
+const checkEnvs = [
+  { name: 'URL' },
+  { name: 'EVENT_ID' },
+  { name: 'EMPTY_MODE_SEARCH_WORD' },
+  { name: 'GCP_CUSTOM_SEARCH_API_KEY' },
+  { name: 'GCP_CUSTOM_SEARCH_ENGINE_ID' },
+  { name: 'SERVICE_ACCOUNT_FILE_PATH' },
+  { name: 'STORAGE_ID' },
+  { name: 'STORAGE_ID_ARCHIVE' },
+  { name: 'STORAGE_URL' },
+  { name: 'SPOTIFY_CLIENT_ID' },
+  { name: 'SPOTIFY_CLIENT_SECRET' },
+  // { name: 'MUSIXMATCH_API_KEY' },
+  { name: 'DIRECT_MODE' },
 ]
 
-// export URL="http://autols1.ggtea.net:8196/autoxmas"
+function checkEnvVars() {
+  log('# checkEnvVars')
+  const all = checkEnvs.map((k, i) => {
+    const status = checkStatus(k.name)
+    log(status.ok ? '✅' : '❌', status.key, status.value)
+    if (i === 2) log('---')
 
-// export GCP_CUSTOM_SEARCH_API_KEY=""
-// export GCP_CUSTOM_SEARCH_ENGINE_ID=""
+    return status.ok
+  })
+  if (!all.every(Boolean)) {
+    warn('.env.sample を参考に環境変数を設定')
+  }
+}
 
-// export SERVICE_ACCOUNT_FILE_PATH=""
+const checkFirebase = () => {
+  log('# checkFirebase')
+  //
+}
 
-// export SPOTIFY_CLIENT_ID=""
-// export SPOTIFY_CLIENT_SECRET=""
+const checkStream = () => {
+  log('# checkStream')
+  //
+}
 
-// export MUSIXMATCH_API_KEY=""
-// export EVENT_ID="todo"
-// export STORAGE_ID=""
-// export STORAGE_ID_ARCHIVE=""
-// export STORAGE_URL=""
+const formatDate = (date: Date) => {
+  return date.toLocaleString()
+}
 
-// export EMPTY_MODE_SEARCH_WORD="探偵 クイズ 推理 アニメ "
+const checkAnisonFiles = () => {
+  log('# checkAnisonFiles')
+  const res = checkFileStats()
+  res.forEach((status) => {
+    log(
+      status.exists ? '✅' : '❌',
+      status.filename,
+      status.mtime ? formatDate(new Date(status.mtime)) : '-'
+    )
+  })
+  if (res.some((status) => !status.exists)) {
+    warn('yarn setup:anison で更新')
+  } else {
+    log(checkNewestProgram())
+  }
+}
 
-// export THREAD_TITLE_WORD="ならアニソン"
-// export DIRECT_MODE=0
+function ps() {
+  checkEnvVars()
+  checkAnisonFiles()
+}
 
 ps()

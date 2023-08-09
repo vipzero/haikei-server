@@ -28,7 +28,7 @@
     "start": "yarn start:esbuild",
     "start:esbuild": "node -r esbuild-register src/index.ts",
     "start:ts-node": "ts-node src/index.ts",
-    "ps": "ts-node src/ps.ts",
+    "ps": "node -r esbuild-register src/ps.ts",
     "get_history": "curl http://w.hoshinoa.me:8000/play.txt -o data/history.txt",
     "setup": "ts-node scripts/setupEvent.ts",
     "setup:ee": "ts-node scripts/setupEasterEgg.ts",

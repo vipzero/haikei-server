@@ -17,6 +17,7 @@ const anisonData = fs.readFileSync(anisonFilename, 'utf-8')
 const csvOptions = { trim: true, header: false, skipLinesWithError: true }
 
 const parsedLines = parse(data, csvOptions) as string[][]
+parsedLines.shift()
 parsedLines.forEach(
   ([programId, category, gameType, animeTitle, , , , chapNum, , date]) => {
     programs[programId] = { category, gameType, animeTitle, chapNum, date }
@@ -82,6 +83,20 @@ export function titleKeyNormalize(str: string) {
     .replace(/ /g, '')
     .toLowerCase()
 }
+export const checkNewestProgram = () => {
+  const sortedPrograms = Object.values(programs).sort((a, b) =>
+    b.date.localeCompare(a.date)
+  )
+  return sortedPrograms[0].date + ' ' + sortedPrograms[0].animeTitle
+}
+export const checkFileStats = () =>
+  [programFilename, ...filenames, anisonFilename].map((filename) => {
+    if (!fs.existsSync(filename)) {
+      return { exists: false, filename }
+    }
+    const res = fs.statSync(filename)
+    return { exists: true, filename, mtime: res.mtime, size: res.size }
+  })
 
 export { songsSa, animes }
 export default songs
