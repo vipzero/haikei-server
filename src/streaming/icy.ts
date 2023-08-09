@@ -31,7 +31,7 @@ function subscribeIcy(
 
       callback(parsed.StreamTitle)
     })
-    res.on('end', () => onEnd())
+    res.on('end', onEnd)
     res.resume()
   })
 }
