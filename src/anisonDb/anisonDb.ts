@@ -1,4 +1,5 @@
 import parse from 'csv-parse/lib/sync'
+// import { parse } from 'csv-parse/sync'
 import fs from 'fs'
 import { ProgramRecord, SongRecord, SongSupportAttr } from '../types/index'
 import { parseCountWords, textNormalize } from '../utils'

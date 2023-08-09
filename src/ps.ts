@@ -2,6 +2,9 @@ import { checkFileStats, checkNewestProgram } from './anisonDb/anisonDb'
 import { getCurrentPlay, init } from './service/firebase'
 import { error, info, log, warn } from './utils/logger'
 import { fdb } from '../src/service/firebase'
+import { DateTime } from 'luxon'
+const formatDate = (date: Date) =>
+  DateTime.fromJSDate(date).toFormat('yyyy-MM-dd HH:mm')
 
 type SetupStatus = {
   ok: boolean
@@ -66,10 +69,6 @@ const checkFirebase = async () => {
 //   log('# checkStream')
 //   //
 // }
-
-const formatDate = (date: Date) => {
-  return date.toLocaleString()
-}
 
 const checkAnisonFiles = () => {
   log('# checkAnisonFiles')
