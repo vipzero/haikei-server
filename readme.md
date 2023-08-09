@@ -85,3 +85,10 @@ https://github.com/vipzero/haikei-server/blob/main/src/imageIo/uploadManage.ts
 ## メンテフロー
 
 [./maintanace-flow.md](./maintanace-flow.md)
+
+## `yarn osiris`
+
+実行されるファイル `script/osiris-logger.ts`
+
+icy のログだけを取るスクリプト
+リカバリーのため並行して動かしておくと良い

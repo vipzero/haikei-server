@@ -7,6 +7,7 @@ $ vi .envrc EVENT_ID
 EVENT_ID=xxxxxx
 $ yarn setup			 		# EVENT_ID から動作
 $ yarn setup:anison
+$ yarn ps 					# 確認
 ```
 
 ```mermaid
@@ -39,12 +40,17 @@ andb ->> envB : 同期
 
 ### FrontEnd のセットアップ
 
-rekka-haikei の `src/config/incdex.ts`
+rekka-haikei の `src/config/index.ts`
 
 - イベント追加 `xxxxxx`
 - 終了時間指定
 
 ### サーバー起動
+
+```
+yarn start
+yarn osiris   # 保険のicyログ
+```
 
 ```mermaid
 
@@ -92,6 +98,6 @@ appB ->> fbco : update
 アーカイブする。
 イベント中の履歴は Firestore からロードするが、アーカイブ後は履歴を Cloud Storage からダウンロードするようになる。
 
-```
+```$$ $$
 yarn close:archive {event_ia}
 ```
