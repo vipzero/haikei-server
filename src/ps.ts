@@ -1,5 +1,7 @@
 import { checkFileStats, checkNewestProgram } from './anisonDb/anisonDb'
-import { log, warn } from './utils/logger'
+import { getCurrentPlay, init } from './service/firebase'
+import { error, info, log, warn } from './utils/logger'
+import { fdb } from '../src/service/firebase'
 
 type SetupStatus = {
   ok: boolean
@@ -25,7 +27,6 @@ const checkEnvs = [
   // { name: 'MUSIXMATCH_API_KEY' },
   { name: 'DIRECT_MODE' },
 ]
-
 function checkEnvVars() {
   log('# checkEnvVars')
   const all = checkEnvs.map((k, i) => {
@@ -40,9 +41,25 @@ function checkEnvVars() {
   }
 }
 
-const checkFirebase = () => {
+const checkFirebase = async () => {
   log('# checkFirebase')
+  const EVENT_ID = process.env.EVENT_ID || ''
+  info('event id: ' + EVENT_ID)
   //
+  try {
+    const res = await getCurrentPlay()
+    info('playing: ' + res.icy || 'none')
+    info('words: ' + (await init()).lasttime)
+
+    log('✅', '接続')
+  } catch (e) {
+    error('firebase error', '')
+  }
+  const histOk = (await fdb.collection('hist').doc(EVENT_ID).get()).exists
+  log(histOk ? '✅' : '❌', 'setup')
+  if (!histOk) {
+    warn('yarn setup で設定')
+  }
 }
 
 const checkStream = () => {
@@ -61,19 +78,29 @@ const checkAnisonFiles = () => {
     log(
       status.exists ? '✅' : '❌',
       status.filename,
-      status.mtime ? formatDate(new Date(status.mtime)) : '-'
+      status.mtime ? formatDate(status.mtime) : '-'
     )
   })
+  const lastModTime =
+    res
+      .map((v) => v.mtime)
+      .sort()
+      .pop() || 0
   if (res.some((status) => !status.exists)) {
+    warn('yarn setup:anison でダウンロード')
+    return
+  }
+  info('最新の番組データ' + checkNewestProgram())
+  if (Date.now() - +lastModTime > 1000 * 60 * 60 * 24 * 30) {
+    warn('2ヶ月以上更新されていない')
     warn('yarn setup:anison で更新')
-  } else {
-    log(checkNewestProgram())
   }
 }
 
-function ps() {
+async function ps() {
   checkEnvVars()
   checkAnisonFiles()
+  await checkFirebase()
 }
 
 ps()

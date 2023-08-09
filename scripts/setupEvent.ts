@@ -8,7 +8,6 @@ async function main() {
     return
   }
   const hist = await fdb.collection('hist').doc(eventId).get()
-  await fdb.collection('yo').doc('current').set({ bookCount: 0 })
   if (hist.exists) {
     console.warn(`${eventId} は登録済み`)
     return
