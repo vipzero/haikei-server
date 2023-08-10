@@ -54,6 +54,8 @@ function scrapeLyrics(html: string) {
 }
 
 export async function getLyricsSafe(title?: string, artist?: string) {
+  if (process.env.JLYRICNET_ON !== '1') return { creators: {}, lyric: null }
+
   const res = await getLyrics(title, artist)
   if (!res) return { creators: {}, lyric: null }
   return res

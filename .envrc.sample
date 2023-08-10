@@ -18,6 +18,8 @@ export STORAGE_URL="https://storage.googleapis.com/" # 基本固定
 # 歌詞取得用 → 現在非使用
 # export MUSIXMATCH_API_KEY=""
 
+# 歌詞取得するか
+# export JLYRICNET_ON=1
 
 # icy が伏せられてたときに画像検索に使う代わりの単語
 export EMPTY_MODE_SEARCH_WORD="探偵 クイズ 推理 アニメ " # クイズなど
