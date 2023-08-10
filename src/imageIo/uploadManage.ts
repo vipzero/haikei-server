@@ -33,6 +33,13 @@ export const uploadByUrlAll = async (urls: string[]) => {
       error('UploadError', e)
       return false as const
     })
+    await uploadStorage(
+      { ...file, filePath: file.filePath + '_m' },
+      id + '_min'
+    ).catch((e) => {
+      error('UploadError', e)
+      return false as const
+    })
     if (!res) continue
     uploads.push(res)
     if (uploads.length >= 5) break

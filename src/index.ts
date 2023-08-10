@@ -23,6 +23,7 @@ const url = process.env.URL
 store.onExpiredStorageUrl = (urls) => {
   urls.forEach(({ path }) => {
     deleteFile(path)
+    deleteFile(path + '_m')
   })
 }
 
