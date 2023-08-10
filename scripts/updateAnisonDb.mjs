@@ -10,7 +10,7 @@ for (const file of files) {
 
   await $`unzip -o ${file}.zip`
   await $`mv -f ${file}.csv ../data`
-  await $`touch data/${file}.csv`
+  await $`touch ../data/${file}.csv`
 }
 
 await cd('../')
