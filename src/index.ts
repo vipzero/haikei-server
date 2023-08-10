@@ -104,7 +104,7 @@ async function main() {
     // change stream retry
     log('finish')
     await sleep(10 * 1000)
-    main()
+    queueMicrotask(main)
   })
 }
 
