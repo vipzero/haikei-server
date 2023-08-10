@@ -90,6 +90,8 @@ async function receiveIcy(icy: string) {
   addHistory(icy, time)
 }
 
+let failCount = 0
+
 async function main() {
   const res = await getCurrentPlay()
 
@@ -100,12 +102,21 @@ async function main() {
     process.exit(1)
   }
 
-  subscribeIcy(url, receiveIcy, async () => {
-    // change stream retry
-    log('finish')
-    await sleep(10 * 1000)
-    queueMicrotask(main)
-  })
+  subscribeIcy(
+    url,
+    (icy) => {
+      receiveIcy(icy)
+      failCount = 0
+    },
+    async () => {
+      // change stream retry
+      failCount++
+      const sleepTimeSec = Math.min(60 * 3, 2 ** failCount)
+      log(`stopped ${failCount},${sleepTimeSec}s`)
+      await sleep(sleepTimeSec * 1000)
+      queueMicrotask(main)
+    }
+  )
 }
 
 main()
