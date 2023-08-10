@@ -1,5 +1,5 @@
 import { log } from 'console'
-import subscribeIcy from '../src/streaming/icy'
+import { subscribeIcy } from '../src/streaming/icy'
 import { appendFile } from 'fs/promises'
 import { sleep } from '../src/utils'
 
@@ -11,7 +11,7 @@ const url = process.env.URL
 const saveIcy = (icy: string) =>
   appendFile(outPath, `${new Date().toISOString()},${icy}\n`)
 
-async function main() {
+export async function osirisLogger() {
   let active = true
   let failCount = 0
 
@@ -41,4 +41,6 @@ async function main() {
   }
 }
 
-main()
+if (!module.parent) {
+  osirisLogger()
+}

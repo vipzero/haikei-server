@@ -13,7 +13,7 @@ type IcyRes = {
   resume: () => void
 }
 
-function subscribeIcy(
+export function subscribeIcy(
   url: string,
   callback: (icy: string) => void,
   onEnd: () => void
@@ -35,5 +35,3 @@ function subscribeIcy(
     res.resume()
   })
 }
-
-export default subscribeIcy

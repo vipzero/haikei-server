@@ -11,7 +11,7 @@ import {
 import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 import { store } from './state/store'
-import subscribeIcy from './streaming/icy'
+import { subscribeIcy } from './streaming/icy'
 import { Counts, Song } from './types/index'
 import { convertTimeTags, nonEmpty, sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
