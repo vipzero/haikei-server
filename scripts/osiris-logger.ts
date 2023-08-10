@@ -12,16 +12,10 @@ const saveIcy = (icy: string) =>
   appendFile(outPath, `${new Date().toISOString()},${icy}\n`)
 
 export async function osirisLogger() {
-  let active = true
   let failCount = 0
 
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
+  function task() {
     if (!url) throw new Error('URL is not set')
-    if (active) {
-      await sleep(1000)
-      continue
-    }
     subscribeIcy(
       url,
       (icy) => {
@@ -34,11 +28,11 @@ export async function osirisLogger() {
         log(`disconnected: (${failCount} retry after ${sleepTimeSec}s)`)
         await sleep(sleepTimeSec * 1000)
 
-        active = false
+        queueMicrotask(task)
       }
     )
-    active = true
   }
+  task()
 }
 
 if (!module.parent) {
