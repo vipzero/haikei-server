@@ -81,11 +81,7 @@ const checkAnisonFiles = () => {
     )
   })
   const now = Date.now()
-  const lastModTime =
-    res
-      .map((v) => v.mtime)
-      .sort()
-      .pop() || 0
+  const lastModTime = res[0].mtime || 0
   if (res.some((status) => !status.exists)) {
     warn('yarn setup:anison でダウンロード')
     return
