@@ -110,8 +110,8 @@ async function main() {
     },
     async () => {
       // change stream retry
-      failCount++
-      const sleepTimeSec = Math.min(60 * 3, 2 ** failCount)
+      failCount = Math.min(failCount + 1, 8)
+      const sleepTimeSec = 2 ** failCount
       log(`stopped ${failCount},${sleepTimeSec}s`)
       await sleep(sleepTimeSec * 1000)
       queueMicrotask(main)

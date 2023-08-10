@@ -23,8 +23,8 @@ export async function osirisLogger() {
         failCount = 0
       },
       async () => {
-        failCount++
-        const sleepTimeSec = Math.min(60, 2 ** failCount)
+        failCount = Math.min(failCount + 1, 6)
+        const sleepTimeSec = 2 ** failCount
         log(`disconnected: (${failCount} retry after ${sleepTimeSec}s)`)
         await sleep(sleepTimeSec * 1000)
 
