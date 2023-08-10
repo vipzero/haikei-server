@@ -84,11 +84,15 @@ export function titleKeyNormalize(str: string) {
     .replace(/ /g, '')
     .toLowerCase()
 }
+const dateStr = (date: Date) => date.toISOString().slice(0, 10)
 export const checkNewestProgram = () => {
-  const sortedPrograms = Object.values(programs).sort((a, b) =>
-    b.date.localeCompare(a.date)
-  )
-  return sortedPrograms[0].date + ' ' + sortedPrograms[0].animeTitle
+  const ymd = dateStr(new Date())
+  const p = Object.values(programs)
+    .filter((a) => a.date < ymd)
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .shift()
+  if (!p) return 'no data'
+  return p.date + ' ' + p.animeTitle
 }
 export const checkFileStats = () =>
   [programFilename, ...filenames, anisonFilename].map((filename) => {

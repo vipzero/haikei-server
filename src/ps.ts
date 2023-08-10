@@ -80,6 +80,7 @@ const checkAnisonFiles = () => {
       status.mtime ? formatDate(status.mtime) : '-'
     )
   })
+  const now = Date.now()
   const lastModTime =
     res
       .map((v) => v.mtime)
@@ -90,7 +91,7 @@ const checkAnisonFiles = () => {
     return
   }
   info('最新の番組データ' + checkNewestProgram())
-  if (Date.now() - +lastModTime > 1000 * 60 * 60 * 24 * 30) {
+  if (now - +lastModTime > 1000 * 60 * 60 * 24 * 30) {
     warn('2ヶ月以上更新されていない')
     warn('yarn setup:anison で更新')
   }
