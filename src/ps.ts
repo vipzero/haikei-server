@@ -3,6 +3,7 @@ import { getCurrentPlay, init } from './service/firebase'
 import { error, info, log, warn } from './utils/logger'
 import { fdb } from '../src/service/firebase'
 import { DateTime } from 'luxon'
+import { getLyricsSafe } from './service/jlyricnet'
 const formatDate = (date: Date) =>
   DateTime.fromJSDate(date).toFormat('yyyy-MM-dd HH:mm')
 
@@ -70,6 +71,20 @@ const checkFirebase = async () => {
 //   //
 // }
 
+function checkJlyricnet() {
+  if (process.env.JLYRICNET_ON !== '1') {
+    log('jlyricnet: off')
+    return
+  }
+  log('jlyricnet: on')
+  try {
+    getLyricsSafe('hello world')
+    log('✅', 'connected')
+  } catch (e) {
+    log('❌', 'not connected')
+  }
+}
+
 const checkAnisonFiles = () => {
   log('# checkAnisonFiles')
   const res = checkFileStats()
@@ -96,7 +111,10 @@ const checkAnisonFiles = () => {
 async function ps() {
   checkEnvVars()
   checkAnisonFiles()
+  checkJlyricnet()
   await checkFirebase()
 }
 
-ps()
+if (require.main === module) {
+  ps()
+}
