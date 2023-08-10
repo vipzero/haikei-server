@@ -2,18 +2,23 @@
 import chalk from 'chalk'
 
 export const logLine = (str: string) => process.stdout.write(chalk.gray(str))
+const LOG_LEVEL = Number(process.env.LOG_LEVEL || 1)
 
-export const log = console.log
-export const info = (str: string | number | object) =>
-  console.log(chalk.gray(str))
-export const error = (key: string, description: string) => {
-  console.error(chalk.red(`${key}: ${description}`))
+type Level = 0 | 1 | 2
+export const log = (s: unknown, level: Level = 1) => {
+  if (level <= LOG_LEVEL) return
+  console.log(s)
 }
-export const warn = (str: string | number | object) =>
-  console.warn(chalk.yellow(str))
+export const info = (str: string | number | object, level: Level = 1) =>
+  log(chalk.gray(str), level)
+export const error = (key: string, description: string, level: Level = 1) => {
+  log(chalk.red(`${key}: ${description}`), level)
+}
+export const warn = (str: string | number | object, level: Level = 1) =>
+  log(chalk.yellow(str), level)
 
-export const warnDesc = (key: string, description: string) => {
-  console.warn(chalk.yellow(`${key}: ${description}`))
+export const warnDesc = (key: string, desc: string, level: Level = 1) => {
+  log(chalk.yellow(`${key}: ${desc}`), level)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

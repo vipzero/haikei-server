@@ -20,7 +20,8 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
       'dw'.padStart(8),
       'sharp'.padStart(8),
       'jimp'.padStart(8),
-    ].join(', ')
+    ].join(', '),
+    2
   )
   const res = status
     .map((item) => {
@@ -36,7 +37,7 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
         .padStart(30)}, ${times}, ${sizes}`
     })
     .join('\n')
-  log(res)
+  log(res, 2)
 }
 const printSize = (size: number) => {
   return chalk.gray(`${(size / 1024).toFixed(1)}KB`)

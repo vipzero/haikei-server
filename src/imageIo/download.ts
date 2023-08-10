@@ -36,7 +36,7 @@ export const download = async (url: string, filePath: string) => {
     res = await pipeline(stream, fs.createWriteStream(filePath))
       .catch((e) => {
         if (e.name === 'TimeoutError') {
-          log(`Timeout`, `${url}`)
+          log(`Timeout ${url}`)
         } else {
           error(`DownloadSaveError`, `${url} ${filePath}`)
           log(JSON.stringify(e))
@@ -69,14 +69,14 @@ export const downloadOptimize = async (
   stat.times.prev = performance.now()
   stat.size.before = statSync(filePath).size
 
-  const shapeTask = sharpMin(filePath).catch((e) => {
+  const sharpTask = sharpMin(filePath).catch((e) => {
     warnDesc('UnsupportedError', e)
     return false as const
   })
-  const shapeRes = await raseTimeout(shapeTask, 10000, false as const)
-  if (!shapeRes) return false
+  const sharpRes = await raseTimeout(sharpTask, 10000, false as const)
+  if (!sharpRes) return false
 
-  const { size, height, width, format } = shapeRes
+  const { size, height, width, format } = sharpRes
   const fileType = mimeMap[format] || fileTypeDefault
 
   stat.times.sharp = performance.now() - stat.times.prev

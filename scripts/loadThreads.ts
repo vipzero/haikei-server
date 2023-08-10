@@ -18,7 +18,7 @@ async function main() {
   const urls = loadActiveUrls()
     .map((v) => v.text)
     .concat(currentTreads)
-  console.log(urls)
+  console.log(urls, 2)
 
   const data = loadData()
   for (const url of urls) {
