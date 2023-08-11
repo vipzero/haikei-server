@@ -14,7 +14,7 @@ import { getLyricsSafe } from './service/jlyricnet'
 import { store } from './state/store'
 import { subscribeIcy } from './streaming/icy'
 import { Counts, Song } from './types/index'
-import { convertTimeTags, nonEmpty, sleep } from './utils'
+import { convertMinPath, convertTimeTags, nonEmpty, sleep } from './utils'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
@@ -26,7 +26,7 @@ store.onExpiredStorageUrl = (urls) => {
     deleteFile(path)
 
     if (enableMobileImg) {
-      deleteFile(path + '_m')
+      deleteFile(convertMinPath(path))
     }
   })
 }

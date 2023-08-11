@@ -112,3 +112,8 @@ const delay = async <T>(msec: number, alt: T) => (await sleep(msec), alt)
 
 export const raseTimeout = <T, U>(task: Promise<T>, msec: number, alt: U) =>
   Promise.race([task, delay(msec, alt)])
+
+export const convertMinPath = (path: string) => {
+  const ext = path.split('.').pop()
+  return path.replace(`.${ext}`, `_min.${ext}`)
+}
