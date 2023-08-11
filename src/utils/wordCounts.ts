@@ -1,19 +1,6 @@
 import { Counts } from '../types/index'
 import { countupWords } from '../service/firebase'
-import { readFileSync, existsSync, writeFileSync } from 'fs'
 import { parseCountWords, textNormalize } from '.'
-
-export function getCounts() {
-  if (!existsSync('counts.json')) {
-    return { counts: {}, time: 0 }
-  }
-  const res = JSON.parse(readFileSync('counts.json', 'utf8'))
-  return res
-}
-
-export function saveCountsFile(counts: Counts, time = Date.now()) {
-  writeFileSync('counts.json', JSON.stringify({ counts, time }))
-}
 
 export function anaCounts(
   icys: string[],
