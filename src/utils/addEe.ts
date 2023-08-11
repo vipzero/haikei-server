@@ -57,12 +57,12 @@ export function addEe(song: Song): Song {
     if (mk === undefined && t === -1) return
 
     const status = loadStatus()
-    if (t !== -1) {
+    if (t >= 0) {
       status.mts = charPut(status.mts, t, '1')
       saveStatus(status)
     }
 
-    song.hedwig = `mts10:${charPut(status.mts, t, '1')}`
+    song.hedwig = `mts10:${status.mts}`
     if (mk) song.hedwig += ':' + mk
   })
 
