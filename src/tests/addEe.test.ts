@@ -30,7 +30,7 @@ test('convertTimeTags', () => {
     '咲くは浮世の君花火 - 閃光☆HANABI団 [高山紗代子 (CV.駒形友梨)、高坂海美 (CV.上田麗奈)、福田のり子 (CV.浜崎奈々)、横山奈緒 (CV.渡部優衣)、佐竹美奈子 (CV.大関英里)]'
   expect(addEe({ icy } as Song)).toMatchInlineSnapshot(`
 {
-  "hedwig": "mts10:110011:MTG",
+  "hedwig": "mts10:10011:MTG",
   "icy": "咲くは浮世の君花火 - 閃光☆HANABI団 [高山紗代子 (CV.駒形友梨)、高坂海美 (CV.上田麗奈)、福田のり子 (CV.浜崎奈々)、横山奈緒 (CV.渡部優衣)、佐竹美奈子 (CV.大関英里)]",
 }
 `)
