@@ -6,7 +6,7 @@ const LOG_LEVEL = Number(process.env.LOG_LEVEL || 1)
 
 type Level = 0 | 1 | 2
 export const log = (s: unknown, level: Level = 1) => {
-  if (level <= LOG_LEVEL) return
+  if (level > LOG_LEVEL) return
   console.log(s)
 }
 export const info = (str: string | number | object, level: Level = 1) =>

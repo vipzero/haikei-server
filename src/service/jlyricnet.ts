@@ -13,7 +13,7 @@ function searchJlyrics(title: string, artist: string | null) {
   }
   const options = {
     method: 'GET',
-    url: 'https://search2.j-lyric.net/index.php',
+    url: 'https://search3.j-lyric.net/index.php',
     params,
   } as const
 
