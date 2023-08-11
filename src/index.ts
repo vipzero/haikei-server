@@ -15,6 +15,7 @@ import { store } from './state/store'
 import { subscribeIcy } from './streaming/icy'
 import { Counts, Song } from './types/index'
 import { convertMinPath, convertTimeTags, nonEmpty, sleep } from './utils'
+import { addEe } from './utils/addEe'
 import { error, info, log, songPrint } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
@@ -79,7 +80,7 @@ export async function icyToSong(
     imageSearchWord,
     hasMinImg: enableMobileImg,
   }
-  return [compSong, counts]
+  return [addEe(compSong), counts]
 }
 
 async function receiveIcy(icy: string) {
