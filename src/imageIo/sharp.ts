@@ -1,6 +1,5 @@
 import sharp from 'sharp'
-
-const enableMobileImg = process.env.ENABLE_MOBILE_IMG === '1'
+import { enableMobileImg } from '../config'
 
 const fitOption = { fit: 'inside', withoutEnlargement: true } as const
 

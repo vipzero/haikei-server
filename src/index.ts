@@ -1,4 +1,5 @@
 import { findSong } from './anisonDb/findSong'
+import { enableMobileImg } from './config'
 import { uploadByUrlAll } from './imageIo/uploadManage'
 import { getImageLinks } from './service/customImageSearch'
 import {
@@ -23,7 +24,10 @@ const url = process.env.URL
 store.onExpiredStorageUrl = (urls) => {
   urls.forEach(({ path }) => {
     deleteFile(path)
-    deleteFile(path + '_m')
+
+    if (enableMobileImg) {
+      deleteFile(path + '_m')
+    }
   })
 }
 
@@ -72,6 +76,7 @@ export async function icyToSong(
     wordCounts,
     time,
     imageSearchWord,
+    hasMinImg: enableMobileImg,
   }
   return [compSong, counts]
 }

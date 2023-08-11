@@ -39,6 +39,7 @@ export type SongSupportAttr = {
 export type SongMiss = {
   icy: string
   time: number
+  hasMinImg: boolean
   albumName?: string
   copyright?: string
   artworkUrl100?: string
