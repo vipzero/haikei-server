@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 // import { addHistory } from '../../src/service/firebase'
-import { sleep } from '../../src/utils'
+import { sleep } from '../../../src/utils'
 // import { anaCounts } from '../../src/utils/wordCounts'
 import { DateTime } from 'luxon'
 
@@ -20,7 +20,7 @@ async function main() {
   // for (let i = 0; i < 3; i++) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
-    const { title, time: timeStr } = parseLine(line)
+    const { time: timeStr } = parseLine(line)
 
     await sleep(200)
     // 01/May/2023:05:19:32
