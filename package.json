@@ -42,6 +42,7 @@
     "map-save": "ts-node scripts/makePostCountMap.ts",
     "fix:counts": "ts-node scripts/batch/migrateWordCounts.ts",
     "active-thread": "chch dump-threads |jq -r '.threads[] | \"\\(.url),\\(.title)\"' |grep \"ならアニソン\"",
+    "cleanup:cloudstorage": "ts-node scripts/cleanup-storages.ts",
     "test": "jest",
     "test:type": "npx tsc --noEmit"
   },
