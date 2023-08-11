@@ -62,7 +62,8 @@ export async function icyToSong(
   const { wordCounts, counts } = anaCounts(
     [icy, song.artist || '', ...nonEmpty(Object.values(creators))],
     prevCounts,
-    additionals
+    additionals,
+    true
   )
   if (albumInfos?.artworkUrl100) {
     imageLinks.push(albumInfos.artworkUrl100)

@@ -33,7 +33,7 @@ const bucketUrl = storageUrl + storageId
 export const getBucket = (id: string = storageId) => admin.storage().bucket(id)
 export const getArchiveBucket = () => getBucket(storageIdArchive)
 
-type Obj = { [key: string]: number | string | object }
+type Obj = { [key: string]: number | string | object | boolean }
 const removeUndefined = (obj: Obj) => {
   const newObj: Obj = {}
   Object.keys(obj).forEach((key) => {
@@ -100,24 +100,23 @@ export const loadAllIcy = async () => {
   const snap = await fdb
     .collection(P_HIST)
     .doc(EVENT_ID)
-    .collection('songs')
+    .collection(P_SONGS)
     .get()
   return snap.docs.map((v) => v.data().title)
 }
 
 export const loadWordCounts = async () => {
+  const hist = await fdb.collection(P_HIST).doc(EVENT_ID).get()
   const snap = await fdb
     .collection(P_HIST)
     .doc(EVENT_ID)
     .collection(P_COUNTS)
     .get()
-  const hist = await fdb.collection(P_HIST).doc(EVENT_ID).get()
   const lasttime = (hist.exists && (hist.data() as HistTop).lasttime) || 0
 
   const counts: Counts = {}
-  snap.docs.forEach(
-    (v) => (counts[textNormalize(v.data().word)] = v.data().count)
-  )
+
+  snap.forEach((v) => (counts[textNormalize(v.data().word)] = v.data().count))
 
   return { counts, lasttime }
 }
