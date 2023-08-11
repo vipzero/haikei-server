@@ -1,12 +1,8 @@
 /* eslint-disable no-console */
+import { eventId } from '../src/config'
 import { fdb } from '../src/service/firebase'
-const eventId = process.env.EVENT_ID
 
 async function main() {
-  if (!eventId) {
-    console.warn(`EVENT_ID が設定されてません`)
-    return
-  }
   const hist = await fdb.collection('hist').doc(eventId).get()
   if (hist.exists) {
     console.warn(`${eventId} は登録済み`)

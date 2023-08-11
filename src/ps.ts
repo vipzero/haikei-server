@@ -4,6 +4,7 @@ import { error, info, log, warn } from './utils/logger'
 import { fdb } from '../src/service/firebase'
 import { DateTime } from 'luxon'
 import { getLyricsSafe } from './service/jlyricnet'
+import { eventId } from './config'
 const formatDate = (date: Date) =>
   DateTime.fromJSDate(date).toFormat('yyyy-MM-dd HH:mm')
 
@@ -35,7 +36,7 @@ function checkEnvVars() {
   log('# checkEnvVars')
   const all = checkEnvs.map((k, i) => {
     const status = checkStatus(k.name)
-    log(status.ok ? '✅' : '❌', status.key, status.value)
+    log((status.ok ? '✅' : '❌') + ` ${status.key} ${status.value}`)
     if (i === 2) log('---')
 
     return status.ok
@@ -47,20 +48,19 @@ function checkEnvVars() {
 
 const checkFirebase = async () => {
   log('# checkFirebase')
-  const EVENT_ID = process.env.EVENT_ID || ''
-  info('event id: ' + EVENT_ID)
+  info('event id: ' + eventId)
   //
   try {
     const res = await getCurrentPlay()
     info('playing: ' + res.icy || 'none')
     info('words: ' + (await init()).lasttime)
 
-    log('✅', '接続')
+    log('✅ 接続')
   } catch (e) {
     error('firebase error', '')
   }
-  const histOk = (await fdb.collection('hist').doc(EVENT_ID).get()).exists
-  log(histOk ? '✅' : '❌', 'setup')
+  const histOk = (await fdb.collection('hist').doc(eventId).get()).exists
+  log(`${histOk ? '✅' : '❌'} setup`)
   if (!histOk) {
     warn('yarn setup で設定')
   }
@@ -79,9 +79,9 @@ function checkJlyricnet() {
   log('jlyricnet: on')
   try {
     getLyricsSafe('hello world')
-    log('✅', 'connected')
+    log('✅ connected')
   } catch (e) {
-    log('❌', 'not connected')
+    log('❌ not connected')
   }
 }
 
@@ -90,9 +90,9 @@ const checkAnisonFiles = () => {
   const res = checkFileStats()
   res.forEach((status) => {
     log(
-      status.exists ? '✅' : '❌',
-      status.filename,
-      status.mtime ? formatDate(status.mtime) : '-'
+      `${status.exists ? '✅' : '❌'} ${status.filename} ${
+        status.mtime ? formatDate(status.mtime) : '-'
+      }`
     )
   })
   const now = Date.now()

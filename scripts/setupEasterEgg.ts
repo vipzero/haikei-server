@@ -1,5 +1,5 @@
+import { eventId } from '../src/config'
 import { fdb } from '../src/service/firebase'
-const eventId = process.env.EVENT_ID
 
 async function main() {
   if (!eventId) return

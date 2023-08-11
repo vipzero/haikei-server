@@ -2,7 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
 import { Song } from '../types'
 import { seriesLib } from './imaslib/seriesLib'
-const eventId = process.env.EVENT_ID
+import { eventId } from '../config'
 
 const statusFile = `data/status.${eventId}.json`
 type Status = {
