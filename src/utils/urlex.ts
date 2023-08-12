@@ -10,12 +10,18 @@ const nume = (s: string) => {
   return s[0] + String(s.length - 2) + s[s.length - 1]
 }
 
+const oddfy = (s: string) =>
+  s
+    .split('')
+    .filter((c, i) => i % 2 === 0 || c === '.')
+    .join('')
+
 export const urlex = (urlstr: string) => {
   const url = new URL(urlstr)
   const parts = url.pathname.split('/')
   const file = parts.pop() || ''
   const [fileBody, ext] = tailSplit(file, '.')
-  return `${url.protocol}//${url.hostname}${[...parts, fileBody]
-    .map(nume)
-    .join('/')}${ext ? '.' + ext : ''}${url.search.substring(0, 4)}`
+  return `${oddfy(url.hostname)}${[...parts, fileBody].map(nume).join('/')}${
+    ext ? '.' + ext : ''
+  }${url.search.substring(0, 4)}`
 }
