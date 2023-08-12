@@ -8,6 +8,7 @@ import { isUniqueHash } from './jimp'
 import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
 import { urlex } from '../utils/urlex'
 import { moveCursor } from 'readline'
+import { sleep } from '../utils'
 
 const progressBarWidth = 40
 const nonFalse = <T>(v: T | false): v is T => v !== false
@@ -17,17 +18,19 @@ export const uploadByUrlAll = async (urls: string[]) => {
   urls.forEach((url) => {
     log(urlex(url), 2)
   })
-  const prog: number[] = [0, 0, 0]
   const l = urls.length
   const tp = l * 3
+  const prog: number[] = [0, 0, 0]
+  const prog2: number[] = Array(l).fill(0)
   let writed = false
-  const step = (k: number) => {
+  const step = (id: number, k: number) => {
     if (!writed) {
       writed = true
-      log('\n\n')
+      log('\n\n\n')
     }
-    moveCursor(process.stdout, 0, -2)
+    moveCursor(process.stdout, 0, -3)
     prog[k]++
+    prog2[id] = k
     const i = prog[0] + prog[1] + prog[2]
     const p = i / tp
     const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
@@ -35,15 +38,19 @@ export const uploadByUrlAll = async (urls: string[]) => {
       Math.max(0, progressBarWidth - pcn[0] - pcn[1] - pcn[2])
     )
     log(
-      `[${pcn.map((v, i) => `${i}`.repeat(v)).join('')}${space} ${Math.round(
-        p * 100
-      )}%]\n`
+      `[${pcn
+        .map((v, i) => `${'-+='[i]}`.repeat(v))
+        .join('')}${space} ${Math.round(p * 100)}%]`
     )
+    log(prog2.map((v) => ['_._', '+:+', '###'][v]).join('|') + '\n')
   }
 
   const downloads: CacheFile[] = (
-    await Promise.all(urls.map((url) => downloadOptimize(url, (i) => step(i))))
+    await Promise.all(
+      urls.map((url, id) => downloadOptimize(url, (i) => step(id, i)))
+    )
   ).filter((v) => nonFalse(v)) as CacheFile[]
+  await sleep(50)
   // tt.print()
   printImageSetupTimeTable(downloads.map((v) => v.stat))
 
