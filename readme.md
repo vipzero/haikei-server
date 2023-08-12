@@ -20,6 +20,8 @@ yarn start
 # yarn start:ts-node
 ```
 
+![haikei-server admin terminal](./ss.png)
+
 ## アニメ番組情報の取得
 
 data に アニソンメタデータ設置
