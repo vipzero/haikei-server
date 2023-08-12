@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { eventId, serviceAccountPath } from '../config'
+import { eventId, nonWriteMode, serviceAccountPath } from '../config'
 import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk, textNormalize } from '../utils'
 import { error, log, warnDesc } from '../utils/logger'
@@ -49,6 +49,7 @@ export const getCurrentPlay = async () => {
 }
 
 export const saveSong = (song: Song) => {
+  if (nonWriteMode) return
   fdb
     .collection(P_SONG)
     .doc(eventId)
@@ -86,6 +87,7 @@ export const addHistory = async (
   time: number | null,
   n: null | number = null
 ) => {
+  if (nonWriteMode) return
   await bookCountDocRef().update({ bookCount: 0 })
 
   return await histSongsRef().doc(String(time)).set({ title, time, n, b: 0 })
@@ -117,6 +119,7 @@ export const loadWordCounts = async () => {
 }
 
 export const setupCount = async (counts: Counts, lasttime: number) => {
+  if (nonWriteMode) return
   const blocks = chunk(Object.entries(counts), 490)
 
   for (const ents of blocks) {
@@ -137,18 +140,8 @@ export const setupCount = async (counts: Counts, lasttime: number) => {
   fdb.collection(P_HIST).doc(eventId).set({ lasttime }, { merge: true })
 }
 
-export const setupHistN500 = async (ns: Record<string, number>) => {
-  const batch = fdb.batch()
-  for (const [id, n] of Object.entries(ns)) {
-    batch.update(
-      fdb.collection(P_HIST).doc(eventId).collection('song').doc(id),
-      { n }
-    )
-  }
-  await batch.commit()
-}
-
 export const setupHistN = async (ns: Record<string, number | null>) => {
+  if (nonWriteMode) return
   const blocks = chunk(Object.entries(ns), 490)
 
   for (const block of blocks) {
@@ -161,6 +154,7 @@ export const setupHistN = async (ns: Record<string, number | null>) => {
 }
 
 export const countupWordsEntry = async (words: Record<string, number>) => {
+  if (nonWriteMode) return
   const batch = fdb.batch()
   const check: Record<string, true> = {}
   for (const ws of chunk(Object.entries(words), 10)) {
@@ -194,6 +188,7 @@ export const countupWordsEntry = async (words: Record<string, number>) => {
 }
 
 export const countupWords = async (words: string[]) => {
+  if (nonWriteMode) return
   const batch = fdb.batch()
   const check: Record<string, true> = {}
   for (const ws of chunk(words, 10)) {

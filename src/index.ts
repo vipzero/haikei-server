@@ -1,5 +1,5 @@
 import { findSong } from './anisonDb/findSong'
-import { enableMobileImg } from './config'
+import { enableMobileImg, nonWriteMode } from './config'
 import { uploadByUrlAll } from './imageIo/uploadManage'
 import { getImageLinks } from './service/customImageSearch'
 import {
@@ -16,7 +16,7 @@ import { subscribeIcy } from './streaming/icy'
 import { Counts, Song } from './types/index'
 import { convertMinPath, convertTimeTags, nonEmpty, sleep } from './utils'
 import { addEe } from './utils/addEe'
-import { error, info, log, songPrint } from './utils/logger'
+import { error, info, log, songPrint, warn } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
 
@@ -102,6 +102,9 @@ let failCount = 0
 
 async function main() {
   const res = await getCurrentPlay()
+  if (nonWriteMode) {
+    warn('nonWriteMode: on')
+  }
 
   store.counts = (await init()).counts
   store.setFirstIcy(res.icy)
