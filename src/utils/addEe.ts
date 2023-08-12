@@ -91,7 +91,7 @@ export function addEe(song: Song): Song {
     const mk = byT.get(titleNorm)
 
     const t = mtsTitles.findIndex((v) => v === titleNorm)
-    const idols = imasIdols(Object.keys(song.wordCounts))
+    const idols = imasIdols(Object.keys(song.wordCounts || {}))
     if (idols && idols.length > 0) {
       const bins = status.idols.map(base64toBools)
       idols.forEach(([i, j]) => {
