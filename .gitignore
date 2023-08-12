@@ -73,3 +73,5 @@ backup
 /tmp
 
 workspace
+
+!data/status.9999test.json
