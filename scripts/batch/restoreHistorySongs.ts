@@ -20,6 +20,10 @@ async function main() {
     const { icy, time } = parseLine(line)
 
     await sleep(200)
+    if (i === 0 || i === lines.length - 1) {
+      console.log(icy)
+      console.log(+new Date(time))
+    }
 
     await addHistory(icy.trim(), Number(new Date(time)), 0)
     anaCounts([icy], {}, [], true)
