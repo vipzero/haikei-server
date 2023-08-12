@@ -52,7 +52,8 @@ export const download = async (url: string, filePath: string) => {
 }
 
 export const downloadOptimize = async (
-  url: string
+  url: string,
+  stepCallback: (step: number) => void
 ): Promise<CacheFile | false> => {
   const stat: CacheFileStat = {
     url,
@@ -68,6 +69,7 @@ export const downloadOptimize = async (
   stat.times.dw = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
   stat.size.before = statSync(filePath).size
+  stepCallback(0)
 
   const sharpTask = sharpMin(filePath).catch((e) => {
     warnDesc('UnsupportedError', e)
@@ -83,6 +85,7 @@ export const downloadOptimize = async (
   stat.times.prev = performance.now()
   stat.size.sharped = statSync(filePath).size
   stat.size.sharpReport = size
+  stepCallback(1)
 
   const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
     warnDesc('JimpError', e)
@@ -96,6 +99,7 @@ export const downloadOptimize = async (
   stat.times.jimp = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
   stat.size.jimped = statSync(filePath).size
+  stepCallback(2)
 
   return { filePath, fileType, size, height, width, hash, stat }
 }

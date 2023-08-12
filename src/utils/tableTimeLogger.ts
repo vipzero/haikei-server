@@ -13,7 +13,6 @@ const decoTime = (ms: number) => {
   }
 }
 export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
-  log('')
   log(
     [
       'url'.padStart(30),
@@ -23,22 +22,28 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
     ].join(', '),
     2
   )
+  const sum = (a: number, b: number) => a + b
+  const totalTime = status
+    .map((item) => Object.values(item.times).reduce(sum))
+    .reduce((a, b) => Math.max(a, b), Infinity)
   const res = status
     .map((item) => {
       const cols = [item.times.dw, item.times.sharp, item.times.jimp]
       const times = cols
-        .map((ms) => (ms ? decoTime(ms) : '-'.padStart(8)))
+        .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
       const sizes = `${printSize(item.size.before)} => ${printSize(
         item.size.sharpReport
-      )} => ${printSize(item.size.sharped)} => ${printSize(item.size.jimped)}`
+      )} => ${printSize(item.size.jimped)}`
       return `${printId(item.url)
         .substring(0, 30)
         .padStart(30)}, ${times}, ${sizes}`
     })
     .join('\n')
   log(res, 2)
+  log(`total time: ${decoTime(totalTime)}`)
 }
+
 const printSize = (size: number) => {
   return chalk.gray(`${(size / 1024).toFixed(1)}KB`)
 }

@@ -7,7 +7,9 @@ import { downloadOptimize } from './download'
 import { isUniqueHash } from './jimp'
 import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
 import { urlex } from '../utils/urlex'
+import { moveCursor } from 'readline'
 
+const progressBarWidth = 40
 const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
@@ -15,8 +17,32 @@ export const uploadByUrlAll = async (urls: string[]) => {
   urls.forEach((url) => {
     log(urlex(url), 2)
   })
+  const prog: number[] = [0, 0, 0]
+  const l = urls.length
+  const tp = l * 3
+  let writed = false
+  const step = (k: number) => {
+    if (!writed) {
+      writed = true
+      log('\n\n')
+    }
+    moveCursor(process.stdout, 0, -2)
+    prog[k]++
+    const i = prog[0] + prog[1] + prog[2]
+    const p = i / tp
+    const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
+    const space = '_'.repeat(
+      Math.max(0, progressBarWidth - pcn[0] - pcn[1] - pcn[2])
+    )
+    log(
+      `[${pcn.map((v, i) => `${i}`.repeat(v)).join('')}${space} ${Math.round(
+        p * 100
+      )}%]\n`
+    )
+  }
+
   const downloads: CacheFile[] = (
-    await Promise.all(urls.map((url) => downloadOptimize(url)))
+    await Promise.all(urls.map((url) => downloadOptimize(url, (i) => step(i))))
   ).filter((v) => nonFalse(v)) as CacheFile[]
   // tt.print()
   printImageSetupTimeTable(downloads.map((v) => v.stat))
