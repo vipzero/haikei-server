@@ -25,7 +25,7 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
   const sum = (a: number, b: number) => a + b
   const totalTime = status
     .map((item) => Object.values(item.times).reduce(sum))
-    .reduce((a, b) => Math.max(a, b), Infinity)
+    .reduce((a, b) => Math.max(a, b), 0)
   const res = status
     .map((item) => {
       const cols = [item.times.dw, item.times.sharp, item.times.jimp]
