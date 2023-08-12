@@ -6,12 +6,15 @@ import { CacheFile } from './../types/index'
 import { downloadOptimize } from './download'
 import { isUniqueHash } from './jimp'
 import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
+import { urlex } from '../utils/urlex'
 
 const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
 
-  log(urls)
+  urls.forEach((url) => {
+    log(urlex(url), 2)
+  })
   const downloads: CacheFile[] = (
     await Promise.all(urls.map((url) => downloadOptimize(url)))
   ).filter((v) => nonFalse(v)) as CacheFile[]
