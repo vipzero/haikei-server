@@ -5,7 +5,7 @@ import chalk from 'chalk'
 
 export type ImageSetupTimeTable = ReturnType<typeof printImageSetupTimeTable>
 const decoTime = (ms: number) => {
-  const s = `${Math.floor(ms)}ms`.padStart(8)
+  const s = `${Math.floor(ms)}ms`.padStart(7)
   if (ms < 1000) {
     return chalk.gray(s)
   } else {
@@ -16,16 +16,19 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
   log(
     [
       'url'.padStart(30),
-      'dw'.padStart(8),
-      'sharp'.padStart(8),
-      'jimp'.padStart(8),
+      'dw'.padStart(7),
+      'sharp'.padStart(7),
+      'jimp'.padStart(7),
     ].join(', '),
     2
   )
   const sum = (a: number, b: number) => a + b
   const totalTime = status
-    .map((item) => Object.values(item.times).reduce(sum))
+    .map((item) =>
+      [item.times.dw, item.times.sharp, item.times.jimp].reduce(sum)
+    )
     .reduce((a, b) => Math.max(a, b), 0)
+
   const res = status
     .map((item) => {
       const cols = [item.times.dw, item.times.sharp, item.times.jimp]

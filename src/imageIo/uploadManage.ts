@@ -40,9 +40,10 @@ export const uploadByUrlAll = async (urls: string[]) => {
     log(
       `[${pcn
         .map((v, i) => `${'-+='[i]}`.repeat(v))
-        .join('')}${space} ${Math.round(p * 100)}%]`
+        .join('')}${space} ${Math.round(p * 100)}%]`,
+      0
     )
-    log(prog2.map((v) => ['_._', '+:+', '###'][v]).join('|') + '\n')
+    log(prog2.map((v) => ['_._', '+:+', '###'][v]).join('|') + '\n', 1)
   }
 
   const downloads: CacheFile[] = (
@@ -50,7 +51,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
       urls.map((url, id) => downloadOptimize(url, (i) => step(id, i)))
     )
   ).filter((v) => nonFalse(v)) as CacheFile[]
-  await sleep(50)
+  await sleep(100)
   // tt.print()
   printImageSetupTimeTable(downloads.map((v) => v.stat))
 
