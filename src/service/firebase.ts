@@ -239,6 +239,9 @@ export const uploadStorage = async (file: CacheFile, id: string) => {
     contentType,
     destination,
     predefinedAcl: 'publicRead',
+    metadata: {
+      cacheControl: `public, max-age=${60 * 10}`,
+    },
   })
 
   const downloadUrl = `${bucketUrl}/${destination}`
