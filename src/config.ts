@@ -14,3 +14,9 @@ export const eventId = isTest ? '9999test' : EVENT_ID
 export const enableMobileImg =
   process.env.ENABLE_MOBILE_IMG === '1' && process.env.DIRECT_MODE !== '1'
 export const nonWriteMode = NON_WRITE_DEBUG_MODE === '1'
+
+// 2つ前からの間隔が短い(かつ似た名前の)ときは画像検索しない
+export const imageSearchCooltimeMs = 1000 * 20
+
+// 10枚アップロードするために必要な2つ前からの間隔
+export const upload10ImgLimitMs = 1000 * 60 * 1
