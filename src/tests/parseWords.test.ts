@@ -16,6 +16,28 @@ Array [
 ]
 `)
 
+  expect(parseCountWords([q, q])).toMatchInlineSnapshot(`
+Array [
+  "イリス",
+  "フレイア",
+  "日高里菜",
+  "物部深月",
+  "沼倉愛美",
+  "Ray of bullet",
+]
+`)
+
+  expect(parseCountWords([q, ''])).toMatchInlineSnapshot(`
+Array [
+  "イリス",
+  "フレイア",
+  "日高里菜",
+  "物部深月",
+  "沼倉愛美",
+  "Ray of bullet",
+]
+`)
+
   q =
     'ショコラ (CV:八木侑紀)、バニラ (CV:佐伯伊織)、アズキ (CV:井澤詩織)、メイプル (CV:伊藤美来)、シナモン (CV:のぐちゆり)、ココナツ (CV:水谷麻鈴) - Shiny Happy Days'
   expect(parseCountWords(q)).toMatchInlineSnapshot(`
@@ -136,6 +158,26 @@ Array [
   "アクア",
   "めぐみん",
   "ダクネス",
+]
+`)
+
+  q =
+    '劇団ひととせ(桜木ひな子(cv:m・a・o)/夏川くいな(cv:富田美憂)/柊真雪(cv:小倉唯)/萩野千秋(cv:東城日沙子)/中島ゆあ(cv:高野麻里佳))'
+  expect(parseCountWords(q)).toMatchInlineSnapshot(`
+Array [
+  "劇団ひととせ",
+  "桜木ひな子",
+  "m",
+  "a",
+  "o",
+  "夏川くいな",
+  "富田美憂",
+  "柊真雪",
+  "小倉唯",
+  "萩野千秋",
+  "東城日沙子",
+  "中島ゆあ",
+  "高野麻里佳",
 ]
 `)
 })
