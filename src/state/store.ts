@@ -1,5 +1,5 @@
 import { upload10ImgLimitMs } from '../config'
-import { Counts, Song, UploadFile } from '../types'
+import { Counts, Song, UploadFile, SkipInfo } from '../types'
 
 export class Store {
   counts: Counts
@@ -39,16 +39,17 @@ export class Store {
     this.songs = [song, ...(this.songs || [])].slice(0, 5)
   }
 
-  checkSkip(icy: string, time: number) {
+  checkSkip(icy: string, time: number): SkipInfo {
     const [prev1, prev2] = this.songs
 
     const prev1chain = prev1 && someSongIcy(icy, prev1.icy)
     const prev2chain = prev2 && someSongIcy(icy, prev2.icy)
+    const chain = prev1chain || prev2chain ? prev1 : false
     const uploadLimit = !prev2
       ? 10
       : calcUploadLimit(new Date(prev2.time), new Date(time))
 
-    return { chain: prev1chain || prev2chain, uploadLimit }
+    return { chain, uploadLimit }
   }
 }
 

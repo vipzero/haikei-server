@@ -117,3 +117,8 @@ export const convertMinPath = (path: string) => {
   const ext = path.split('.').pop()
   return path.replace(`.${ext}`, `_min.${ext}`)
 }
+
+export const cycle = <T>(arr: T[]): T[] => {
+  const i = Math.floor(Math.random() * arr.length)
+  return [...arr.slice(i), ...arr.slice(0, i)]
+}

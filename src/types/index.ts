@@ -116,3 +116,5 @@ export type CacheFileStat = {
   }
 }
 export type Emol = { text: string }
+
+export type SkipInfo = { chain: false | Song; uploadLimit: number }

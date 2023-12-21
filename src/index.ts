@@ -13,8 +13,14 @@ import { getAlbum } from './service/itunes'
 import { getLyricsSafe } from './service/jlyricnet'
 import { store } from './state/store'
 import { subscribeIcy } from './streaming/icy'
-import { Counts, Song } from './types/index'
-import { convertMinPath, convertTimeTags, nonEmpty, sleep } from './utils'
+import { Counts, SkipInfo, Song } from './types/index'
+import {
+  convertMinPath,
+  convertTimeTags,
+  cycle,
+  nonEmpty,
+  sleep,
+} from './utils'
 import { addEe } from './utils/addEe'
 import { error, info, log, songPrint, warn } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
@@ -41,11 +47,32 @@ async function prepareImages(q: string) {
   return uploads.map((u) => u.downloadUrl)
 }
 
+export async function icyToSongCache(
+  skipInfo: SkipInfo,
+  time: number
+): Promise<Song | false> {
+  const song = skipInfo.chain
+  if (!song) return false
+
+  const compSong: Song = {
+    ...song,
+    time,
+    imageLinks: cycle(song.imageLinks || []),
+  }
+  return compSong
+}
+
 export async function icyToSong(
   icy: string,
   time: number,
   prevCounts: Counts = {}
 ): Promise<[Song, Counts] | false> {
+  const skipConf = store.checkSkip(icy, time)
+  if (skipConf.chain) {
+    const song = await icyToSongCache(skipConf, time)
+    return song ? [song, prevCounts] : false
+  }
+
   const song = findSong(icy)
 
   const imageSearchWord = makeSearchQuery(song, Math.random())
@@ -95,6 +122,7 @@ async function receiveIcy(icy: string) {
   store.counts = counts
   songPrint(song)
   saveSong(song)
+  store.addSong(song)
   addHistory(icy, time)
 }
 
