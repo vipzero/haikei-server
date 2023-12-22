@@ -8,7 +8,7 @@ function mergeCount(delimiters: number[], times: number[]): Counts {
   const res: Counts = {}
   let j = 0
 
-  while (times[j] <= delimiters[0]) j += 1
+  while (times[j]! <= delimiters[0]!) j += 1
 
   delimiters.forEach((d, i) => {
     const next = delimiters[i + 1]
@@ -19,7 +19,7 @@ function mergeCount(delimiters: number[], times: number[]): Counts {
       return
     }
     res[d] = 0
-    while (times[j] < next) {
+    while (times[j]! < next) {
       // console.log(times[j])
       res[d] = (res[d] || 0) + 1
       j += 1

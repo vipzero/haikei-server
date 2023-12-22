@@ -31,11 +31,11 @@ export const uploadByUrlAll = async (urls: string[]) => {
     moveCursor(process.stdout, 0, -3)
     prog[k]++
     prog2[id] = k
-    const i = prog[0] + prog[1] + prog[2]
+    const i = prog[0]! + prog[1]! + prog[2]!
     const p = i / tp
     const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
     const space = '_'.repeat(
-      Math.max(0, progressBarWidth - pcn[0] - pcn[1] - pcn[2])
+      Math.max(0, progressBarWidth - pcn[0]! - pcn[1]! - pcn[2]!)
     )
     log(
       `[${pcn
