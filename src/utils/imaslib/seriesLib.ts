@@ -301,8 +301,85 @@ Like twinkling STARS
   {
     k: 'MS2',
     names: `
+アロー彗星
+Purple Sky
+K・A・W・A・I・I of the WORLD!
+あたためますか?
+HAPPY♪STEPPING!!DREAMING☆
+ピカリピックアップ!
+勇気のfragrance
+キミが真ん中にいた
+アイドルは、かく語りき
+君に映るポートレイト
+Dual Style Idol
+恋のWa・Wo・N
+ゆえに…なんです
+ハッピーマイガーデン
+きみがくれた言葉があるから
+セピアカラフル
 DATE PARADE!
+週末だけのハーレクイン
+グローインミュージック!
+折紙物語
+絵羽模様
+Cross the future
+プルメリアの花
+Collier De Perles
+Beautiful Believer
+裏表深層心理
+ユニーク・スター・プレイヤー!
+わたしルネサンス
+交わる季節
+泣き空、のち
+シャル・ウィー・ダンス?
+Moonrise Belief
+Play GO! Round
+Super Funky Piece!!
+it's me
 パーフェクトゲーム
-Contrastet`,
+しあわせエンドロール
+美!美!美!ビルドUP!!
+Contrastet
+オン・ステージ・プレーヤー!
+愛のMagic! Once Again!
+ピンクローズアプローズ
+稲妻スピリット
+Walking on the Square
+きまぐれユモレスク
+I Do
+ふたり繋ぐ星座
+REACH THE SKY
+リーチ・アップ・ステップ!
+Discord Area
+スポットライト・ミラーランド
+Sing a Wing Song
+Contrastet
+パーフェクトゲーム
+DATE PARADE!
+折紙物語
+シャル・ウィー・ダンス?
+`,
+  },
+  {
+    k: 'MC',
+    names: `
+解夏傀儡
+エンダーエンダー
+`,
+  },
+  {
+    k: 'MAT',
+    names: `
+解夏傀儡
+エンダーエンダー
+Star Impression
+海風とカスタネット
+catch my feeling
+オレンジノキオク
+バトンタッチ
+Unknown Boxの開き方
+トワラー
+REFRAIN REL@TION
+`,
   },
 ]
