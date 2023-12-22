@@ -33,6 +33,11 @@ const saveFile = async (id: string, text: string) => {
 
 const eventId = process.argv[2]
 
+if (!eventId) {
+  log('need arg [event_id]')
+  process.exit(1)
+}
+
 assert(eventId, 'need arg [event_id]')
 
 archiveEventCsv(eventId).then(() => log('doae'))

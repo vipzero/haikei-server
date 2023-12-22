@@ -95,7 +95,7 @@ export function addEe(song: Song): Song {
     if (idols && idols.length > 0) {
       const bins = status.idols.map(base64toBools)
       idols.forEach(([i, j]) => {
-        bins[i][j] = true
+        bins[i]![j] = true
       })
       status.idols = bins.map(boolsToBase64)
       song.hedwig = `mts10:::${status.idols.join(',')}`

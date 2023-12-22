@@ -17,7 +17,9 @@ const lines = text.trim().split('\n')
 async function main() {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) throw Error('ParseError')
     const { icy, time } = parseLine(line)
+    if (!time || !icy) throw Error('ParseError')
 
     await sleep(200)
     if (i === 0 || i === lines.length - 1) {

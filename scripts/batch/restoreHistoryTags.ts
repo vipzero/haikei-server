@@ -1,9 +1,8 @@
-import { assert } from 'console'
 import { findSong } from '../../src/anisonDb/findSong'
 
 import {
   countupWordsEntry,
-  loadHistEventSongs
+  loadHistEventSongs,
 } from '../../src/service/firebase'
 import { convertTimeTags } from '../../src/utils'
 import { log } from '../../src/utils/logger'
@@ -33,6 +32,6 @@ const restoreHistoryTags = async (id: string) => {
 
 const eventId = process.argv[2]
 
-assert(eventId, 'need arg [event_id]')
+if (!eventId) throw Error('need arg [event_id]')
 
 restoreHistoryTags(eventId).then(() => log('doae'))

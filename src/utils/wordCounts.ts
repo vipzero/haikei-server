@@ -20,6 +20,8 @@ export function anaCounts(
 
   const wordCounts: Counts = {}
   // 参照は normalize 保存は元の文字
-  entries.forEach((ent) => (wordCounts[ent] = counts[textNormalize(ent)]))
+  entries.forEach((ent) => {
+    wordCounts[ent] = counts[textNormalize(ent)] || 0
+  })
   return { wordCounts, counts }
 }

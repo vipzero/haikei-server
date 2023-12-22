@@ -91,7 +91,7 @@ const regex = new RegExp(reStr, 'g')
 export const pickChara = (s: string): string[] => {
   return [...s.trim().matchAll(regex)]
     .map((v) => v[2])
-    .filter((v) => Boolean(v) && v !== s)
+    .filter((v): v is string => Boolean(v) && v !== s)
     .map(trimEx)
 }
 
@@ -105,6 +105,7 @@ export const nonEmpty = (strs: (string | undefined)[]) =>
 export const convertTimeTags = (songDate?: string) => {
   if (!songDate) return []
   const [y, m] = songDate.split('-')
+  if (!m) throw new Error(`Invalid date: ${songDate}`)
   return [`[${y}]`, `[${y}-${m}]`, `[${y}-S${Math.floor((+m - 1) / 3) + 1}]`]
 }
 

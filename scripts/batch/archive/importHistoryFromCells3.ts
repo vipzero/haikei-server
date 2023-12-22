@@ -18,6 +18,7 @@ async function main() {
   // for (let i = 0; i < 3; i++) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) throw Error('ParseError')
     const { title, time } = parseLine(line)
 
     await sleep(200)

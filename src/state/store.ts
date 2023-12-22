@@ -44,7 +44,7 @@ export class Store {
 
     const prev1chain = prev1 && someSongIcy(icy, prev1.icy)
     const prev2chain = prev2 && someSongIcy(icy, prev2.icy)
-    const chain = prev1chain || prev2chain ? prev1 : false
+    const chain = prev1chain || prev2chain ? prev1! : false
     const uploadLimit = !prev2
       ? 10
       : calcUploadLimit(new Date(prev2.time), new Date(time))
@@ -56,6 +56,7 @@ export class Store {
 export const someSongIcy = (a: string, b: string) => {
   const [a1, a2] = a.split(' - ')
   const [b1, b2] = b.split(' - ')
+  if (!a1 || !a2 || !b1 || !b2) throw Error('invalid icy')
   return (
     a1.startsWith(b1) ||
     b1.startsWith(a1) ||

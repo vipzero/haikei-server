@@ -20,7 +20,9 @@ async function main() {
   // for (let i = 0; i < 3; i++) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) throw Error('ParseError')
     const { time: timeStr } = parseLine(line)
+    if (!timeStr) throw Error('ParseError')
 
     await sleep(200)
     // 01/May/2023:05:19:32

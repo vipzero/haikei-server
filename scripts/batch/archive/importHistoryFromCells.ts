@@ -6,6 +6,7 @@ import { anaCounts } from '../../../src/utils/wordCounts'
 
 const parseLine = (text: string) => {
   const [timeRaw, title] = text.split('\t')
+  if (!timeRaw || !title) throw Error('ParseError')
 
   const time = +parse(timeRaw, 'yyyy/MM/dd HH:mm:ss', new Date())
 
@@ -19,6 +20,7 @@ const lines = text.trim().split('\n')
 async function main() {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) throw Error('ParseError')
     const { title, time } = parseLine(line)
     await sleep(200)
     await addHistory(title, time)

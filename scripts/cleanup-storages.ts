@@ -14,7 +14,7 @@ async function deleteOldFiles() {
 
   const fl = files.length
   for (let i = 20; i < files.length; i++) {
-    await files[i].delete()
+    await files[i]?.delete()
   }
   log(`[${eventId}] delete ${fl - remain} files. (${fl} -> ${remain})`)
 }

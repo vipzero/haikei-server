@@ -17,14 +17,32 @@ const data = fs.readFileSync(programFilename, 'utf-8')
 const anisonData = fs.readFileSync(anisonFilename, 'utf-8')
 const csvOptions = { trim: true, header: false, skipLinesWithError: true }
 
-const parsedLines = parse(data, csvOptions) as string[][]
+const parsedLines = parse(data, csvOptions) as [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string
+][]
 parsedLines.shift()
 parsedLines.forEach(
   ([programId, category, gameType, animeTitle, , , , chapNum, , date]) => {
     programs[programId] = { category, gameType, animeTitle, chapNum, date }
   }
 )
-const anisonLines = parse(anisonData, csvOptions) as string[][]
+const anisonLines = parse(anisonData, csvOptions) as [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string
+][]
 
 anisonLines.forEach(
   ([animeTitle, title, artist, writer, composer, arranger]) => {
@@ -32,7 +50,7 @@ anisonLines.forEach(
     const ak = artistKeyNormalize(artist)
     if (!animes[tk]) animes[tk] = {}
 
-    animes[tk][ak] = {
+    animes[tk]![ak] = {
       animeTitle,
       artist,
       writer,
@@ -48,7 +66,16 @@ filenames.forEach((filename) => {
   lines[0] = headerAlias
   const data = lines.join('\n')
 
-  const rows: string[][] = parse(data, {
+  const rows: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string
+  ][] = parse(data, {
     trim: true,
     // header: false, // NOTE: type に含まれてなかったから消しちゃうけどどうにでもなれー！
     skipLinesWithError: true,
@@ -60,7 +87,7 @@ filenames.forEach((filename) => {
       const ak = artistKeyNormalize(artist || '')
       if (!songs[tk]) songs[tk] = {}
       // if (!songs[artist]) songs[artist] = {}
-      const { animeTitle, ...programAttrs } = programs[programId] || {}
+      const { animeTitle, ...programAttrs } = programs[programId]!
       const song = {
         opOrEd: opOrEd || '',
         spInfo: spInfo || '',
@@ -70,7 +97,7 @@ filenames.forEach((filename) => {
         animeTitle: animeTitleI || animeTitle,
         ...programAttrs,
       }
-      songs[tk][ak] = song
+      songs[tk]![ak] = song
     }
   )
 })

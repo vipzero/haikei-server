@@ -29,7 +29,7 @@ async function main() {
     for (const post of thread.posts.filter((p) =>
       filterNonGreeting(p.message)
     )) {
-      data[thread.url][post.timestamp] = true
+      data[thread.url]![post.timestamp] = true
     }
     sleep(1000)
   }

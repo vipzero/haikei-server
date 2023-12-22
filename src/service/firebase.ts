@@ -32,7 +32,8 @@ type Obj = { [key: string]: number | string | object | boolean }
 const removeUndefined = (obj: Obj) => {
   const newObj: Obj = {}
   Object.keys(obj).forEach((key) => {
-    if (obj[key] !== undefined) newObj[key] = obj[key]
+    const v = obj[key]
+    if (v !== undefined) newObj[key] = v
   })
   return newObj
 }
@@ -172,7 +173,7 @@ export const countupWordsEntry = async (words: Record<string, number>) => {
       const wk = (doc.data() as Count).word
       check[wk] = true
       batch.update(doc.ref, {
-        count: admin.firestore.FieldValue.increment(words[wk]),
+        count: admin.firestore.FieldValue.increment(words[wk] || 0),
       })
     })
   }

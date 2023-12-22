@@ -25,6 +25,7 @@ async function main() {
 
     for (const post of thread.posts.filter(filterRes)) {
       const line1 = post.message.split('\n')[0]
+      if (!line1) throw Error('ParseError')
       if (line1.includes('　'))
         console.log(line1.split('　').join(',') + ',' + post.timestamp)
     }
