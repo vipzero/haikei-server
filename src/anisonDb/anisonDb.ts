@@ -87,7 +87,7 @@ filenames.forEach((filename) => {
       const ak = artistKeyNormalize(artist || '')
       if (!songs[tk]) songs[tk] = {}
       // if (!songs[artist]) songs[artist] = {}
-      const { animeTitle, ...programAttrs } = programs[programId]!
+      const { animeTitle, ...programAttrs } = programs[programId]! || {}
       const song = {
         opOrEd: opOrEd || '',
         spInfo: spInfo || '',
