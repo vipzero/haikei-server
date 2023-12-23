@@ -56,12 +56,12 @@ export class Store {
 export const someSongIcy = (a: string, b: string) => {
   const [a1, a2] = a.split(' - ')
   const [b1, b2] = b.split(' - ')
-  if (!a1 || !a2 || !b1 || !b2) throw Error('invalid icy')
+
   return (
-    a1.startsWith(b1) ||
-    b1.startsWith(a1) ||
-    a2.startsWith(b2) ||
-    b2.startsWith(a2)
+    a1?.startsWith(b1!) ||
+    b1?.startsWith(a1!) ||
+    a2?.startsWith(b2!) ||
+    b2?.startsWith(a2!)
   )
 }
 
