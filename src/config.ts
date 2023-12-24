@@ -20,3 +20,6 @@ export const imageSearchCooltimeMs = 1000 * 20
 
 // 10枚アップロードするために必要な2つ前からの間隔
 export const upload10ImgLimitMs = 1000 * 60 * 1
+
+export const icyOcirisPath = './data/icy.txt'
+export const icyOcirisEditedPath = './data/icy-import.txt'

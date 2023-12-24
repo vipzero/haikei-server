@@ -2,8 +2,9 @@ import { log } from 'console'
 import { subscribeIcy } from '../src/streaming/icy'
 import { appendFile } from 'fs/promises'
 import { sleep } from '../src/utils'
+import { icyOcirisPath } from '../src/config'
 
-const outPath = 'data/icy.txt'
+const outPath = icyOcirisPath
 
 log(`write to ${outPath}`)
 const url = process.env.URL

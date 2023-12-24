@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs'
+import { icyOcirisEditedPath } from '../../src/config'
 import { addHistory } from '../../src/service/firebase'
 import { sleep } from '../../src/utils'
 import { anaCounts } from '../../src/utils/wordCounts'
@@ -9,7 +10,7 @@ const parseLine = (text: string) => {
   return { time, icy }
 }
 
-const importFile = './data/icy.txt'
+const importFile = icyOcirisEditedPath
 const text = readFileSync(importFile, 'utf8')
 
 const lines = text.trim().split('\n')
