@@ -57,6 +57,10 @@ export const saveSong = (song: Song) => {
     .set({
       ...removeUndefined(song),
     })
+    .catch((e) => {
+      error(`SaveSongError: `, JSON.stringify(song))
+      log({ e })
+    })
 }
 
 export const histSongsRef = (eid = eventId) =>
