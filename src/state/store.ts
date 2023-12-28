@@ -58,10 +58,8 @@ export const someSongIcy = (a: string, b: string) => {
   const [b1, b2] = b.split(' - ')
 
   return (
-    a1?.startsWith(b1!) ||
-    b1?.startsWith(a1!) ||
-    a2?.startsWith(b2!) ||
-    b2?.startsWith(a2!)
+    (a1 !== b1 && (a1?.startsWith(b1!) || b1?.startsWith(a1!))) ||
+    (a2 !== b2 && (a2?.startsWith(b2!) || b2?.startsWith(a2!)))
   )
 }
 
