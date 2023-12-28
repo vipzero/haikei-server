@@ -1,17 +1,13 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
-import { eventId } from '../config'
 import { Song } from '../types'
 import {
   base64toBools,
   boolsToBase64,
-  initialNames,
   membersByUnitName,
   nameGroupMap,
 } from './iamsEeNames'
 import { seriesLib } from './imaslib/seriesLib'
-
-const statusFile = `data/status.${eventId}.json`
+import { loadStatus, saveStatus } from './status'
 
 const exist = <T>(v: T | undefined): v is T => v !== undefined
 export const imasIdols = (
@@ -31,23 +27,6 @@ export const imasIdols = (
   } else {
     return null
   }
-}
-
-type Status = {
-  mts: string
-  idols: string[]
-}
-const initialStatus: Status = {
-  mts: '00000',
-  idols: initialNames,
-}
-const saveStatus = (status: Status) =>
-  writeFileSync(statusFile, JSON.stringify(status))
-
-const loadStatus = (): Status => {
-  if (!existsSync(statusFile)) saveStatus(initialStatus)
-
-  return JSON.parse(readFileSync(statusFile, 'utf-8')) as Status
 }
 
 const byT: Map<string, string> = new Map()
