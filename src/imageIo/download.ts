@@ -7,10 +7,12 @@ import { raseTimeout } from '../utils'
 import { error, log, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
 import { sharpMin } from './sharp'
+import { imagePrepareTimeoutMs } from '../config'
 
 const uuidv4 = require('uuid/v4')
 
 const pipeline = promisify(stream.pipeline)
+const timeout = imagePrepareTimeoutMs
 
 const mimeJpg = { ext: 'jpg', mime: 'image/jpeg' }
 const mimePng = { ext: 'png', mime: 'image/png' }
@@ -63,7 +65,11 @@ export const downloadOptimize = async (
 
   const filePath = `tmp/${uuidv4()}`
 
-  const res = await raseTimeout(download(url, filePath), 10000, false as const)
+  const res = await raseTimeout(
+    download(url, filePath),
+    timeout,
+    false as const
+  )
 
   if (res === 'SaveError' || !res) return false
   stat.times.dw = performance.now() - stat.times.prev
@@ -75,7 +81,7 @@ export const downloadOptimize = async (
     warnDesc('UnsupportedError', e)
     return false as const
   })
-  const sharpRes = await raseTimeout(sharpTask, 10000, false as const)
+  const sharpRes = await raseTimeout(sharpTask, timeout, false as const)
   if (!sharpRes) return false
 
   const { size, height, width, format } = sharpRes
@@ -92,7 +98,7 @@ export const downloadOptimize = async (
     return false as const
   })
 
-  const resj = await raseTimeout(jimpTask, 10000, false as const)
+  const resj = await raseTimeout(jimpTask, timeout, false as const)
 
   if (!resj) return false
   const { hash } = resj

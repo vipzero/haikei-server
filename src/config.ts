@@ -5,6 +5,7 @@ const {
   EVENT_ID,
   NON_WRITE_DEBUG_MODE,
   SEARCH_EXT,
+  IMAGE_PREPARE_TIMEOUT_MS,
 } = process.env
 
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -28,3 +29,5 @@ export const upload10ImgLimitMs = 1000 * 60 * 1
 
 export const icyOcirisPath = './data/icy.txt'
 export const icyOcirisEditedPath = './data/icy-import.txt'
+
+export const imagePrepareTimeoutMs = Number(IMAGE_PREPARE_TIMEOUT_MS || '5000')
