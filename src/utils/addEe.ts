@@ -1,37 +1,31 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
-import { Song } from '../types'
-import { seriesLib } from './imaslib/seriesLib'
 import { eventId } from '../config'
+import { Song } from '../types'
+import {
+  base64toBools,
+  boolsToBase64,
+  initialNames,
+  membersByUnitName,
+  nameGroupMap,
+} from './iamsEeNames'
+import { seriesLib } from './imaslib/seriesLib'
 
 const statusFile = `data/status.${eventId}.json`
-const namesFile = `data/names.txt`
-
-const nameText = existsSync(namesFile) ? readFileSync(namesFile, 'utf-8') : ''
-const nameGroups = nameText
-  .trim()
-  .split('\n\n')
-  .map((lines) => lines.split('\n'))
-// ['a', 'b'] => { 'a': true, 'b': true }
-
-const nameGroupMap = new Map(
-  nameGroups
-    .map((names, i) => names.map((name, j) => [name, [i, j]] as const))
-    .flat()
-)
-
-const initialNames = nameGroups.map((names) =>
-  boolsToBase64(Array(names.length).fill(false))
-)
 
 const exist = <T>(v: T | undefined): v is T => v !== undefined
 export const imasIdols = (
-  keys: string[]
+  tags: string[],
+  artist: string
 ): (readonly [number, number])[] | null => {
-  const hitNames = keys
+  const hitNames2 = membersByUnitName(artist) || []
+  const hitNames = [...tags, ...hitNames2]
     .map((k) => k.replace(' ', ''))
-    .map((k) => nameGroupMap.get(k))
+    .map((word) => membersByUnitName(word) || [word])
+    .flat()
+    .map((char) => nameGroupMap.get(char))
     .filter(exist)
+
   if (0 < hitNames.length && hitNames.length <= 7) {
     return hitNames
   } else {
@@ -91,7 +85,7 @@ export function addEe(song: Song): Song {
     const mk = byT.get(titleNorm)
 
     const t = mtsTitles.findIndex((v) => v === titleNorm)
-    const idols = imasIdols(Object.keys(song.wordCounts || {}))
+    const idols = imasIdols(Object.keys(song.wordCounts || {}), title)
     if (idols && idols.length > 0) {
       const bins = status.idols.map(base64toBools)
       idols.forEach(([i, j]) => {
@@ -112,24 +106,4 @@ export function addEe(song: Song): Song {
   })
 
   return song
-}
-
-function boolsToBase64(ba: boolean[]) {
-  const boolBuffer = new Uint8Array(ba.map((value) => (value ? 1 : 0)))
-  const boolArrayBuffer = boolBuffer.buffer
-  const base64String = btoa(
-    String.fromCharCode.apply(null, Array.from(new Uint8Array(boolArrayBuffer)))
-  )
-  return base64String
-}
-
-function base64toBools(a: string) {
-  const binaryString = atob(a)
-  const boolArrayBuffer = new ArrayBuffer(binaryString.length)
-  const boolArray = new Uint8Array(boolArrayBuffer)
-  for (let i = 0; i < binaryString.length; i++) {
-    boolArray[i] = binaryString.charCodeAt(i)
-  }
-  const decodedBoolArray = Array.from(boolArray, (value) => value === 1)
-  return decodedBoolArray
 }

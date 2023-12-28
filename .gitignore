@@ -76,3 +76,4 @@ workspace
 
 !data/status.9999test.json
 !data/names.txt
+!data/names-unit.txt
