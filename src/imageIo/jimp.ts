@@ -22,7 +22,7 @@ export async function jimpHash(path: string) {
   const res = enableQuality
     ? await resized.quality(QUALITY_MAP[mime] || 80)
     : resized
-  res.write(path)
+  await res.writeAsync(path).catch(() => error('write error', path))
 
   if (enableMobileImg) {
     const minPath = path + '_m'
@@ -33,9 +33,11 @@ export async function jimpHash(path: string) {
       const resMobile = enableQuality
         ? await resized.quality(QUALITY_MAP[mime] || 80)
         : resized
-      resMobile.write(minPath)
+      await resMobile
+        .writeAsync(minPath)
+        .catch(() => error('write error', path))
     } else {
-      res.write(minPath)
+      await res.writeAsync(minPath).catch(() => error('write error', path))
     }
   }
 
