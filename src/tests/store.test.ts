@@ -14,14 +14,17 @@ test('checkSkip', () => {
   store.addSong({ icy: 'aaa - bbb', time: 0 } as Song)
   expect(store.checkSkip('aaa - bbb', 1)).toMatchInlineSnapshot(`
 {
-  "chain": true,
+  "chain": false,
   "uploadLimit": 10,
 }
 `)
   store.addSong({ icy: 'aaa - bbb', time: 0 } as Song)
   expect(store.checkSkip('aaa - bbb', 1)).toMatchInlineSnapshot(`
 {
-  "chain": true,
+  "chain": {
+    "icy": "aaa - bbb",
+    "time": 0,
+  },
   "uploadLimit": 1,
 }
 `)
@@ -29,7 +32,10 @@ test('checkSkip', () => {
 
   expect(store.checkSkip('aaa - bbb', 1)).toMatchInlineSnapshot(`
 {
-  "chain": true,
+  "chain": {
+    "icy": "aaa - bbb",
+    "time": 0,
+  },
   "uploadLimit": 1,
 }
 `)
@@ -37,7 +43,7 @@ test('checkSkip', () => {
 
   expect(store.checkSkip('aaaX - ccc', 2)).toMatchInlineSnapshot(`
 {
-  "chain": true,
+  "chain": false,
   "uploadLimit": 1,
 }
 `)
@@ -53,7 +59,7 @@ test('checkSkip', () => {
   const time1 = 5 + 1000 * 60
   expect(store.checkSkip('xxx - ddd', time1)).toMatchInlineSnapshot(`
 {
-  "chain": true,
+  "chain": false,
   "uploadLimit": 10,
 }
 `)
