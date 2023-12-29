@@ -6,6 +6,7 @@ const {
   NON_WRITE_DEBUG_MODE,
   SEARCH_EXT,
   IMAGE_PREPARE_TIMEOUT_MS,
+  IMAGE_QUORITIFY,
 } = process.env
 
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -31,3 +32,5 @@ export const icyOcirisPath = './data/icy.txt'
 export const icyOcirisEditedPath = './data/icy-import.txt'
 
 export const imagePrepareTimeoutMs = Number(IMAGE_PREPARE_TIMEOUT_MS || '5000')
+// 画像の圧縮
+export const enableQuality = IMAGE_QUORITIFY === '1'

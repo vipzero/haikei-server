@@ -65,8 +65,26 @@
 // imageMin('tmp/tmp1.png').then(console.log)
 // imageMin('tmp/tmp2.png').then(console.log)
 
+// import { jimpHash } from '../src/imageIo/jimp'
+import { CacheFileStat } from '../src/types'
+import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
 // import { sharpMin } from '../src/imageIo/sharp'
-// sharpMin('tmp/tmp1.png').then(console.log)
+
+// async function main() {
+//   const start = performance.now()
+//   await jimpHash('tmp/tmp2.png').then(console.log)
+//   const end = performance.now()
+//   console.log(end - start)
+// }
+// main()
+
+const p: CacheFileStat[] = [1, 2, 3].map((i) => ({
+  url: `https://storage.googleapis.com/example/img/2021obon/1628425925010_${i}.png`,
+  times: { prev: 0, dw: 0, sharp: 0, jimp: 0 },
+  size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
+}))
+console.log(printImageSetupTimeTable(p))
+
 // sharpMin('tmp/tmp2.png').then(console.log)
 
 // import { state } from './../src/state/state'

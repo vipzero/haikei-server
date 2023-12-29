@@ -6,7 +6,7 @@ import { CacheFile, CacheFileStat } from '../types'
 import { raseTimeout } from '../utils'
 import { error, log, warnDesc } from '../utils/logger'
 import { jimpHash } from './jimp'
-import { sharpMin } from './sharp'
+// import { sharpMin } from './sharp'
 import { imagePrepareTimeoutMs } from '../config'
 
 const uuidv4 = require('uuid/v4')
@@ -77,23 +77,21 @@ export const downloadOptimize = async (
   stat.size.before = statSync(filePath).size
   stepCallback(0)
 
-  const sharpTask = sharpMin(filePath).catch((e) => {
-    warnDesc('UnsupportedError', e)
-    return false as const
-  })
-  const sharpRes = await raseTimeout(sharpTask, timeout, false as const)
-  if (!sharpRes) return false
+  // const sharpTask = sharpMin(filePath).catch((e) => {
+  //   warnDesc('UnsupportedError', e)
+  //   return false as const
+  // })
+  // const sharpRes = await raseTimeout(sharpTask, timeout, false as const)
+  // if (!sharpRes) return false
 
-  const { size, height, width, format } = sharpRes
-  const fileType = mimeMap[format] || fileTypeDefault
-
-  stat.times.sharp = performance.now() - stat.times.prev
-  stat.times.prev = performance.now()
-  stat.size.sharped = statSync(filePath).size
-  stat.size.sharpReport = size
+  // stat.times.sharp = performance.now() - stat.times.prev
+  // stat.times.prev = performance.now()
+  // stat.size.sharped = statSync(filePath).size
+  // stat.size.sharpReport = size
   stepCallback(1)
 
-  const jimpTask = jimpHash(filePath, fileType.mime).catch((e) => {
+  // const fileType = mimeMap[format] || fileTypeDefault
+  const jimpTask = jimpHash(filePath).catch((e) => {
     warnDesc('JimpError', e)
     return false as const
   })
@@ -101,10 +99,13 @@ export const downloadOptimize = async (
   const resj = await raseTimeout(jimpTask, timeout, false as const)
 
   if (!resj) return false
-  const { hash } = resj
+  const fileType =
+    Object.values(mimeMap).find((v) => v.mime === resj.mime) || fileTypeDefault
+  const { hash, height, width } = resj
   stat.times.jimp = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
   stat.size.jimped = statSync(filePath).size
+  const size = stat.size.jimped
   stepCallback(2)
 
   return { filePath, fileType, size, height, width, hash, stat }
