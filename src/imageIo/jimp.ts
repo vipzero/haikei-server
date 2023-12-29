@@ -1,5 +1,5 @@
 import { compareHashes, read } from 'jimp'
-import { warnDesc } from '../utils/logger'
+import { error, warnDesc } from '../utils/logger'
 import { enableMobileImg, enableQuality } from '../config'
 
 const QUALITY_MAP: Record<string, number> = {
@@ -49,8 +49,13 @@ export async function jimpHash(path: string) {
 
 export async function isUniqueHash(check: string, targets: string[]) {
   return targets.every((v) => {
-    const p = compareHashes(check, v)
-    const dup = p < 0.15
-    return !dup
+    try {
+      const p = compareHashes(check, v)
+      const dup = p < 0.15
+
+      return !dup
+    } catch (e) {
+      error('compareHashes', '')
+    }
   })
 }
