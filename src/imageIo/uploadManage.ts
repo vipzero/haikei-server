@@ -19,8 +19,8 @@ export const uploadByUrlAll = async (urls: string[]) => {
     log(urlex(url), 2)
   })
   const l = urls.length
-  const tp = l * 3
-  const prog: number[] = [0, 0, 0]
+  const tp = l * 2
+  const prog: number[] = [0, 0] as const
   const prog2: number[] = Array(l).fill(0)
   let writed = false
   const step = (id: number, k: number) => {
@@ -31,7 +31,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
     moveCursor(process.stdout, 0, -3)
     prog[k]++
     prog2[id] = k
-    const i = prog[0]! + prog[1]! + prog[2]!
+    const i = prog[0]! + prog[1]!
     const p = i / tp
     const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
     const space = '_'.repeat(
@@ -43,7 +43,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
         .join('')}${space} ${Math.round(p * 100)}%]`,
       0
     )
-    log(prog2.map((v) => ['_._', '+:+', '###'][v]).join('|') + '\n', 1)
+    log(prog2.map((v) => ['__', '||', '###'][v]).join('|') + '\n', 1)
   }
 
   const downloads: CacheFile[] = (

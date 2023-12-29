@@ -34,8 +34,8 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
         .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
       const sizes = `${printSize(item.size.before)} => ${printSize(
-        item.size.sharpReport
-      )} => ${printSize(item.size.jimped)}`
+        item.size.jimped
+      )}`
       return `${printId(item.url)
         .substring(0, 30)
         .padStart(30)}, ${times}, ${sizes}`

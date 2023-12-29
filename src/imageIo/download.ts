@@ -88,7 +88,7 @@ export const downloadOptimize = async (
   // stat.times.prev = performance.now()
   // stat.size.sharped = statSync(filePath).size
   // stat.size.sharpReport = size
-  stepCallback(1)
+  // stepCallback(1)
 
   // const fileType = mimeMap[format] || fileTypeDefault
   const jimpTask = jimpHash(filePath).catch((e) => {
