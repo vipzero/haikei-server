@@ -17,21 +17,19 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
     [
       'url'.padStart(30),
       'dw'.padStart(7),
-      'sharp'.padStart(7),
+      // 'sharp'.padStart(7),
       'jimp'.padStart(7),
     ].join(', '),
     2
   )
   const sum = (a: number, b: number) => a + b
   const totalTime = status
-    .map((item) =>
-      [item.times.dw, item.times.sharp, item.times.jimp].reduce(sum)
-    )
+    .map((item) => [item.times.dw, item.times.jimp].reduce(sum))
     .reduce((a, b) => Math.max(a, b), 0)
 
   const res = status
     .map((item) => {
-      const cols = [item.times.dw, item.times.sharp, item.times.jimp]
+      const cols = [item.times.dw, item.times.jimp]
       const times = cols
         .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
