@@ -41,10 +41,15 @@ export class Store {
 
   checkSkip(icy: string, time: number): SkipInfo {
     const [prev1, prev2] = this.songs
+    // 過去二つと比較する
 
     const prev1chain = prev1 && someSongIcy(icy, prev1.icy)
     const prev2chain = prev2 && someSongIcy(icy, prev2.icy)
-    const chain = prev1chain || prev2chain ? prev1! : false
+    const shortTimeChange =
+      prev2 && chainTime(new Date(prev2.time), new Date(time))
+    // 短期間の切り替えかつ 類似 icy である場合 chain と判定
+    const chain = shortTimeChange && (prev1chain || prev2chain) ? prev1! : false
+
     const uploadLimit = !prev2
       ? 10
       : calcUploadLimit(new Date(prev2.time), new Date(time))
@@ -62,6 +67,9 @@ export const someSongIcy = (a: string, b: string) => {
     (a2 !== b2 && (a2?.startsWith(b2!) || b2?.startsWith(a2!)))
   )
 }
+
+export const chainTime = (prev: Date, now: Date) =>
+  Math.abs(prev.getTime() - now.getTime()) < 1000 * 40
 
 export function calcUploadLimit(prev: Date, now: Date) {
   // x分以上空いてて10枚
