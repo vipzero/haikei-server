@@ -54,7 +54,9 @@ export const saveSong = (song: Song) => {
   fdb
     .collection(P_SONG)
     .doc(eventId)
-    .update(removeUndefined(song))
+    .set({
+      ...removeUndefined(song),
+    })
     .catch((e) => {
       error(`SaveSongError: `, JSON.stringify(song))
       log({ e })
