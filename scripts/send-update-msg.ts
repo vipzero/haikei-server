@@ -1,3 +1,3 @@
 import { sendPushMessage } from '../src/service/firebase'
 
-sendPushMessage(+new Date())
+sendPushMessage(Number(process.argv[2] ?? 0))
