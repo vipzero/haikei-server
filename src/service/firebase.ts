@@ -63,6 +63,12 @@ export const saveSong = (song: Song) => {
     })
 }
 
+export const sendPushMessage = (ver: number, msg: string = '更新あり') => {
+  fdb.collection(P_SONG).doc(eventId).update({
+    frontVersion: { ver, msg },
+  })
+}
+
 export const histSongsRef = (eid = eventId) =>
   fdb.collection(P_HIST).doc(eid).collection(P_SONGS)
 export const bookCountDocRef = () => fdb.collection(P_YO).doc(P_CURRENT)
