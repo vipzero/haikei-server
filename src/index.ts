@@ -123,7 +123,10 @@ async function receiveIcy(icy: string) {
   songPrint(song)
   saveSong(song)
   store.addSong(song)
-  addHistory(icy, time)
+  addHistory(icy, time).catch((e) => {
+    error('AddHistoryError', e)
+    error('AddHistoryError', JSON.stringify({ icy, time }))
+  })
 }
 
 let failCount = 0
