@@ -7,6 +7,7 @@ const {
   SEARCH_EXT,
   IMAGE_PREPARE_TIMEOUT_MS,
   IMAGE_QUORITIFY,
+  IMAGE_LOOK_LIMIT,
 } = process.env
 
 if (!SERVICE_ACCOUNT_FILE_PATH || !EVENT_ID) {
@@ -34,3 +35,5 @@ export const icyOcirisEditedPath = './data/icy-import.txt'
 export const imagePrepareTimeoutMs = Number(IMAGE_PREPARE_TIMEOUT_MS || '5000')
 // 画像の圧縮
 export const enableQuality = IMAGE_QUORITIFY === '1'
+
+export const imageLookLimit = Number(IMAGE_LOOK_LIMIT || 10)

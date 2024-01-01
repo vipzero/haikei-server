@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { error, info, log } from '../utils/logger'
+import { imageLookLimit } from '../config'
 const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {
@@ -36,5 +37,5 @@ export const getImageLinks = async (q: string) => {
     return false as const
   })
   const imageLinks = res ? (res.data.items || []).map((item) => item.link) : []
-  return imageLinks.filter(white)
+  return imageLinks.filter(white).splice(0, imageLookLimit)
 }
