@@ -22,6 +22,7 @@ import {
   sleep,
 } from './utils'
 import { addEe } from './utils/addEe'
+import { icyCaptureAdditionals } from './utils/icyParse'
 import { error, info, log, songPrint, warn } from './utils/logger'
 import { makeSearchQuery } from './utils/makeSearchWord'
 import { anaCounts } from './utils/wordCounts'
@@ -67,19 +68,22 @@ export async function icyToSong(
   time: number,
   prevCounts: Counts = {}
 ): Promise<[Song, Counts] | false> {
-  const skipConf = store.checkSkip(icy, time)
+  const { add, rep, icy: icyPart } = icyCaptureAdditionals(icy)
+
+  const skipConf = store.checkSkip(icyPart, time)
   if (skipConf.chain) {
     const song = await icyToSongCache(skipConf, time)
     return song ? [song, prevCounts] : false
   }
 
-  const song = findSong(icy)
+  const song = findSong(icyPart)
 
-  const imageSearchWord = makeSearchQuery(song, Math.random())
+  const imageSearchWord =
+    rep ?? makeSearchQuery(song, Math.random(), { additional: add })
 
   const [imageLinks, albumInfos, { creators }] = await Promise.all([
     prepareImages(imageSearchWord),
-    getAlbum(icy),
+    getAlbum(icyPart),
     getLyricsSafe(song.title, song.artist),
   ])
 
@@ -88,7 +92,7 @@ export async function icyToSong(
     ...convertTimeTags(song.date),
   ])
   const { wordCounts, counts } = anaCounts(
-    [icy, song.artist || '', ...nonEmpty(Object.values(creators))],
+    [icyPart, song.artist || '', ...nonEmpty(Object.values(creators))],
     prevCounts,
     additionals,
     true
