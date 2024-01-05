@@ -78,6 +78,21 @@ describe('makeSearchQuery', () => {
       `"超時空要塞マクロス 愛・おぼえていますか AND (ゲーム)"`
     )
   })
+
+  test('additional option', () => {
+    expect(
+      makeSearchQuery(
+        {
+          artist: 'artist',
+          title: 'title',
+          animeTitle: 'アニメタイトルあり',
+          icy: 'artist - title',
+        },
+        seed,
+        { additional: 'オプション' }
+      )
+    ).toMatchInlineSnapshot(`"アニメタイトルあり オプション"`)
+  })
 })
 
 test('chara pick', () => {

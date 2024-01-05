@@ -35,7 +35,15 @@ const gameExt = ['ゲーム'].join(' OR ')
 /* アニメ情報が取れなかった曲は icy に↓を検索クエリに追加する */
 const icyOpt = `(名シーン OR キャラ) (キャプ画像 OR 壁紙)`
 
-export function makeSearchQuery(song: SongSeed, seed: number): string {
+export function makeSearchQuery(
+  song: SongSeed,
+  seed: number,
+  { additional = null }: { additional: string | null } = { additional: null }
+): string {
+  return makeSearchQueryBasic(song, seed) + (additional ? ` ${additional}` : '')
+}
+
+export function makeSearchQueryBasic(song: SongSeed, seed: number): string {
   const { icy, category, animeTitle } = song
   if (getSyncConf().simpleSearch) return icy.replace(/-/g, ' ')
   const r = shuffle(animeExt, `${seed}`)
