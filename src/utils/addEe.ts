@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
 import { Song } from '../types'
 import {
@@ -8,6 +9,8 @@ import {
 } from './iamsEeNames'
 import { seriesLib } from './imaslib/seriesLib'
 import { loadStatus, saveStatus } from './status'
+
+const birthdaysFile = `data/birthday.json`
 
 const exist = <T>(v: T | undefined): v is T => v !== undefined
 export const imasIdols = (
@@ -56,6 +59,20 @@ export const mtsTitles = [
 ].map(titleKeyNormalize)
 const charPut = (s: string, i: number, c: string) =>
   s.substring(0, i) + c + s.substring(i + 1)
+const birthdayData = JSON.stringify(
+  readFileSync(birthdaysFile, 'utf-8')
+) as unknown as {
+  [date: string]: { name: string; anime: string }[]
+}
+const getBirthdayChars = (mmdd: string) => {
+  const namesDict: Record<string, { name: string; anime: string }> = {}
+
+  // データを走査して名前を抽出し、辞書に追加する
+  for (const entry of birthdayData[mmdd] || []) {
+    namesDict[entry.name.replace(' ', '')] = entry
+  }
+  return namesDict
+}
 
 const status = loadStatus()
 export function addEe(song: Song): Song {
@@ -64,7 +81,19 @@ export function addEe(song: Song): Song {
     const mk = byT.get(titleNorm)
 
     const t = mtsTitles.findIndex((v) => v === titleNorm)
-    const idols = imasIdols(Object.keys(song.wordCounts || {}), title)
+    const tags = Object.keys(song.wordCounts || {})
+    const dayKey = new Date().toLocaleDateString('ja-JP', {
+      month: '2-digit',
+      day: '2-digit',
+    })
+
+    const chars = getBirthdayChars(dayKey.replace('/', ''))
+    const tag = tags.find((v) => chars[v])
+    const findTitle = chars[tag || '']
+    if (findTitle) {
+      return `birth:${dayKey}:${findTitle.name}:${findTitle.anime}`
+    }
+    const idols = imasIdols(tags, title)
     if (idols && idols.length > 0) {
       const bins = status.idols.map(base64toBools)
       idols.forEach(([i, j]) => {

@@ -88,6 +88,10 @@ https://github.com/vipzero/haikei-server/blob/main/src/imageIo/uploadManage.ts
 
 [./maintanace-flow.md](./maintanace-flow.md)
 
+## 誕生日
+
+[./birthday.md](./birthday.md)
+
 ## `yarn osiris`
 
 実行されるファイル `script/osiris-logger.ts`

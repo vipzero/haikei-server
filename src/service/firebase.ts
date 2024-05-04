@@ -1,4 +1,4 @@
-import admin from 'firebase-admin'
+import admin, { FirebaseError } from 'firebase-admin'
 import { eventId, nonWriteMode, serviceAccountPath } from '../config'
 import { Count, Counts, HistoryRaw, HistTop, Song } from '../types/index'
 import { chunk, textNormalize } from '../utils'
@@ -57,9 +57,14 @@ export const saveSong = (song: Song) => {
     .set({
       ...removeUndefined(song),
     })
-    .catch((e) => {
+    .catch((e: FirebaseError) => {
       error(`SaveSongError: `, JSON.stringify(song))
       log({ e })
+
+      if (typeof e.code === 'number' && e.code === 4) {
+        // details: Deadline exceeded'
+        process.exit(1)
+      }
     })
 }
 
