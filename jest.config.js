@@ -3,6 +3,7 @@ const config = {
   testMatch: ['**/*.test.js', '**/*.test.ts', '**/*.test.tsx'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
   transformIgnorePatterns: ['/node_modules/'],
+  setupFiles: ['<rootDir>/jest.setup.js'],
 
   transform: {
     '.+\\.(t|j)sx?$': [
