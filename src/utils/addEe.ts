@@ -10,7 +10,7 @@ import {
 import { seriesLib } from './imaslib/seriesLib'
 import { loadStatus, saveStatus } from './status'
 
-const birthdaysFile = `data/birthday.json`
+const birthdaysFile = `data/birthdays.json`
 
 const exist = <T>(v: T | undefined): v is T => v !== undefined
 export const imasIdols = (
