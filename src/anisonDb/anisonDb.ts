@@ -8,7 +8,7 @@ const programFilename = './data/program.csv'
 const filenames = ['./data/anison.csv', './data/game.csv', './data/sf.csv']
 const anisonFilename = './data/animesong.csv'
 
-const programs: Record<string, ProgramRecord> = {}
+export const programs: Record<string, ProgramRecord> = {}
 const songs: { [title: string]: { [song: string]: SongRecord } } = {}
 const animes: { [title: string]: { [song: string]: SongSupportAttr } } = {}
 const songsSa: { [song: string]: { [title: string]: SongRecord } } = {}

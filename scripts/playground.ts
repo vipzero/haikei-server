@@ -66,8 +66,9 @@
 // imageMin('tmp/tmp2.png').then(console.log)
 
 // import { jimpHash } from '../src/imageIo/jimp'
-import { CacheFileStat } from '../src/types'
-import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
+import { readFileSync } from 'fs'
+import { programs } from '../src/anisonDb/anisonDb'
+import { BirthDayData } from '../src/types'
 // import { sharpMin } from '../src/imageIo/sharp'
 
 // async function main() {
@@ -78,12 +79,12 @@ import { printImageSetupTimeTable } from '../src/utils/tableTimeLogger'
 // }
 // main()
 
-const p: CacheFileStat[] = [1, 2, 3].map((i) => ({
-  url: `https://storage.googleapis.com/example/img/2021obon/1628425925010_${i}.png`,
-  times: { prev: 0, dw: 0, sharp: 0, jimp: 0 },
-  size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
-}))
-console.log(printImageSetupTimeTable(p))
+// const p: CacheFileStat[] = [1, 2, 3].map((i) => ({
+//   url: `https://storage.googleapis.com/example/img/2021obon/1628425925010_${i}.png`,
+//   times: { prev: 0, dw: 0, sharp: 0, jimp: 0 },
+//   size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
+// }))
+// console.log(printImageSetupTimeTable(p))
 
 // sharpMin('tmp/tmp2.png').then(console.log)
 
@@ -113,3 +114,18 @@ console.log(printImageSetupTimeTable(p))
 
 // const icy = `READY STEADY GO - L'Arc～en～Ciel`
 // console.log(findSong(icy))
+
+const birthdayFile = `data/birthday.json`
+const birthdayData = JSON.parse(
+  readFileSync(birthdayFile, 'utf-8')
+) as unknown as BirthDayData
+
+const bFileNames = birthdayData['0505']?.map((v) => v.anime)
+bFileNames?.forEach((name) => {
+  console.log(name)
+  if (Object.values(programs).find((v) => v?.animeTitle === name)) {
+    console.log('find')
+  } else {
+    console.log('not find')
+  }
+})

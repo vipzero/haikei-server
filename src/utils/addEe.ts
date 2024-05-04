@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { titleKeyNormalize } from '../anisonDb/anisonDb'
-import { Song } from '../types'
+import { Song, BirthDayData } from '../types'
 import {
   base64toBools,
   boolsToBase64,
@@ -61,9 +61,7 @@ const charPut = (s: string, i: number, c: string) =>
   s.substring(0, i) + c + s.substring(i + 1)
 const birthdayData = JSON.parse(
   readFileSync(birthdayFile, 'utf-8')
-) as unknown as {
-  [date: string]: { name: string; anime: string }[]
-}
+) as unknown as BirthDayData
 const getBirthdayChars = (mmdd: string) => {
   const namesDict: Record<string, { name: string; anime: string }> = {}
 
