@@ -59,7 +59,7 @@ export const mtsTitles = [
 ].map(titleKeyNormalize)
 const charPut = (s: string, i: number, c: string) =>
   s.substring(0, i) + c + s.substring(i + 1)
-const birthdayData = JSON.stringify(
+const birthdayData = JSON.parse(
   readFileSync(birthdaysFile, 'utf-8')
 ) as unknown as {
   [date: string]: { name: string; anime: string }[]
@@ -69,29 +69,35 @@ const getBirthdayChars = (mmdd: string) => {
 
   // データを走査して名前を抽出し、辞書に追加する
   for (const entry of birthdayData[mmdd] || []) {
-    namesDict[entry.name.replace(' ', '')] = entry
+    namesDict[entry.name.trim().replace(/ /g, '')] = entry
   }
   return namesDict
 }
 
 const status = loadStatus()
-export function addEe(song: Song): Song {
+export function addEe(
+  song: Song,
+  today: Date = new Date(),
+  words: string[] | null = null
+): Song {
   song.icy.split(' - ').forEach((title) => {
     const titleNorm = titleKeyNormalize(title)
     const mk = byT.get(titleNorm)
 
     const t = mtsTitles.findIndex((v) => v === titleNorm)
-    const tags = Object.keys(song.wordCounts || {})
-    const dayKey = new Date().toLocaleDateString('ja-JP', {
+    const tags = words || Object.keys(song.wordCounts || {})
+    const dayKey = today.toLocaleDateString('ja-JP', {
       month: '2-digit',
       day: '2-digit',
     })
 
     const chars = getBirthdayChars(dayKey.replace('/', ''))
+
     const tag = tags.find((v) => chars[v])
     const findTitle = chars[tag || '']
     if (findTitle) {
-      return `birth:${dayKey}:${findTitle.name}:${findTitle.anime}`
+      song.hedwig = `birth:${dayKey}:${findTitle.name}:${findTitle.anime}`
+      return
     }
     const idols = imasIdols(tags, title)
     if (idols && idols.length > 0) {
