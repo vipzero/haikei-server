@@ -10,7 +10,7 @@ import {
 import { seriesLib } from './imaslib/seriesLib'
 import { loadStatus, saveStatus } from './status'
 
-const birthdaysFile = `data/birthdays.json`
+const birthdayFile = `data/birthday.json`
 
 const exist = <T>(v: T | undefined): v is T => v !== undefined
 export const imasIdols = (
@@ -60,7 +60,7 @@ export const mtsTitles = [
 const charPut = (s: string, i: number, c: string) =>
   s.substring(0, i) + c + s.substring(i + 1)
 const birthdayData = JSON.parse(
-  readFileSync(birthdaysFile, 'utf-8')
+  readFileSync(birthdayFile, 'utf-8')
 ) as unknown as {
   [date: string]: { name: string; anime: string }[]
 }
@@ -70,6 +70,9 @@ const getBirthdayChars = (mmdd: string) => {
   // データを走査して名前を抽出し、辞書に追加する
   for (const entry of birthdayData[mmdd] || []) {
     namesDict[entry.name.trim().replace(/ /g, '')] = entry
+    if (entry.anime.trim()) {
+      namesDict[entry.anime.trim()] = entry
+    }
   }
   return namesDict
 }

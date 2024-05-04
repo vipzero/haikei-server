@@ -11,7 +11,7 @@ JSON.stringify(
 )
 ```
 
-`./data/birthdays.json` に保存
+`./data/birthday.json` に保存
 
 ```
 

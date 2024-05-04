@@ -35,11 +35,20 @@ test('addEe', () => {
 }
 `)
   const day0505 = new Date('2024-05-05T12:00:00Z')
-  expect(addEe(({ icy: 'ソナー - 水瀬伊織' } as Song), day0505, ['水瀬伊織'])).
-toMatchInlineSnapshot(`
+  expect(addEe({ icy: 'ソナー - 水瀬伊織' } as Song, day0505, ['水瀬伊織']))
+    .toMatchInlineSnapshot(`
 {
   "hedwig": "birth:05/05:水瀬 伊織:アイドルマスター",
   "icy": "ソナー - 水瀬伊織",
+}
+`)
+
+  expect(
+    addEe({ icy: 'a - b' } as Song, day0505, ['こちら葛飾区亀有公園前派出所'])
+  ).toMatchInlineSnapshot(`
+{
+  "hedwig": "birth:05/05:麻里 稟:こちら葛飾区亀有公園前派出所",
+  "icy": "a - b",
 }
 `)
 
