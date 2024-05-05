@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { error, info, log } from '../utils/logger'
-import { imageLookLimit } from '../config'
+import { customImageblackList, imageLookLimit } from '../config'
 const { GCP_CUSTOM_SEARCH_API_KEY, GCP_CUSTOM_SEARCH_ENGINE_ID } = process.env
 
 export const getImage = (q: string) => {
@@ -18,15 +18,8 @@ export const getImage = (q: string) => {
   })
 }
 
-const blackList = [
-  'static.wikia.nocookie.net',
-  'amazon.com',
-  'fril.jp',
-  'shopping.yahoo.co.jp',
-  'static.mercdn.net',
-  'auctions.c.yimg.jp',
-]
-const white = (v: string) => !blackList.some((blink) => v.includes(blink))
+const white = (v: string) =>
+  !customImageblackList.some((blink) => v.includes(blink))
 
 export const getImageLinks = async (q: string) => {
   // マイナス検索を省く

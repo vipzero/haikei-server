@@ -37,3 +37,15 @@ export const imagePrepareTimeoutMs = Number(IMAGE_PREPARE_TIMEOUT_MS || '5000')
 export const enableQuality = IMAGE_QUORITIFY === '1'
 
 export const imageLookLimit = Number(IMAGE_LOOK_LIMIT || 10)
+
+export const customImageblackList = [
+  'static.wikia.nocookie.net',
+  'amazon.com',
+  'fril.jp',
+  'shopping.yahoo.co.jp',
+  'static.mercdn.net',
+  'auctions.c.yimg.jp',
+  'github.com',
+  'githubassets.com',
+  'animatetimes.com',
+]
