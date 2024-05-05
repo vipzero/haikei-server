@@ -44,10 +44,10 @@ test('addEe', () => {
 `)
 
   expect(
-    addEe({ icy: 'a - b' } as Song, day0505, ['こちら葛飾区亀有公園前派出所'])
-  ).toMatchInlineSnapshot(`
+addEe(({ icy: 'a - b' } as Song), day0505, ['こちら葛飾区亀有公園前派出所'])).
+toMatchInlineSnapshot(`
 {
-  "hedwig": "birth:05/05:麻里 稟:こちら葛飾区亀有公園前派出所",
+  "hedwig": "birth:05/05:麻里 愛,麻里 稟:こちら葛飾区亀有公園前派出所",
   "icy": "a - b",
 }
 `)
