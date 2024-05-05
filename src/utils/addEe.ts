@@ -69,7 +69,15 @@ const getBirthdayChars = (mmdd: string) => {
   for (const entry of birthdayData[mmdd] || []) {
     namesDict[entry.name.trim().replace(/ /g, '')] = entry
     if (entry.anime.trim()) {
-      namesDict[entry.anime.trim()] = entry
+      const prev = namesDict[entry.anime]
+      if (prev) {
+        namesDict[entry.anime] = {
+          name: prev.name + ',' + entry.name,
+          anime: entry.anime,
+        }
+      } else {
+        namesDict[entry.anime.trim()] = entry
+      }
     }
   }
   return namesDict
@@ -81,6 +89,19 @@ export function addEe(
   today: Date = new Date(),
   words: string[] | null = null
 ): Song {
+  const hedwig = calcHedwig(song, today, words)
+  if (hedwig) {
+    song.hedwig = hedwig
+  }
+  return song
+}
+
+export function calcHedwig(
+  song: Song,
+  today: Date = new Date(),
+  words: string[] | null = null
+): string | null {
+  let hedwig: null | string = null
   song.icy.split(' - ').forEach((title) => {
     const titleNorm = titleKeyNormalize(title)
     const mk = byT.get(titleNorm)
@@ -97,7 +118,7 @@ export function addEe(
     const tag = tags.find((v) => chars[v])
     const findTitle = chars[tag || '']
     if (findTitle) {
-      song.hedwig = `birth:${dayKey}:${findTitle.name}:${findTitle.anime}`
+      hedwig = `birth:${dayKey}:${findTitle.name}:${findTitle.anime}`
       return
     }
     const idols = imasIdols(tags, title)
@@ -117,8 +138,8 @@ export function addEe(
       saveStatus(status)
     }
 
-    song.hedwig = `mts10:${status.mts}:${mk || ''}:${status.idols.join(',')}`
+    hedwig = `mts10:${status.mts}:${mk || ''}:${status.idols.join(',')}`
   })
 
-  return song
+  return hedwig
 }
