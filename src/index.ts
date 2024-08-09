@@ -134,9 +134,17 @@ async function receiveIcy(icy: string) {
 }
 
 let failCount = 0
+const retry = async () => {
+  failCount = Math.min(failCount + 1, 8)
+  const sleepTimeSec = 2 ** failCount
+  log(`stopped ${failCount},${sleepTimeSec}s`)
+  await sleep(sleepTimeSec * 1000)
+  queueMicrotask(main)
+}
 
 async function main() {
-  const res = await getCurrentPlay()
+  const res = await getCurrentPlay().catch(() => false as const)
+  if (!res) return retry()
   if (nonWriteMode) {
     warn('nonWriteMode: on')
   }
@@ -154,15 +162,6 @@ async function main() {
       receiveIcy(icy)
       failCount = 0
     },
-    async () => {
-      // change stream retry
-      failCount = Math.min(failCount + 1, 8)
-      const sleepTimeSec = 2 ** failCount
-      log(`stopped ${failCount},${sleepTimeSec}s`)
-      await sleep(sleepTimeSec * 1000)
-      queueMicrotask(main)
-    }
+    retry
   )
 }
-
-main()
