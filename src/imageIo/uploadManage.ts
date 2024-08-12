@@ -1,23 +1,22 @@
 import { unlink } from 'fs/promises'
+import { moveCursor } from 'readline'
 import { UploadFile } from '../types/index'
+import { sleep } from '../utils'
 import { error, log } from '../utils/logger'
+import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
 import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'
 import { downloadOptimize } from './download'
 import { isUniqueHash } from './jimp'
-import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
-import { urlex } from '../utils/urlex'
-import { moveCursor } from 'readline'
-import { sleep } from '../utils'
 
 const progressBarWidth = 40
 const nonFalse = <T>(v: T | false): v is T => v !== false
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
 
-  urls.forEach((url) => {
-    log(urlex(url), 2)
-  })
+  // urls.forEach((url) => {
+  //   log(urlex(url), 2)
+  // })
   const l = urls.length
   const tp = l * 2
   const prog: number[] = [0, 0, 0] as const
@@ -29,7 +28,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
       log('\n\n\n')
     }
     moveCursor(process.stdout, 0, -3)
-    prog[k]++
+    prog[k] = (prog[k] || 0) + 1
     prog2[id] = k
     const i = prog[0]! + prog[1]! + prog[2]!
     const p = i / tp

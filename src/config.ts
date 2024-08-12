@@ -49,4 +49,5 @@ export const customImageblackList = [
   'githubassets.com',
   'animatetimes.com',
   'showroom-live.com',
+  'www.tiktok.com',
 ]

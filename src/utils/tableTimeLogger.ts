@@ -3,6 +3,8 @@ import { log } from './logger'
 
 import chalk from 'chalk'
 
+const urlLen = 50
+
 export type ImageSetupTimeTable = ReturnType<typeof printImageSetupTimeTable>
 const decoTime = (ms: number) => {
   const s = `${Math.floor(ms)}ms`.padStart(7)
@@ -15,10 +17,10 @@ const decoTime = (ms: number) => {
 export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
   log(
     [
-      'url'.padStart(30),
+      'url'.padStart(urlLen),
       'dw'.padStart(7),
       // 'sharp'.padStart(7),
-      'jimp'.padStart(7),
+      // 'jimp'.padStart(7),
     ].join(', '),
     2
   )
@@ -29,30 +31,29 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
 
   const res = status
     .map((item) => {
-      const cols = [item.times.dw, item.times.jimp]
+      const cols = [
+        item.times.dw,
+        // item.times.jimp
+      ]
       const times = cols
         .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
-      const sizes = `${printSize(item.size.before)} => ${printSize(
-        item.size.jimped
-      )}`
-      return `${printId(item.url)
-        .substring(0, 30)
-        .padStart(30)}, ${times}, ${sizes}`
+      return `${printId(item.url).substring(0, 30).padStart(30)}, ${times}`
     })
     .join('\n')
   log(res, 2)
   log(`total time: ${decoTime(totalTime)}`)
 }
 
-const printSize = (size: number) => {
+export const printSize = (size: number) => {
   return chalk.gray(`${(size / 1024).toFixed(1)}KB`)
 }
 const printId = (str: string) => {
-  if (str.length <= 30) return str
+  if (str.length <= urlLen) return str.substring(8) // remove https://
+  const tailLen = 10
   return (
-    str.substring(0, 20 - 5) +
-    ' ... ' +
+    str.substring(8, urlLen - tailLen - 1) +
+    chalk.gray('~') +
     str.substring(str.length - 10, str.length)
   )
 }

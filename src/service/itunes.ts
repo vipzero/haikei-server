@@ -1,4 +1,4 @@
-import { log, error } from '../utils/logger'
+import { error } from '../utils/logger'
 import axios from 'axios'
 
 const iTunesSearchSong = (term: string) =>
@@ -15,9 +15,9 @@ const iTunesSearchSong = (term: string) =>
   })
 
 export async function getAlbum(term: string) {
-  const res = await iTunesSearchSong(term).catch((e) => {
+  const res = await iTunesSearchSong(term).catch(() => {
     error('iTunesSearchError', term)
-    log(e)
+    // log(e)
     return false as const
   })
   if (!res || res.data.resultCount === 0) return {}
