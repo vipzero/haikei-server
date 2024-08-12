@@ -52,10 +52,11 @@ export const printSize = (size: number) => {
 }
 const printId = (str: string) => {
   if (str.length <= urlLen) return str.substring(8) // remove https://
-  const tailLen = 10
+  const tailLen = 8
+  const url2 = str.substring(8)
   return (
-    str.substring(8, urlLen - tailLen - 1) +
+    url2.substring(0, urlLen - tailLen - 1) +
     chalk.gray('~') +
-    str.substring(str.length - 10, str.length)
+    str.substring(str.length - tailLen, str.length)
   )
 }
