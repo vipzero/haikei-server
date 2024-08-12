@@ -165,3 +165,5 @@ async function main() {
     retry
   )
 }
+
+main()
