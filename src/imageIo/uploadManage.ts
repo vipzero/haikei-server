@@ -25,7 +25,7 @@ export const uploadByUrlAll = async (urls: string[]) => {
   const step = (id: number, k: number) => {
     if (!writed) {
       writed = true
-      log('\n\n\n')
+      log('\n\n\n', 1, true)
     }
     moveCursor(process.stdout, 0, -3)
     prog[k] = (prog[k] || 0) + 1

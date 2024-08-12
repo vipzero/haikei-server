@@ -51,12 +51,12 @@ export const printSize = (size: number) => {
   return chalk.gray(`${(size / 1024).toFixed(1)}KB`)
 }
 const printId = (str: string) => {
-  if (str.length <= urlLen) return str.substring(8) // remove https://
   const tailLen = 8
-  const url2 = str.substring(8)
+  const url2 = str.substring(8) // remove https://
+  if (url2.length <= urlLen) return url2
   return (
     url2.substring(0, urlLen - tailLen - 1) +
     chalk.gray('~') +
-    str.substring(str.length - tailLen, str.length)
+    url2.substring(url2.length - tailLen, url2.length)
   )
 }
