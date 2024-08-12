@@ -49,7 +49,12 @@ export const uploadByUrlAll = async (urls: string[]) => {
   logKeepStart()
   const downloads: CacheFile[] = (
     await Promise.all(
-      urls.map((url, id) => downloadOptimize(url, (i) => step(id, i)))
+      urls.map((url, id) =>
+        downloadOptimize(url, (i) => step(id, i)).catch(() => {
+          step(id, 2)
+          return false
+        })
+      )
     )
   ).filter((v) => nonFalse(v)) as CacheFile[]
 

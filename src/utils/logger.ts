@@ -10,7 +10,7 @@ const queue: unknown[] = []
 let keep = false
 export const log = (s: unknown, level: Level = 1, withoutKeep = false) => {
   if (level > LOG_LEVEL) return
-  if (withoutKeep && keep) {
+  if (!withoutKeep && keep) {
     queue.push(s)
     return
   }
