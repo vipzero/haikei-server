@@ -42,7 +42,7 @@ export const warnDesc = (key: string, desc: string, level: Level = 1) => {
 export const songPrint = (song: any) => {
   console.log(
     `
-{ ti: '${val(song.title)}', ar: '${val(song.artist.substring(0, 30))}',${
+{ ti: '${val(song.title)}', ar: '${val(song.artist?.substring(0, 30))}',${
       (song.animeTitle &&
         `
   at: '${val(song.animeTitle)}', ca: '${val(song.category)}', }
