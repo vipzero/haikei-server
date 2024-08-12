@@ -2,7 +2,7 @@ import { unlink } from 'fs/promises'
 import { moveCursor } from 'readline'
 import { UploadFile } from '../types/index'
 import { sleep } from '../utils'
-import { error, log } from '../utils/logger'
+import { error, log, logKeepEnd, logKeepStart } from '../utils/logger'
 import { printImageSetupTimeTable } from '../utils/tableTimeLogger'
 import { uploadStorage } from './../service/firebase'
 import { CacheFile } from './../types/index'
@@ -40,17 +40,21 @@ export const uploadByUrlAll = async (urls: string[]) => {
       `[${pcn
         .map((v, i) => `${'-+='[i]}`.repeat(v))
         .join('')}${space} ${Math.round(p * 100)}%]`,
-      0
+      0,
+      true
     )
-    log(prog2.map((v) => ['__', '||', '###'][v]).join('|') + '\n', 1)
+    log(prog2.map((v) => ['__', '||', '###'][v]).join('|') + '\n', 1, true)
   }
 
+  logKeepStart()
   const downloads: CacheFile[] = (
     await Promise.all(
       urls.map((url, id) => downloadOptimize(url, (i) => step(id, i)))
     )
   ).filter((v) => nonFalse(v)) as CacheFile[]
+
   await sleep(100)
+  logKeepEnd()
   // tt.print()
   printImageSetupTimeTable(downloads.map((v) => v.stat))
 

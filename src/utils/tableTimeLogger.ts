@@ -38,11 +38,13 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
       const times = cols
         .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
-      return `${printId(item.url).substring(0, 30).padStart(30)}, ${times}`
+      return `${printId(item.url)
+        .substring(0, urlLen)
+        .padStart(urlLen)}, ${times}`
     })
     .join('\n')
   log(res, 2)
-  log(`total time: ${decoTime(totalTime)}`)
+  log(`total time: ${decoTime(totalTime)}`, 2)
 }
 
 export const printSize = (size: number) => {
