@@ -40,7 +40,7 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
         .join(', ')
       return `${printId(item.url)
         .substring(0, urlLen + 10) // chalk 5 chars x 2
-        .padStart(urlLen + 10)}, ${times}`
+        .padStart(urlLen)}, ${times}`
     })
     .join('\n')
   log(res, 2)
