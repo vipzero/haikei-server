@@ -75,7 +75,7 @@ export const downloadOptimize = async (
   stat.times.dw = performance.now() - stat.times.prev
   stat.times.prev = performance.now()
   stat.size.before = statSync(filePath).size
-  stepCallback(0)
+  stepCallback(1)
 
   // const sharpTask = sharpMin(filePath).catch((e) => {
   //   warnDesc('UnsupportedError', e)
