@@ -39,8 +39,8 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
         .map((ms) => (ms ? decoTime(ms) : '-'.padStart(7)))
         .join(', ')
       return `${printId(item.url)
-        .substring(0, urlLen)
-        .padStart(urlLen)}, ${times}`
+        .substring(0, urlLen + 10) // chalk 5 chars x 2
+        .padStart(urlLen + 10)}, ${times}`
     })
     .join('\n')
   log(res, 2)
@@ -50,7 +50,7 @@ export const printImageSetupTimeTable = (status: CacheFileStat[]) => {
 export const printSize = (size: number) => {
   return chalk.gray(`${(size / 1024).toFixed(1)}KB`)
 }
-const printId = (str: string) => {
+export const printId = (str: string) => {
   const tailLen = 8
   const url2 = str.substring(8) // remove https://
   if (url2.length <= urlLen) return url2
