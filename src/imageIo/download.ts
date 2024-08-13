@@ -38,7 +38,7 @@ export const download = async (url: string, filePath: string) => {
     res = await pipeline(stream, fs.createWriteStream(filePath))
       .catch((e) => {
         if (e.name === 'TimeoutError') {
-          log(`Timeout ${url}`)
+          log(`Timeout ${url}`, 2)
         } else {
           error(`DownloadSaveError`, `${url} ${filePath}`)
           log(JSON.stringify(e))

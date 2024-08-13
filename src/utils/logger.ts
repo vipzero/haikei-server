@@ -4,7 +4,7 @@ import chalk from 'chalk'
 export const logLine = (str: string) => process.stdout.write(chalk.gray(str))
 const LOG_LEVEL = Number(process.env.LOG_LEVEL || 1)
 
-type Level = 0 | 1 | 2
+type Level = 0 | 1 | 2 // 0=high, 1=basic, 2=low
 
 const queue: unknown[] = []
 let keep = false

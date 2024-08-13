@@ -11,7 +11,7 @@ const QUALITY_MAP: Record<string, number> = {
 export async function jimpHash(path: string) {
   const img = await read(path).catch(() => false as const)
   if (img === false) {
-    warnDesc('read error', path)
+    warnDesc('read error', path, 2)
 
     return false
   }
@@ -23,7 +23,7 @@ export async function jimpHash(path: string) {
     ? await resized.quality(QUALITY_MAP[mime] || 80)
     : resized
   if (enableQuality || needClop) {
-    await res.writeAsync(path).catch(() => error('write error', path))
+    await res.writeAsync(path).catch(() => error('write error', path, 2))
   }
 
   if (enableMobileImg) {

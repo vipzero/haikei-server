@@ -11,6 +11,17 @@ import { isUniqueHash } from './jimp'
 
 const progressBarWidth = 40
 const nonFalse = <T>(v: T | false): v is T => v !== false
+const progressLine = (prog: number[], prog2: number[], tp: number) => {
+  const i = prog[0]! + prog[1]! + prog[2]!
+  const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
+  const space = '_'.repeat(
+    Math.max(0, progressBarWidth - pcn[0]! - pcn[1]! - pcn[2]!)
+  )
+  const barBody = pcn.map((v, i) => `${'-+='[i]}`.repeat(v)).join('') + space
+  const par = `${Math.round((i / tp) * 100)}%`
+  const lamps = prog2.map((v) => ['__', '||', '##'][v]).join('|')
+  return `[${barBody} ${par}] ${lamps}`
+}
 export const uploadByUrlAll = async (urls: string[]) => {
   const timeId = +new Date()
 
@@ -25,25 +36,13 @@ export const uploadByUrlAll = async (urls: string[]) => {
   const step = (id: number, k: number) => {
     if (!writed) {
       writed = true
-      log('\n\n\n', 1, true)
+      log('\n\n', 1, true)
     }
-    moveCursor(process.stdout, 0, -3)
+    moveCursor(process.stdout, 0, -2)
     prog[k] = (prog[k] || 0) + 1
     prog2[id] = k
-    const i = prog[0]! + prog[1]! + prog[2]!
-    const p = i / tp
-    const pcn = prog.map((v) => Math.floor((v / tp) * progressBarWidth))
-    const space = '_'.repeat(
-      Math.max(0, progressBarWidth - pcn[0]! - pcn[1]! - pcn[2]!)
-    )
-    log(
-      `[${pcn
-        .map((v, i) => `${'-+='[i]}`.repeat(v))
-        .join('')}${space} ${Math.round(p * 100)}%]`,
-      0,
-      true
-    )
-    log(prog2.map((v) => ['__', '||', '###'][v]).join('|') + '\n', 1, true)
+
+    log(`${progressLine(prog, prog2, tp)}\n`, 0, true)
   }
 
   logKeepStart()
