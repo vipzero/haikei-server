@@ -59,6 +59,7 @@ async function main() {
     aobuta: { mi: 0, sk: 0, tm: 0, ft: 0, nd: 0, ke: 0 },
     // prettier-ignore
     milgram: { es: 0, hr: 0, yn: 0, fu: 0, mu: 0, sd: 0, mh: 0, kz: 0, am: 0, mk: 0, kt: 0, },
+    roshidere: { ar: 0, yk: 0, ms: 0 },
   }
 
   const tasks = Object.entries(votes).map(async ([animeId, inits]) => {
