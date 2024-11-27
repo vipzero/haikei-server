@@ -1,4 +1,3 @@
-import { log } from '../utils/logger'
 import { sjisToUtf8 } from '../utils'
 const icy = require('icy')
 
@@ -22,8 +21,7 @@ function subscribeIcy(
   // connect to the remote stream
   icy.get(url, (res: IcyRes) => {
     // log the HTTP response headers
-    log()
-    res.headers
+    // log(res.headers)
 
     // log any "metadata" events that happen
     res.on('metadata', (metadata) => {
