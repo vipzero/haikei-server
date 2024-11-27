@@ -1,4 +1,5 @@
 import { choiceImage } from '../imageIo/uploadManage'
+import { CacheFile } from '../types'
 
 test('choiceImage', () => {
   const basePng = {
@@ -6,8 +7,9 @@ test('choiceImage', () => {
     size: 100_000,
     height: 700,
     width: 800,
+    hash: 'ffffff',
   }
-  const downloads = [
+  const downloads: CacheFile[] = [
     {
       ...basePng,
       filePath: 'will skipped',
@@ -50,6 +52,7 @@ Array [
       "ext": "png",
       "mime": "image/png",
     },
+    "hash": "ffffff",
     "height": 700,
     "size": 100000,
     "width": 800,
@@ -60,6 +63,7 @@ Array [
       "ext": "png",
       "mime": "image/png",
     },
+    "hash": "ffffff",
     "height": 1000,
     "size": 100000,
     "width": 30,
@@ -70,6 +74,7 @@ Array [
       "ext": "jpg",
       "mime": "image/jpeg",
     },
+    "hash": "ffffff",
     "height": 700,
     "size": 100000,
     "width": 800,
@@ -80,6 +85,7 @@ Array [
       "ext": "png",
       "mime": "image/png",
     },
+    "hash": "ffffff",
     "height": 500,
     "size": 100000,
     "width": 500,
@@ -90,6 +96,7 @@ Array [
       "ext": "png",
       "mime": "image/png",
     },
+    "hash": "ffffff",
     "height": 700,
     "size": 555117,
     "width": 800,
@@ -100,6 +107,7 @@ Array [
       "ext": "png",
       "mime": "image/png",
     },
+    "hash": "ffffff",
     "height": 30,
     "size": 100000,
     "width": 80,
