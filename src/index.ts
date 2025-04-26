@@ -156,19 +156,24 @@ async function main() {
     process.exit(1)
   }
 
-  subscribeIcy(
-    url,
-    (icy) => {
-      try {
-        receiveIcy(icy)
-        failCount = 0
-      } catch (e: unknown) {
-        error('receiveIcyError', String(e))
-        retry()
-      }
-    },
-    retry
-  )
+  try {
+    subscribeIcy(
+      url,
+      (icy) => {
+        try {
+          receiveIcy(icy)
+          failCount = 0
+        } catch (e: unknown) {
+          error('receiveIcyError', String(e))
+          retry()
+        }
+      },
+      retry
+    )
+  } catch (e) {
+    error('subscribeIcyError', String(e))
+    retry()
+  }
 }
 
 main()
