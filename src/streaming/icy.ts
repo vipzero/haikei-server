@@ -17,24 +17,23 @@ export function subscribeIcy(
   onEnd: () => void
 ) {
   // connect to the remote stream
-  icy
-    .get(url, (res: IcyRes) => {
-      // log the HTTP response headers
-      // log(res.headers)
+  const p = icy.get(url, (res: IcyRes) => {
+    // log the HTTP response headers
+    // log(res.headers)
 
-      // log any "metadata" events that happen
-      res.on('metadata', (metadata) => {
-        // console.log(encoding.detect(metadata))
+    // log any "metadata" events that happen
+    res.on('metadata', (metadata) => {
+      // console.log(encoding.detect(metadata))
 
-        const parsed = icy.parse(sjisToUtf8(metadata))
+      const parsed = icy.parse(sjisToUtf8(metadata))
 
-        callback(parsed.StreamTitle)
-      })
-      res.on('end', onEnd)
-      res.resume()
+      callback(parsed.StreamTitle)
     })
-    .on('error', (e: Error) => {
-      error('icyGetError', e.message)
-      onEnd()
-    })
+    res.on('end', onEnd)
+    res.resume()
+  })
+  p.on('error', (e: Error) => {
+    error('icyGetError', e.message)
+    onEnd()
+  })
 }
