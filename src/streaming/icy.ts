@@ -1,14 +1,12 @@
+import { error } from '../utils/logger'
 import { sjisToUtf8 } from '../utils'
 const icy = require('icy')
 
 type IcyRes = {
-  on: <
-    T extends 'metadata' | 'end',
-    Callback = T extends 'metadata' ? (metadata: Buffer) => void : () => void
-  >(
-    event: T,
-    callback: Callback
-  ) => void
+  on: {
+    (event: 'metadata', callback: (metadata: Buffer) => void): void
+    (event: 'end', callback: () => void): void
+  }
   headers: Record<string, string>
   resume: () => void
 }
@@ -19,19 +17,24 @@ export function subscribeIcy(
   onEnd: () => void
 ) {
   // connect to the remote stream
-  icy.get(url, (res: IcyRes) => {
-    // log the HTTP response headers
-    // log(res.headers)
+  icy
+    .get(url, (res: IcyRes) => {
+      // log the HTTP response headers
+      // log(res.headers)
 
-    // log any "metadata" events that happen
-    res.on('metadata', (metadata) => {
-      // console.log(encoding.detect(metadata))
+      // log any "metadata" events that happen
+      res.on('metadata', (metadata) => {
+        // console.log(encoding.detect(metadata))
 
-      const parsed = icy.parse(sjisToUtf8(metadata))
+        const parsed = icy.parse(sjisToUtf8(metadata))
 
-      callback(parsed.StreamTitle)
+        callback(parsed.StreamTitle)
+      })
+      res.on('end', onEnd)
+      res.resume()
     })
-    res.on('end', onEnd)
-    res.resume()
-  })
+    .on('error', (e: Error) => {
+      error('icyGetError', e.message)
+      onEnd()
+    })
 }
