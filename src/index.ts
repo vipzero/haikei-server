@@ -163,7 +163,9 @@ async function main() {
         receiveIcy(icy)
         failCount = 0
       },
-      () => {}
+      () => {
+        retry()
+      }
     )
   } catch (e) {
     error('subscribeIcyError', String(e))

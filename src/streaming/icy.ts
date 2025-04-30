@@ -14,7 +14,7 @@ type IcyRes = {
 export function subscribeIcy(
   url: string,
   callback: (icy: string) => void,
-  onEnd: () => void
+  onEnd: () => void // 正常終了
 ) {
   // connect to the remote stream
   const p = icy.get(url, (res: IcyRes) => {
@@ -34,7 +34,6 @@ export function subscribeIcy(
   })
   p.on('error', (e: Error) => {
     error('icyGetError', e.message)
-    onEnd()
     throw e
   })
 }
