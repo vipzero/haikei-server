@@ -35,5 +35,6 @@ export function subscribeIcy(
   p.on('error', (e: Error) => {
     error('icyGetError', e.message)
     onEnd()
+    throw e
   })
 }

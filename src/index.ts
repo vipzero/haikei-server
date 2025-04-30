@@ -160,15 +160,10 @@ async function main() {
     subscribeIcy(
       url,
       (icy) => {
-        try {
-          receiveIcy(icy)
-          failCount = 0
-        } catch (e: unknown) {
-          error('receiveIcyError', String(e))
-          retry()
-        }
+        receiveIcy(icy)
+        failCount = 0
       },
-      retry
+      () => {}
     )
   } catch (e) {
     error('subscribeIcyError', String(e))
