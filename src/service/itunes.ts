@@ -1,17 +1,29 @@
 import { error } from '../utils/logger'
-import axios from 'axios'
+// eslintの警告を無視するために型を明示的に指定
+import got from 'got'
+
+interface ITunesResponse {
+  resultCount: number
+  results: Array<{
+    collectionName: string
+    copyright: string
+    artworkUrl100: string
+    trackTimeMillis: number
+    collectionViewUrl: string
+  }>
+}
 
 const iTunesSearchSong = (term: string) =>
-  axios.request({
+  got<ITunesResponse>('https://itunes.apple.com/search', {
     method: 'GET',
-    url: 'https://itunes.apple.com/search',
-    params: {
+    searchParams: {
       country: 'jp',
       'media	': 'music',
       entity: 'musicTrack',
       term,
       lang: 'ja_jp',
     },
+    responseType: 'json',
   })
 
 export async function getAlbum(term: string) {
@@ -20,14 +32,16 @@ export async function getAlbum(term: string) {
     // log(e)
     return false as const
   })
-  if (!res || res.data.resultCount === 0) return {}
+  const data = res ? (res.body as ITunesResponse) : null
+  if (!data || data.resultCount === 0 || !data.results[0]) return {}
+
   const {
     collectionName,
     copyright,
     artworkUrl100,
     trackTimeMillis,
     collectionViewUrl,
-  } = res.data.results[0]
+  } = data.results[0]
   return {
     albumName: collectionName,
     copyright,

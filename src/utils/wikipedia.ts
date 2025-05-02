@@ -1,4 +1,4 @@
-import axios from 'axios'
+import got from 'got'
 import { load } from 'cheerio'
 
 const qp = {
@@ -38,13 +38,17 @@ type PageResponse = {
 }
 
 export const searchWikipedia = async (title: string) => {
-  const res = await axios.get<SearchResponse>(makeSearchUrl(title))
-  const search = res.data.query.search[0]
+  const res = await got<SearchResponse>(makeSearchUrl(title), {
+    responseType: 'json',
+  })
+  const search = res.body.query.search[0]
   if (!search) return null
   const { pageId } = search
 
-  const res2 = await axios.get<PageResponse>(makePageUrl(pageId))
-  const html = res2.data.query.pages[pageId]?.revisions[0]?.['*']
+  const res2 = await got<PageResponse>(makePageUrl(pageId), {
+    responseType: 'json',
+  })
+  const html = res2.body.query.pages[pageId]?.revisions[0]?.['*']
   if (!html) return null
 
   const $ = load(html)

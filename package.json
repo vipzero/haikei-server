@@ -3,7 +3,6 @@
   "type": "commonjs",
   "dependencies": {
     "@types/jest": "^29.5.3",
-    "axios": "0.21.1",
     "chalk": "4.1.2",
     "chch": "2.8.0",
     "cheerio": "1.0.0-rc.10",
@@ -13,7 +12,7 @@
     "esbuild": "^0.19.0",
     "esbuild-register": "^3.4.2",
     "file-type": "16.5.3",
-    "got": "11.8.2",
+    "got": "^14.4.7",
     "iconv-lite": "0.6.3",
     "icy": "2.1.0",
     "jaco": "^4.0.0",

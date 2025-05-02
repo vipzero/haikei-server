@@ -1,9 +1,13 @@
-import axios from 'axios'
+import got from 'got'
 import { load } from 'cheerio'
 
-axios.defaults.timeout = 1000
-axios.defaults.headers.common['User-Agent'] =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+const defaultOptions = {
+  timeout: 1000,
+  headers: {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+  },
+}
 
 function searchJlyrics(title: string, artist: string | null) {
   const params: Record<string, string | number> = {
@@ -15,13 +19,12 @@ function searchJlyrics(title: string, artist: string | null) {
     params.ka = artist
     params.ca = 2
   }
-  const options = {
+  return got('https://search3.j-lyric.net/index.php', {
     method: 'GET',
-    url: 'https://search3.j-lyric.net/index.php',
-    params,
-  } as const
-
-  return axios.request(options).catch(() => false as const)
+    searchParams: params,
+    responseType: 'text',
+    ...defaultOptions,
+  }).catch(() => false as const)
 }
 
 // function searchJlyricsResult(title, artist) {
@@ -70,17 +73,20 @@ export async function getLyrics(title?: string, artist?: string) {
   const res = await searchJlyrics(title, artist.split(',')[0]!)
   let articleLink = undefined
   if (res) {
-    scrapeFirstResult(res.data)
+    articleLink = scrapeFirstResult(res.body)
   }
   if (!articleLink) {
     const res = await searchJlyrics(title, null)
     if (!res) return false
-    articleLink = scrapeFirstResult(res.data)
+    articleLink = scrapeFirstResult(res.body)
   }
   if (!articleLink) return false
 
-  const articleRes = await axios.get(articleLink)
+  const articleRes = await got(articleLink, {
+    responseType: 'text',
+    ...defaultOptions,
+  }).catch(() => false as const)
   if (!articleRes) return false
 
-  return scrapeLyrics(articleRes.data)
+  return scrapeLyrics(articleRes.body)
 }
