@@ -21,7 +21,7 @@ function searchJlyrics(title: string, artist: string | null) {
     params,
   } as const
 
-  return axios.request(options)
+  return axios.request(options).catch(() => false as const)
 }
 
 // function searchJlyricsResult(title, artist) {
@@ -67,15 +67,13 @@ export async function getLyricsSafe(title?: string, artist?: string) {
 export async function getLyrics(title?: string, artist?: string) {
   if (!title || !artist) return false
 
-  const res = await searchJlyrics(title, artist.split(',')[0]!).catch(
-    () => false as const
-  )
+  const res = await searchJlyrics(title, artist.split(',')[0]!)
   let articleLink = undefined
   if (res) {
     scrapeFirstResult(res.data)
   }
   if (!articleLink) {
-    const res = await searchJlyrics(title, null).catch(() => false as const)
+    const res = await searchJlyrics(title, null)
     if (!res) return false
     articleLink = scrapeFirstResult(res.data)
   }
