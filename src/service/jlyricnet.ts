@@ -67,10 +67,16 @@ export async function getLyricsSafe(title?: string, artist?: string) {
 export async function getLyrics(title?: string, artist?: string) {
   if (!title || !artist) return false
 
-  const res = await searchJlyrics(title, artist.split(',')[0]!)
-  let articleLink = scrapeFirstResult(res.data)
+  const res = await searchJlyrics(title, artist.split(',')[0]!).catch(
+    () => false as const
+  )
+  let articleLink = undefined
+  if (res) {
+    scrapeFirstResult(res.data)
+  }
   if (!articleLink) {
-    const res = await searchJlyrics(title, null)
+    const res = await searchJlyrics(title, null).catch(() => false as const)
+    if (!res) return false
     articleLink = scrapeFirstResult(res.data)
   }
   if (!articleLink) return false
