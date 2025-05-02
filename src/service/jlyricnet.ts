@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 
+axios.defaults.timeout = 1000
+axios.defaults.headers.common['User-Agent'] =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+
 function searchJlyrics(title: string, artist: string | null) {
   const params: Record<string, string | number> = {
     kt: title,
