@@ -1,10 +1,10 @@
 - [フロントエンド vipzero/rekka-haikei](https://github.com/vipzero/rekka-haikei)
 - [運用コストメモ](https://github.com/vipzero/haikei-server/wiki/運用メモ)
 
-## Agent向けセットアップガイド
+## Agent 向けセットアップガイド
 
-新しいイベント（2025obon、2025winter等）の自動セットアップには `agent-setup-guide.md` を参照してください。  
-現在時刻からEVENT_IDを自動提案し、Firestore初期化からアニソンDB更新まで一連の作業を効率化します。  
+新しいイベント（2025obon、2025winter 等）の自動セットアップには `agent-setup-guide.md` を参照してください。  
+現在時刻から EVENT_ID を自動提案し、Firestore 初期化からアニソン DB 更新まで一連の作業を効率化します。  
 手動セットアップの場合は以下の従来手順をご利用ください。
 
 ## setup
@@ -83,8 +83,7 @@ https://github.com/vipzero/haikei-server/blob/main/src/utils/makeSearchWord.ts
 
 ## 画像選択
 
-imagemin などで Optimize 後のメタデータで  
-ソートして上から 3 つ
+imagemin などで Optimize 後のメタデータでソートして上から 3 つ
 
 コード
 
