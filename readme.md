@@ -1,6 +1,12 @@
 - [フロントエンド vipzero/rekka-haikei](https://github.com/vipzero/rekka-haikei)
 - [運用コストメモ](https://github.com/vipzero/haikei-server/wiki/運用メモ)
 
+## Agent向けセットアップガイド
+
+新しいイベント（2025obon、2025winter等）の自動セットアップには `agent-setup-guide.md` を参照してください。  
+現在時刻からEVENT_IDを自動提案し、Firestore初期化からアニソンDB更新まで一連の作業を効率化します。  
+手動セットアップの場合は以下の従来手順をご利用ください。
+
 ## setup
 
 ```
