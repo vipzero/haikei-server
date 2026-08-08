@@ -66,6 +66,7 @@
     "imagemin-mozjpeg": "9.0.0",
     "imagemin-pngquant": "9.0.2",
     "jest-environment-jsdom": "^29.6.2",
+    "nodemon": "^3.1.14",
     "rimraf": "5.0.1",
     "ts-node": "10.9.1",
     "typescript": "5.1.6"
