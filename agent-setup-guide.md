@@ -2,23 +2,28 @@
 
 ## 概要
 
-新しいイベント（例：2025obon, 2025winter 等）のセットアップを自動化するための手順書
+新しいイベント (例: 2026obon, 2026winter 等) のセットアップを自動化するための手順書。
 
-## EVENT_ID 命名規則と現在時刻からの提案
+## EVENT_ID 命名規則
 
-### イベント ID パターン
+### パターン
 
-- **形式**: `{年}｛季節・時期｝`
-- \*## 注意事項
+形式は `{年}{季節・時期}`。
 
-- 必ず`yarn ps`で現在の状況確認から開始
-- EVENT_ID 変更時は正確な文字列置換を行う
-- アニソンデータダウンロードはネットワーク環境に依存
-- セットアップ完了後は必ず確認コマンドを実行
+| 季節キー | 意味             | 時期            |
+| -------- | ---------------- | --------------- |
+| `gw`     | ゴールデンウィーク | 4 月下旬〜5 月上旬 |
+| `obon`   | お盆             | 8 月中旬        |
+| `winter` | 冬               | 12 月下旬〜1 月上旬 |
 
-## Agent 実装例
+例: `2023gw`, `2023obon`, `2023winter`, `2025gw`, `2026obon`
 
-### EVENT_ID 自動提案関数
+### 時期判定ロジック
+
+- **4 月 20 日〜5 月 10 日**: `{年}gw`
+- **8 月 1 日〜8 月 31 日**: `{年}obon`
+- **12 月 20 日〜1 月 10 日**: `{年}winter`
+- **その他**: 最も近い時期を提案するか、ユーザーに指定してもらう
 
 ```typescript
 function suggestEventId(currentDate: Date): string {
@@ -49,89 +54,32 @@ function suggestEventId(currentDate: Date): string {
 }
 ```
 
-### 実行時確認プロセス
-
-1. 現在日時を取得
-2. suggestEventId()で推奨 EVENT_ID を生成
-3. ユーザーに確認
-4. 確認後にセットアップ手順を実行
-
-- `2023gw` (ゴールデンウィーク)
-- `2023obon` (お盆)
-- `2023winter` (冬)
-- `2025gw` (ゴールデンウィーク)
-
-### 季節・時期の対応
-
-- **gw**: ゴールデンウィーク (4 月下旬〜5 月上旬)
-- **obon**: お盆 (8 月中旬)
-- **winter**: 冬 (12 月下旬〜1 月上旬)
-
-### 現在時刻からの自動提案
-
-**現在日時**: 2025 年 8 月 8 日
-
-**推奨 EVENT_ID**: `2025obon`
-
-- 理由: 8 月 8 日はお盆の時期（8 月中旬）に該当
-- お盆イベントとして適切
-
-### 時期判定ロジック
-
-- **4 月 20 日〜5 月 10 日**: `{年}gw` (ゴールデンウィーク)
-- **8 月 1 日〜8 月 31 日**: `{年}obon` (お盆)
-- **12 月 20 日〜1 月 10 日**: `{年}winter` (冬期)
-- **その他**: 最も近い時期を提案 or ユーザー指定
-
-### 2025 年の特徴
-
-- **2025obon**: お盆イベント（8 月中旬開催）
-- 前回: 2025gw（ゴールデンウィーク）
-- 次回: 2025winter（予定）
-
-### EVENT_ID 確認ダイアログ
-
-セットアップ実行前に以下を確認：
-
-1. **現在時刻**: 2025 年 8 月 8 日
-2. **推奨 EVENT_ID**: 2025obon
-3. **確認事項**:
-   - この EVENT_ID で正しいですか？
-   - 別の EVENT_ID を使用する場合は指定してください
-   - 既存のイベント（2025gw 等）から変更する場合は事前確認
-
 ## 前提条件
 
-- ワークスペース: `/haikei-server`
+- ワークスペース: このリポジトリ (`haikei-server`) のルート
 - 必要ファイル: `.envrc`, `maintanace-flow.md`, `readme.md`
-- 実行環境: macOS, zsh
+- 実行環境: macOS / WSL (zsh, bash)
+- 環境変数の読み込み: `direnv` があれば `direnv allow`。無い環境 (WSL 等) では `source .envrc` してから yarn を叩く
 
 ## セットアップ手順
 
-### 0. EVENT_ID 決定（事前確認）
+### 0. EVENT_ID 決定 (事前確認)
 
-**必須**: セットアップ実行前に EVENT_ID を確認・決定する
+**必須**: セットアップ実行前に EVENT_ID を確認・決定する。
 
-1. **現在時刻の確認**
+1. 実行時の日付を確認する
+2. `suggestEventId()` の判定に沿って推奨 EVENT_ID を提示する
+3. 現在設定されている EVENT_ID (`.envrc`) と並べてユーザーに確認する
 
-   - 実行時の日付を確認
-   - 季節・時期に基づいた推奨 EVENT_ID を提示
+```
+現在時刻: {実行時の日付}
+現在のEVENT_ID: {.envrc の値}
+推奨EVENT_ID: {時期に基づく推奨値}
 
-2. **EVENT_ID 決定プロセス**
-
-   ```
-   現在時刻: {実行時の日付}
-   推奨EVENT_ID: {時期に基づく推奨値}
-
-   質問: このEVENT_IDで進めますか？
-   - はい → 推奨EVENT_IDで続行
-   - いいえ → 使用したいEVENT_IDを指定してください
-   ```
-
-3. **既存イベントからの変更確認**
-   - 現在設定されている EVENT_ID を表示
-   - 変更の影響を説明
-   - 確認後に手順 1 へ進む
+質問: このEVENT_IDで進めますか？
+- はい → 推奨EVENT_IDで続行
+- いいえ → 使用したいEVENT_IDを指定してください
+```
 
 ### 1. 現在の設定確認
 
@@ -139,35 +87,25 @@ function suggestEventId(currentDate: Date): string {
 yarn ps
 ```
 
-現在の EVENT_ID と設定状況を確認
+現在の EVENT_ID と設定状況を確認する。
 
 ### 2. EVENT_ID 変更
 
-`.envrc`ファイルの以下の行を変更：
+`.envrc` の該当行を書き換える。過去分はコメントとして残す。
 
 ```bash
-# 変更前
-export EVENT_ID="現在のイベントID"
-
-# 変更後
-export EVENT_ID="新しいイベントID"
-```
-
-**重要**: `replace_string_in_file`ツールを使用し、以下の形式で置換：
-
-```
 # イベントのID
-# export EVENT_ID="2023obon"
-export EVENT_ID="新しいイベントID"
+# export EVENT_ID="2025winter"
+# export EVENT_ID="2026gw"
+export EVENT_ID="2026obon"
 ```
 
 ### 3. 環境変数再読み込み
 
 ```bash
-direnv allow
+direnv allow          # direnv がある環境
+source .envrc         # direnv が無い環境 (WSL 等)
 ```
-
-※ direnv エラーが出た場合は先に`direnv allow`を実行
 
 ### 4. イベントセットアップ実行
 
@@ -175,8 +113,8 @@ direnv allow
 yarn setup
 ```
 
-- Firestore に新しいイベントを追加
-- 初期データ作成
+- Firestore の `hist` / `song` / `vote` に EVENT_ID のドキュメントを作成
+- 登録済みの場合は `{EVENT_ID} は登録済み` と出て何もしない (冪等)
 
 ### 5. アニソンデータベース更新
 
@@ -184,8 +122,7 @@ yarn setup
 yarn setup:anison
 ```
 
-- anison.info から最新データをダウンロード
-- program.csv, anison.csv, game.csv, sf.csv を更新
+- anison.info から `program.csv`, `anison.csv`, `sf.csv`, `game.csv` をダウンロードして `data/` へ配置
 
 ### 6. セットアップ完了確認
 
@@ -198,45 +135,47 @@ yarn ps
 - [ ] EVENT_ID が新しいイベント ID に変更されている
 - [ ] アニソンデータが最新日付になっている
 - [ ] Firestore 接続が正常
-- [ ] playing: 空（新イベントのため）
-- [ ] words: 0（新イベントのため）
+- [ ] playing: 空 (新イベントのため)
+- [ ] words: 0 (新イベントのため)
 
 ## エラーハンドリング
 
-- `direnv: error .envrc is blocked` → `direnv allow`実行
-- アニソンデータダウンロード失敗 → ネットワーク確認後再実行
-- Firestore 接続エラー → サービスアカウントファイル確認
+- `direnv: error .envrc is blocked` → `direnv allow` を実行
+- `direnv: command not found` → `source .envrc` に切り替える (WSL には direnv が入っていない)
+- **anison.info が 403** → wget のデフォルト UA が弾かれている。`scripts/updateAnisonDb.mjs` はブラウザの UA を送るようにしてある
+- **anison.info が 404** → 配布 zip 自体がサーバー側から消えている。こちらから打てる手は無いので、時間を置いて再実行する。`data/*.csv` は前回分が残るのでイベント開始自体はブロックされない
+- Firestore 接続エラー → `SERVICE_ACCOUNT_FILE_PATH` の指すサービスアカウントファイルを確認
 
-## 次のステップ（手動作業）
+## 次のステップ (手動作業)
 
 1. **フロントエンド設定**
 
-   - rekka-haikei の `src/config/index.ts` 更新
+   - rekka-haikei の `src/config/index.ts` を更新
    - 新イベント追加
    - 終了時間指定
 
 2. **サーバー起動**
    - `yarn start`
-   - `yarn osiris`（ログ保険）
+   - `yarn osiris` (ログ保険)
 
 ## 想定実行時間
 
-- 全体：約 3-5 分
-- yarn setup：約 2-3 秒
-- yarn setup:anison：約 60-90 秒（ダウンロード時間による）
+- 全体: 約 3-5 分
+- `yarn setup`: 約 2-3 秒
+- `yarn setup:anison`: 約 60-90 秒 (ダウンロード時間による)
 
 ## 注意事項
 
-- 必ず`yarn ps`で現在の状況確認から開始
+- 必ず `yarn ps` で現在の状況確認から開始する
 - EVENT_ID 変更時は正確な文字列置換を行う
-- アニソンデータダウンロードはネットワーク環境に依存
-- セットアップ完了後は必ず確認コマンドを実行
+- アニソンデータダウンロードは anison.info の状態に依存する
+- セットアップ完了後は必ず確認コマンドを実行する
 
 ## ファイル構造参考
 
 ```
-/haikei-server/
-├── .envrc                 # 環境変数設定
+haikei-server/
+├── .envrc                # 環境変数設定
 ├── maintanace-flow.md    # メンテナンス手順
 ├── agent-setup-guide.md  # 本ファイル
 └── data/                 # アニソンデータ
