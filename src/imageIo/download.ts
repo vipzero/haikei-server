@@ -9,7 +9,7 @@ import { jimpHash } from './jimp'
 // import { sharpMin } from './sharp'
 import { imagePrepareTimeoutMs } from '../config'
 
-const uuidv4 = require('uuid/v4')
+const { randomUUID } = require('crypto')
 
 const pipeline = promisify(stream.pipeline)
 const timeout = imagePrepareTimeoutMs
@@ -63,7 +63,7 @@ export const downloadOptimize = async (
     size: { before: 0, sharped: 0, sharpReport: 0, jimped: 0 },
   }
 
-  const filePath = `tmp/${uuidv4()}`
+  const filePath = `tmp/${randomUUID()}`
 
   const res = await raseTimeout(
     download(url, filePath),
